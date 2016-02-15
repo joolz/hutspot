@@ -1,0 +1,27 @@
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+Feb 03, 2016 11:40:37 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["ajp-bio-8009"]
+Feb 03, 2016 11:40:37 AM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 70156 ms
+11:45:44,848 INFO  [com.liferay.portal.kernel.deploy.auto.AutoDeployScanner][AutoDeployDir:204] Processing nl-ou-dlwo-announcements-portlet-1.0.0-SNAPSHOT.war
+11:45:44,850 INFO  [com.liferay.portal.kernel.deploy.auto.AutoDeployScanner][PortletAutoDeployListener:79] Copying portlets for /opt/liferay-6.2/liferay-portal-6.2-ee-sp14/deploy/nl-ou-dlwo-announcements-portlet-1.0.0-SNAPSHOT.war
+11:45:44,870 INFO  [com.liferay.portal.kernel.deploy.auto.AutoDeployScanner][BaseDeployer:863] Deploying nl-ou-dlwo-announcements-portlet-1.0.0-SNAPSHOT.war
+11:45:44,877 INFO  [com.liferay.portal.kernel.deploy.auto.AutoDeployScanner][BaseDeployer:966] Updating nl-ou-dlwo-announcements from version 1.0.0 to version 1.0.0
+  Expanding: /opt/liferay-6.2/liferay-portal-6.2-ee-sp14/deploy/nl-ou-dlwo-announcements-portlet-1.0.0-SNAPSHOT.war into /opt/liferay-6.2/liferay-portal-6.2-ee-sp14/tomcat-7.0.62/temp/20160203114544878
+11:45:48,959 INFO  [BridgeImpl] Initializing Liferay Faces Bridge 4.2.5-ga6 (Philippi / Aug 11, 2015 AD)
+Loading file:/opt/liferay-6.2/liferay-portal-6.2-ee-sp14/tomcat-7.0.62/temp/15-nl-ou-dlwo-announcements-portlet/WEB-INF/classes/portlet.properties
+11:45:49,007 INFO  [localhost-startStop-2][PortletHotDeployListener:492] 1 portlet for nl-ou-dlwo-announcements-portlet is available for use
+11:45:49,989 INFO  [BridgeSessionListener:74] Context initialized for contextPath=[/nl-ou-dlwo-announcements-portlet]
+Feb 03, 2016 11:45:50 AM org.apache.catalina.startup.HostConfig deployDirectory
+11:45:49,999 last occurence Processing nl-ou-dlwo-announcements-portlet-1.0.0-SNAPSHOT.war
+INFO: Deployment of web application directory /opt/liferay-6.2/liferay-portal-6.2-ee-sp14/tomcat-7.0.62/webapps/nl-ou-dlwo-announcements-portlet has finished in 2,859 ms
+dit moet erbij 1
+dit moet erbij 2
+dit moet erbij 3
+dit moet erbij 4
+dit moet erbij 5
+dit moet erbij 6
+dit moet erbij 7
+dit moet erbij 8
+dit moet erbij 9
+dit moet erbij 0
