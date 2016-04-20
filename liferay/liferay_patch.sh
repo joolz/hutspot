@@ -20,6 +20,8 @@ hg update --clean
 
 rm *bat
 
+./patching-tool.sh auto-discovery >| default.properties
+
 ./patching-tool.sh revert || exit 1
 ./patching-tool.sh install || exit 1
 
