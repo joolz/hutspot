@@ -28,6 +28,8 @@ rm *bat
 rm source.properties
 ./patching-tool.sh source auto-discovery $SRC_DIR source || exit 1
 
+echo Sources patched. Please refresh Liferay source in Eclipse
+
 ./patching-tool.sh source install
 
 cd /opt/liferay-6.2/portal/tomcat-7.0.62/ || exit 1

@@ -3,8 +3,8 @@
 # script to check if open office is running headless
 
 SO_INSTANCES=`ps -e | grep soffice.bin | grep -v grep | awk '{print $1;}'`
-
 SO_NUMBER=`echo $SO_INSTANCES | wc -w`
+
 if [ "$SO_NUMBER" -eq "0" ]; then
   logger soffice was not running, is started
   echo ooo is started
@@ -13,6 +13,7 @@ if [ "$SO_NUMBER" -eq "0" ]; then
 		--nofirststartwizard
 else
   if [ "$SO_NUMBER" -gt "1" ]; then
+		echo More than one running
     FIRST="true"
     for OOO in $SO_INSTANCES; do
       if [ "$FIRST" = "true" ]; then
@@ -24,4 +25,5 @@ else
       fi
     done
   fi
+	echo All OK
 fi
