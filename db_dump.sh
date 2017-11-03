@@ -3,7 +3,7 @@
 OWNER=jal
 TARGET_DIR=/home/$OWNER/Desktop
 
-PORTAL_EXT="/opt/liferay-6.2/portal/portal-ext.properties"
+PORTAL_EXT="/opt/liferay/portal/portal-ext.properties"
 DB_USER=`grep jdbc.default.username $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
 DB_PASSWORD=`grep jdbc.default.password $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
 

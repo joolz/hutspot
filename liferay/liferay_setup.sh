@@ -10,7 +10,7 @@ if [ "$CHOICE" != "y" ]; then
 fi
 
 readonly ZIPDIR=/home/jal/Downloads/Liferay/6.2
-readonly TARGETDIR=/opt/liferay-6.2
+readonly TARGETDIR=/opt/liferay
 
 readonly SDKZIP=liferay-plugins-sdk-6.2-ee-sp5-20140606104845789.zip
 readonly MAVENZIP=liferay-portal-maven-6.2-ee-sp5-20140606104845789.zip

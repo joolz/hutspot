@@ -2,7 +2,7 @@
 
 echo "Check if web.xml for tomcat projects exists"
 
-WEBAPPS_DIR=/opt/liferay-6.2/portal/tomcat-7.0.62/webapps
+WEBAPPS_DIR=/opt/liferay/portal/tomcat-7.0.62/webapps
 ERROR_COUNT=0
 
 

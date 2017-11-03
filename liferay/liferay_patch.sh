@@ -7,8 +7,8 @@ if [ "$RUN" -ne "0" ]; then
 	exit 1
 fi
 
-PATCH_DIR=/opt/liferay-6.2/portal/patching-tool
-SRC_DIR=/opt/liferay-6.2/src
+PATCH_DIR=/opt/liferay/portal/patching-tool
+SRC_DIR=/opt/liferay/src
 
 cd $SRC_DIR || exit 1
 cd $PATCH_DIR || exit 1
@@ -32,7 +32,7 @@ echo Sources patched. Please refresh Liferay source in Eclipse
 
 ./patching-tool.sh source install
 
-cd /opt/liferay-6.2/portal/tomcat-7.0.62/ || exit 1
+cd /opt/liferay/portal/tomcat-7.0.62/ || exit 1
 
 rm -r work && mkdir work
 rm -r temp && mkdir temp

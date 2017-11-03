@@ -1,10 +1,10 @@
 #!/bin/bash
 
-TARGET_DIR=/opt/liferay-6.2
+TARGET_DIR=/opt/liferay
 PORTAL_DIR=$TARGET_DIR/liferay-portal-6.2-ee-sp14
 TOMCAT_DIR=$PORTAL_DIR/tomcat-7.0.62
 SETENV_FILE=$TOMCAT_DIR/bin/setenv.sh
-DOWNLOAD_DIR=/home/jal/Downloads/liferay-6.2
+DOWNLOAD_DIR=/home/jal/Downloads/liferay
 ACCOUNTS_DIR=/home/jal/Documents/accounts
 
 if [ -d $PORTAL_DIR ]; then
