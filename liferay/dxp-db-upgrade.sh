@@ -22,6 +22,6 @@ rm -r $DXPDIR/osgi/state
 
 # see https://customer.liferay.com/documentation/7.0/deploy/-/official_documentation/deployment/running-the-upgrade-process
 java -jar com.liferay.portal.tools.db.upgrade.client.jar \
-	-j "-Dfile.encoding=UTF8 -Duser.country=NL -Duser.language=nl -Duser.timezone=CET -Xmx4096m" -l $LOG
+	-j "-Dfile.encoding=UTF8 -Duser.country=NL -Duser.language=nl -Duser.timezone=CET -Xmx10240m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGC -Xloggc:gc.log " -l $LOG
 
 sed -i "s/$IXPROPERTYTRUE//" $IXMNGRFILE
