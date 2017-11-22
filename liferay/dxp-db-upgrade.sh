@@ -6,6 +6,24 @@ IXMNGRFILE=$DXPDIR/osgi/configs/com.liferay.portal.search.configuration.IndexSta
 IXPROPERTYTRUE="indexReadOnly=true"
 LOG=`date +%Y%m%d-%H%M-dxpdbupgrade.log`
 
+# just check if they're there. Make sure they are installed as well
+PATCHDIR=$DXPDIR/patching-tool/patches
+REQUIRED_PATCHES=liferay-fix-pack-de-32-7010.zip,liferay-hotfix-1440-7010.zip
+
+cd $PATCHDIR || exit 1
+
+OLDIFS=$IFS
+IFS=","
+for I in $REQUIRED_PATCHES; do
+	if [ ! -f $I ]; then
+		echo Patch $I not found, exiting
+		exit 1
+	fi
+done
+IFS=$OLDIFS
+
+echo "All patches seem to be present ($REQUIRED_PATCHES), make sure they're installed properly"
+
 cd $UPGRADEDIR || exit 1
 
 # see https://customer.liferay.com/documentation/7.0/deploy/-/official_documentation/deployment/preparing-an-upgrade-to-liferay-7
