@@ -5,10 +5,11 @@ UPGRADEDIR=$DXPDIR/tools/portal-tools-db-upgrade-client
 IXMNGRFILE=$DXPDIR/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
 IXPROPERTYTRUE="indexReadOnly=true"
 LOG=`date +%Y%m%d-%H%M-dxpdbupgrade.log`
+GCLOG=`date +%Y%m%d-%H%M-gc.log`
 
 # just check if they're there. Make sure they are installed as well
 PATCHDIR=$DXPDIR/patching-tool/patches
-REQUIRED_PATCHES=liferay-fix-pack-de-32-7010.zip,liferay-hotfix-1440-7010.zip
+REQUIRED_PATCHES=liferay-fix-pack-de-32-7010.zip,liferay-hotfix-1496-7010.zip
 
 cd $PATCHDIR || exit 1
 
@@ -40,6 +41,6 @@ rm -r $DXPDIR/osgi/state
 
 # see https://customer.liferay.com/documentation/7.0/deploy/-/official_documentation/deployment/running-the-upgrade-process
 java -jar com.liferay.portal.tools.db.upgrade.client.jar \
-	-j "-Dfile.encoding=UTF8 -Duser.country=NL -Duser.language=nl -Duser.timezone=CET -Xmx10240m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGC -Xloggc:gc.log " -l $LOG
+	-j "-Dfile.encoding=UTF8 -Duser.country=NL -Duser.language=nl -Duser.timezone=CET -Xmx10240m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGC -Xloggc:$GCLOG " -l $LOG
 
 sed -i "s/$IXPROPERTYTRUE//" $IXMNGRFILE
