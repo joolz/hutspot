@@ -1,25 +1,22 @@
 #!/bin/bash
 
-echo Did you run deleteOrphanedDDMTemplates.groovy in 6.2 ? [yn]
-read -s -n 1 GOODTOGO
-if [ "$GOODTOGO" != "y" ]; then
-	echo Do that first please
-	exit 0
-fi
+REQUIRED_PATCHES=liferay-fix-pack-de-39-7010.zip
 
-echo Did you run clean_journalarticleimage.groovy in 6.2 ? [yn]
-read -s -n 1 GOODTOGO
-if [ "$GOODTOGO" != "y" ]; then
-	echo Do that first please
-	exit 0
-fi
+function confirm() {
+	echo $1 [yn]
+	read -s -n 1 GOODTOGO
+	if [ "$GOODTOGO" != "y" ]; then
+		echo Bye
+		exit 0
+	fi
+}
 
-echo Did you install Liferay OAuth Provider 7.0.x-20170222.lpkg in DXP ? [yn]
-read -s -n 1 GOODTOGO
-if [ "$GOODTOGO" != "y" ]; then
-	echo Do that first please
-	exit 0
-fi
+confirm "Did you read https://customer.liferay.com/documentation/7.0/deploy/-/official_documentation/deployment/preparing-an-upgrade-to-liferay-7 ?"
+confirm "Did you run deleteOrphanedDDMTemplates.groovy in 6.2 ?"
+confirm "Did you run clean_journalarticleimage.groovy in 6.2 ?"
+confirm "Did you install Liferay OAuth Provider 7.0.x-20170222.lpkg in DXP ?"
+confirm "Patch(es) $REQUIRED_PATCHES are installed ?"
+confirm "After the upgrade has completed, do upgrade:check in the gogo shell. Press y to start the upgrade"
 
 DXPDIR=/opt/dxp/server
 UPGRADEDIR=$DXPDIR/tools/portal-tools-db-upgrade-client
@@ -30,7 +27,6 @@ GCLOG=`date +%Y%m%d-%H%M-gc.log`
 
 # just check if they're there. Make sure they are installed as well
 PATCHDIR=$DXPDIR/patching-tool/patches
-REQUIRED_PATCHES=liferay-fix-pack-de-39-7010.zip
 
 cd $PATCHDIR || exit 1
 
@@ -44,11 +40,8 @@ for I in $REQUIRED_PATCHES; do
 done
 IFS=$OLDIFS
 
-echo "All patches seem to be present ($REQUIRED_PATCHES), make sure they're installed properly"
-
 cd $UPGRADEDIR || exit 1
 
-# see https://customer.liferay.com/documentation/7.0/deploy/-/official_documentation/deployment/preparing-an-upgrade-to-liferay-7
 if [ -f $IXMNGRFILE ]; then
 	PRESENT=`grep $IXPROPERTYTRUE $IXMNGRFILE`
 	if [ -z $PRESENT ]; then
