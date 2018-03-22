@@ -2,7 +2,7 @@
 
 LOGFILE=./findjar.log
 
-if [[ "$1" -eq "" ]]; then
+if [ "$1" = "" ]; then
   echo usage $0, argument
   exit 1
 fi
@@ -14,6 +14,8 @@ echo >> $LOGFILE
 
 find . -name "*.jar" | while read -r FILE
 do
-  echo $FILE >> $LOGFILE
-  jar -tvf "$FILE" | grep "$1" >> $LOGFILE
+	FOUND=`jar -tvf "$FILE" | grep "$1"`
+  if [ "$FOUND" != "" ]; then
+		echo $FILE >> $LOGFILE
+	fi
 done
