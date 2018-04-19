@@ -1,5 +1,12 @@
 #!/bin/bash
 
+CREDSFILE=~/Documents/credentials.sh
+
+if [ ! -f "$CREDSFILE" ]; then
+	echo Could not find $CREDSFILE
+	exit 1
+fi
+
 DXPBASEDIR=/opt/dxp
 DXPSOURCEDIR=$DXPBASEDIR/src
 DXPSERVERDIR=$DXPBASEDIR/server

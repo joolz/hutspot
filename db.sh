@@ -1,6 +1,5 @@
 #!/bin/bash
 
-. ~/bin/credentials.sh
 . ~/bin/common.sh
 
 echo
