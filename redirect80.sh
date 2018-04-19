@@ -1,9 +1,8 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]]; then
-	echo "This script must be run as root"
-  exit 1
-fi
+. ~/bin/common.sh
+
+rootcheck
 
 case "$1" in
 

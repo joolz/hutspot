@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE=/home/jal/Documents/accounts/chromium
+BASE=~/Documents/accounts/chromium
 CMD="chromium-browser --user-data-dir=$BASE/$1"
 
 if [ "$1" == "" ]; then

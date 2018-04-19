@@ -3,7 +3,7 @@
 echo See https://help.ubuntu.com/12.04/serverguide/certificates-and-security.html
 echo
 
-echo "Enter basename for certificate (e.g. jira.ou.nl)"
+echo "Enter basename for certificate (e.g. www.mydomain.com)"
 read -r BASENAME
 
 echo "Create certificate $BASENAME? yN"

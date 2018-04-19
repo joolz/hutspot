@@ -1,9 +1,9 @@
 #!/bin/bash
 
-LRDIR=/opt/portal
+LRDIR=/opt/liferay/portal
 TOMCATDIR=$LRDIR/tomcat-6.0.32
 NOW=`date +%Y%m%d-%H%M`
-TARGETFILE=/home/jal/Desktop/liferay_info_$NOW.txt
+TARGETFILE=~/Desktop/liferay_info_$NOW.txt
 
 cd $LRDIR/patching-tool
 

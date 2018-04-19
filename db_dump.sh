@@ -1,18 +1,8 @@
 #!/bin/bash
 
-OWNER=jal
-TARGET_DIR=/home/$OWNER/Desktop
+. ~/bin/common.sh || exit 1
 
-PORTAL_EXT="/opt/liferay/portal/portal-ext.properties"
-DB_USER=`grep jdbc.default.username $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
-DB_PASSWORD=`grep jdbc.default.password $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
-
-function say {
-  TIME=`date +%Y%m%d-%H%M%S`
-  echo "=== HB $TIME - $1"
-}
-
-cd $TARGET_DIR || exit 1
+cd $DB_DUMP_DIR || exit 1
 
 case "$1" in
 "")
@@ -42,4 +32,4 @@ if [ "$ERR" -ne "0" ]; then
 fi
 
 tar -czf $DUMPFILE.tar.gz $DUMPFILE && rm $DUMPFILE
-chown $OWNER.$OWNER $DUMPFILE.tar.gz
+chown $USER.$USER $DUMPFILE.tar.gz

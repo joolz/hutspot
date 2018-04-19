@@ -1,9 +1,8 @@
 #!/bin/bash
 
-echo Script $0
+. ~/bin/common.sh
 
-# SEARCHDIR=/opt/portal
-SEARCHDIR=/usr/local/liferay
+SEARCHDIR=$DXPSERVERDIR
 TEMPFILE=`mktemp`
 
 cd $SEARCHDIR || exit 1

@@ -1,0 +1,8 @@
+backup*
+credentials.sh
+docker-setups/
+dxpdbupgradeserver/
+easy_install*
+tmux-layout*
+two1bin/
+TODO/

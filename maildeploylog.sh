@@ -2,6 +2,8 @@
 
 # Get the part of the tomcat log starting with the deployment, up until the end and mail it.
 
+. ~/bin/common.sh
+
 if [ -z "$1" ]; then
 	logger "$0 called without parameters"
 	echo Usage: $0 projectname mailto_address
@@ -18,7 +20,7 @@ if [ -z "$2" ]; then
 	exit 1
 fi
 
-LOGFILE=/usr/local/liferay/tomcat/logs/catalina.out
+LOGFILE=$DXPTOMCATDIR/logs/catalina.out
 PROJECTSTRING="$1"
 MAILTO="$2"
 DEPLOYSTRING="^[0-9].*Processing $PROJECTSTRING.*war$"
@@ -33,5 +35,5 @@ LINE_NUMBER=`echo $FOUND | cut -d : -f 1`
 
 LOGPART=`cat $LOGFILE | awk "NR >= $LINE_NUMBER"`
 
-echo "$LOGPART" | mailx -S "smtp=mail.lokaal" -s "deploy log of $1" $MAILTO
+echo "$LOGPART" | mailx -S "smtp=$SMTP_HOST" -s "deploy log of $1" $MAILTO
 
