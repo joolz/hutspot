@@ -88,13 +88,13 @@ cp $DXPDOWNLOADSDIR/portal-upgrade-ext.properties $DXPSERVERDIR/tools/portal-too
 dxplog "Write temporary portal-ext, points to $DB_TEMP_SCHEMA"
 echo "jdbc.default.driverClassName=com.mysql.jdbc.Driver" >| $PROPS
 echo "jdbc.default.url=jdbc:mysql://$DXPUPGRADE_DB_HOST/$DB_TEMP_SCHEMA?useUnicode=true&amp;characterEncoding=UTF-8&amp;useFastDateParsing=false" >> $PROPS
-echo "jdbc.default.username=$DB_USER" >> $PROPS
-echo "jdbc.default.password=$DB_PASSWORD" >> $PROPS
+echo "jdbc.default.username=$LOCAL_DB_USER" >> $PROPS
+echo "jdbc.default.password=$LOCAL_DB_PASSWORD" >> $PROPS
 
 dxplog "Create schema $DB_TEMP_SCHEMA"
-mysql --user="$DB_USER" --password="$DB_PASSWORD" \
+mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
 	--execute="DROP DATABASE IF EXISTS $DB_TEMP_SCHEMA;" || exit 1
-mysql --user="$DB_USER" --password="$DB_PASSWORD" \
+mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
 	--execute="CREATE DATABASE $DB_TEMP_SCHEMA DEFAULT CHARACTER SET $DB_CHARACTER_SET DEFAULT COLLATE $DB_DEFAULT_COLLATE;" || exit 1
 
 dxplog "Wait for tomcat start to complete for the first time"
@@ -114,7 +114,7 @@ dxplog "Sleep $SLEEP_SHORT so tomcat shutdown can complete"
 sleep $SLEEP_SHORT
 
 dxplog "Drop schema $DB_TEMP_SCHEMA"
-mysql --user="$DB_USER" --password="$DB_PASSWORD" \
+mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
 	--execute="DROP DATABASE IF EXISTS $DB_TEMP_SCHEMA;" || exit 1
 
 dxplog "Write final portal-ext, $DB_SCHEMA"

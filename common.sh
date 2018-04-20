@@ -20,22 +20,17 @@ DXPLOGDIR=$DXPBASEDIR/log
 
 SMTP_HOST=mail.lokaal
 
-# TODO
-DB_SCHEMA=two
 DB_TEMP_SCHEMA=dxp_temp
 DB_DUMP_DIR=~/Desktop
 
 TMP=$DXPBASEDIR/tmp
 mkdir -p $TMP
 
-PORTAL_EXT="/opt/liferay/portal/portal-ext.properties"
+PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
 # some defaults
-DB_SCHEMA=dxp
-DB_USER=`grep jdbc.default.username $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
-DB_PASSWORD=`grep jdbc.default.password $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
-DB_HOST=localhost
-DB_PORT=3309
+LOCAL_DB_USER=`grep jdbc.default.username $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
+LOCAL_DB_PASSWORD=`grep jdbc.default.password $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
 
 DB_CHARACTER_SET=utf8
 DB_DEFAULT_COLLATE=utf8_unicode_ci
@@ -118,50 +113,3 @@ liferaycleanup() {
 	rm -rf $DXPSERVERDIR/tomcat-8.0.32/work
 }
 
-db_dump() {
-	case "$1" in
-	"two")
-		BU_SCHEMA=$TWO_DB_SCHEMA
-		BU_USER=$TWO_DB_USER
-		BU_PASSWORD=$TWO_DB_PASSWORD
-		BU_HOST=$TWO_DB_HOST
-		BU_PORT=$TWO_DB_PORT
-		;;
-	"awo")
-		BU_SCHEMA=$AWO_DB_SCHEMA
-		BU_USER=$AWO_DB_USER
-		BU_PASSWORD=$AWO_DB_PASSWORD
-		BU_HOST=$AWO_DB_HOST
-		BU_PORT=$AWO_DB_PORT
-		;;
-	"inc")
-		BU_SCHEMA=$INC_DB_SCHEMA
-		BU_USER=$INC_DB_USER
-		BU_PASSWORD=$INC_DB_PASSWORD
-		BU_HOST=$INC_DB_HOST
-		BU_PORT=$INC_DB_PORT
-	*)
-		echo Usage: db_dump two | awo | inc
-		exit 1
-		;;
-	esac
-
-	cd $DB_DUMP_DIR || exit 1
-
-	BU_FILE=${DATEFORMATTED}.$BU_SCHEMA.mysql
-
-	say "Backup mysql $BU_SCHEMA"
-
-	mysqldump \
-		--create-options \
-		--user=$BU_USER \
-		--password=$BU_PASSWORD \
-		--result-file=$BU_FILE \
-		--host=$BU_HOST \
-		--port=$BU_PORT \
-		--compress \
-		$BU_SCHEMA
-
-	tar -czf ${BU_FILE}.tar.gz $BU_FILE && rm $BU_FILE
-	say "Dump made to file ${BU_FILE}.tar.gz"
-}

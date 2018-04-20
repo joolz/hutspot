@@ -38,8 +38,8 @@ delete from JournalArticleImage
 	AS duplicates FROM JournalArticleImage
 	group by groupId, articleId, version, elName, languageId) as temp WHERE duplicates > 1) as temp2)
 	AND elInstanceId like '';"
-mysql --user="$DB_USER" --password="$DB_PASSWORD" \
-	--database="$DB_SCHEMA" --execute="$SQL" || exit 1
+mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
+	--database="$LOCAL_DB_SCHEMA" --execute="$SQL" || exit 1
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
 dxplog "Delete orphan DDMTemplates"
@@ -48,8 +48,8 @@ delete from DDMTemplate where classNameId = (select classNameId from
 	ClassName_ where value =
 	'com.liferay.portlet.dynamicdatamapping.model.DDMStructure') and
 	classPK not in (select structureId from DDMStructure);"
-mysql --user="$DB_USER" --password="$DB_PASSWORD" \
-	--database="$DB_SCHEMA" --execute="$SQL" || exit 1
+mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
+	--database="$LOCAL_DB_SCHEMA" --execute="$SQL" || exit 1
 
 dxplog "Start the database upgrade process. After the upgrade has completed, do upgrade:check in the gogo shell."
 START=$SECONDS

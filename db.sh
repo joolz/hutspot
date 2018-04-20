@@ -2,42 +2,57 @@
 
 . ~/bin/common.sh || exit 1
 
-echo
-echo "Select schema"
-echo 
-echo 1 local mysql
-echo 2 local docker
-echo 3 remote dlwo_inc
-echo 4 local dxp
-echo
-read -r -n1 CHOICE
+case "$1" in
+"local")
+	Q_SCHEMA=$LOCAL_DB_SCHEMA
+	Q_USER=$LOCAL_DB_USER
+	Q_PASSWORD=$LOCAL_DB_PASSWORD
+	Q_HOST=$LOCAL_DB_HOST
+	Q_PORT=$LOCAL_DB_PORT
+	;;
+"two")
+	Q_SCHEMA=$TWO_DB_SCHEMA
+	Q_USER=$TWO_DB_USER
+	Q_PASSWORD=$TWO_DB_PASSWORD
+	Q_HOST=$TWO_DB_HOST
+	Q_PORT=$TWO_DB_PORT
+	;;
+"awo")
+	Q_SCHEMA=$AWO_DB_SCHEMA
+	Q_USER=$AWO_DB_USER
+	Q_PASSWORD=$AWO_DB_PASSWORD
+	Q_HOST=$AWO_DB_HOST
+	Q_PORT=$AWO_DB_PORT
+	;;
+"inc")
+	Q_SCHEMA=$INC_DB_SCHEMA
+	Q_USER=$INC_DB_USER
+	Q_PASSWORD=$INC_DB_PASSWORD
+	Q_HOST=$INC_DB_HOST
+	Q_PORT=$INC_DB_PORT
+	;;
+*)
+	echo "Usage: $0 [local | two | awo | inc] [QUERY]"
+	echo when not specifying a query you get a shell
+	exit 1
+	;;
+esac
 
-# non default connection settings
-if [ "$CHOICE" == "1" ]; then
-  DB_SCHEMA=mysql
-elif [ "$CHOICE" == "2" ]; then
-  DB_SCHEMA=$DOCKER_DB_SCHEMA
-	DB_USER=$DOCKER_DB_USER
-	DB_PASSWORD=$DOCKER_DB_PASSWORD
-	DB_PORT=$DOCKER_DB_PORT
-elif [ "$CHOICE" == "3" ]; then
-	DB_USER=$INC_DB_USER
-	DB_PASSWORD=$INC_DB_PASSWORD
-	DB_HOST=$INC_DB_HOST
-	DB_PORT=$INC_DB_PORT
-	DB_SCHEMA=$INC_DB_SCHEMA
-elif [ "$CHOICE" == "4" ]; then
-	DB_SCHEMA=dxp
+if [ "$2" == "" ]; then
+	mysql \
+		--host=$Q_HOST \
+		--port=$Q_PORT \
+		--user=$Q_USER \
+		--password=$Q_PASSWORD \
+		--prompt="\h:\p/\d\ -\ \R:\r:\s>\ " \
+		$Q_SCHEMA
+else
+	mysql \
+		--host=$Q_HOST \
+		--port=$Q_PORT \
+		--user=$Q_USER \
+		--password=$Q_PASSWORD \
+		$Q_SCHEMA \
+		-e "$2" \
+		-B > $DB_DUMP_DIR/${DATEFORMATTED}-query.txt
 fi
-
-echo -------------------------------
-echo Using schema $DB_SCHEMA
-echo -------------------------------
-
-mysql \
-	--host=$DB_HOST \
-	--port=$DB_PORT \
-  --user=$DB_USER \
-  --password=$DB_PASSWORD \
-  --prompt="\h:\p/\d\ -\ \R:\r:\s>\ " \
-  $DB_SCHEMA
