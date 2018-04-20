@@ -2,7 +2,7 @@
 
 # Get the part of the tomcat log starting with the deployment, up until the end and mail it.
 
-. ~/bin/common.sh
+. ~/bin/common.sh || exit 1
 
 if [ -z "$1" ]; then
 	logger "$0 called without parameters"

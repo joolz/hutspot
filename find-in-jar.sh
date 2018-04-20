@@ -8,7 +8,7 @@ if [ "$1" = "" ]; then
 fi
 
 echo "==========================" >> $LOGFILE
-echo `date` >> $LOGFILE
+echo ${DATEFORMATTED} >> $LOGFILE
 echo "Find $1 in jarfiles" >> $LOGFILE
 echo >> $LOGFILE
 

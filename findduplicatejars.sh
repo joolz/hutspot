@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/bin/common.sh
+. ~/bin/common.sh || exit 1
 
 SEARCHDIR=$DXPSERVERDIR
 TEMPFILE=`mktemp`

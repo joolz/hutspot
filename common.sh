@@ -7,6 +7,8 @@ if [ ! -f "$CREDSFILE" ]; then
 	exit 1
 fi
 
+DATEFORMATTED=`date +%Y%m%d-%H%M%S`
+
 DXPBASEDIR=/opt/dxp
 DXPSOURCEDIR=$DXPBASEDIR/src
 DXPSERVERDIR=$DXPBASEDIR/server
@@ -21,7 +23,6 @@ SMTP_HOST=mail.lokaal
 # TODO
 DB_SCHEMA=two
 DB_TEMP_SCHEMA=dxp_temp
-
 DB_DUMP_DIR=~/Desktop
 
 TMP=$DXPBASEDIR/tmp
@@ -52,11 +53,10 @@ confirm() {
 }
 
 dxplog() {
-	NOW=`date +%Y%m%d-%H:%M:%S`
 	if [ "$1" == "-m" ]; then
-		MESSAGE="$NOW `caller` - $2"
+		MESSAGE="${DATEFORMATTED} `caller` - $2"
 	else
-		MESSAGE="$NOW `caller` - $1"
+		MESSAGE="${DATEFORMATTED} `caller` - $1"
 	fi
 	echo $MESSAGE >> $DXPLOGDIR/general.log
 	if [ "$1" == "-m" ]; then
@@ -85,8 +85,10 @@ convertsecs() {
 }
 
 say() {
-  TIME=`date +%Y%m%d-%H%M%S`
-  echo "=== HB $TIME - $1"
+	if [ "$1" == "-l" ]; then
+		logger $2
+	fi
+ 	echo "${DATEFORMATTED} - $1"
 }
 
 tomcatpid() {
@@ -114,4 +116,52 @@ liferaycleanup() {
 	rm -rf $DXPSERVERDIR/work
 	rm -rf $DXPSERVERDIR/tomcat-8.0.32/temp
 	rm -rf $DXPSERVERDIR/tomcat-8.0.32/work
+}
+
+db_dump() {
+	case "$1" in
+	"two")
+		BU_SCHEMA=$TWO_DB_SCHEMA
+		BU_USER=$TWO_DB_USER
+		BU_PASSWORD=$TWO_DB_PASSWORD
+		BU_HOST=$TWO_DB_HOST
+		BU_PORT=$TWO_DB_PORT
+		;;
+	"awo")
+		BU_SCHEMA=$AWO_DB_SCHEMA
+		BU_USER=$AWO_DB_USER
+		BU_PASSWORD=$AWO_DB_PASSWORD
+		BU_HOST=$AWO_DB_HOST
+		BU_PORT=$AWO_DB_PORT
+		;;
+	"inc")
+		BU_SCHEMA=$INC_DB_SCHEMA
+		BU_USER=$INC_DB_USER
+		BU_PASSWORD=$INC_DB_PASSWORD
+		BU_HOST=$INC_DB_HOST
+		BU_PORT=$INC_DB_PORT
+	*)
+		echo Usage: db_dump two | awo | inc
+		exit 1
+		;;
+	esac
+
+	cd $DB_DUMP_DIR || exit 1
+
+	BU_FILE=${DATEFORMATTED}.$BU_SCHEMA.mysql
+
+	say "Backup mysql $BU_SCHEMA"
+
+	mysqldump \
+		--create-options \
+		--user=$BU_USER \
+		--password=$BU_PASSWORD \
+		--result-file=$BU_FILE \
+		--host=$BU_HOST \
+		--port=$BU_PORT \
+		--compress \
+		$BU_SCHEMA
+
+	tar -czf ${BU_FILE}.tar.gz $BU_FILE && rm $BU_FILE
+	say "Dump made to file ${BU_FILE}.tar.gz"
 }

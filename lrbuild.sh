@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/bin/common.sh
+. ~/bin/common.sh || exit 1
 
 if [ ! -f pom.xml ]; then
 	echo No pom

@@ -4,13 +4,13 @@
 # remove the old db upgrademe and importing the dump from the
 # production database. Logging will end up in $DXPLOGDIR/general.log
 
-. ~/bin/common.sh
+. ~/bin/common.sh || exit 1
 
 UPGRADEDIR=$DXPSERVERDIR/tools/portal-tools-db-upgrade-client
 IXMNGRFILE=$DXPSERVERDIR/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
 IXPROPERTYTRUE="indexReadOnly=true"
-LOG=`date +%Y%m%d-%H%M-dxpdbupgrade.log`
-GCLOG=`date +%Y%m%d-%H%M-gc.log`
+LOG="${DATEFORMATTED}-dxpdbupgrade.log"
+GCLOG="${DATEFORMATTED}-gc.log"
 
 cd $UPGRADEDIR || exit 1
 

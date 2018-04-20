@@ -13,8 +13,7 @@ case "$1" in
   ;;
 esac
 
-TIME=`date +%Y%m%d-%H%M%S`
-DUMPFILE=$TIME.$WHAT.mysql
+DUMPFILE=${DATEFORMATTED}.$WHAT.mysql
 say "backup mysql $WHAT"
 mysqldump \
   --create-options \
