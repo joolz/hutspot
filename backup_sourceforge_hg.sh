@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. ~/bin/common.sh || exit 1
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 TEMP_SYNC_DIR=~/tmp/
 TARGET_DIR=/media/windows_home/backup_sourceforge

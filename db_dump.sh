@@ -1,6 +1,7 @@
 	#!/bin/bash
 
-. ~/bin/common.sh
+source ~/bin/common.sh
+source $CREDSFILE || exit 1
 
 case "$1" in
 "local")

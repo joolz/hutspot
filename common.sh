@@ -11,7 +11,7 @@ DATEFORMATTED=`date +%Y%m%d-%H%M%S`
 
 DXPBASEDIR=/opt/dxp
 DXPSOURCEDIR=$DXPBASEDIR/src
-DXPSERVERDIR=$DXPBASEDIR/server
+DXPSERVERDIR=$DXPBASEDIR/liferay-dxp-digital-enterprise-7.0-sp4
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=~/Downloads/dxp
@@ -27,10 +27,6 @@ TMP=$DXPBASEDIR/tmp
 mkdir -p $TMP
 
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
-
-# some defaults
-LOCAL_DB_USER=`grep jdbc.default.username $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
-LOCAL_DB_PASSWORD=`grep jdbc.default.password $PORTAL_EXT | grep -v '^$\|^\s*\#' | awk -F "=" '{print $2}'`
 
 DB_CHARACTER_SET=utf8
 DB_DEFAULT_COLLATE=utf8_unicode_ci

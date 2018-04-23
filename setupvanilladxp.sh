@@ -4,7 +4,8 @@
 # installation is intended to be used for the database upgrade from
 # 6.2 to DXP. Logging will end up in $DXPLOGDIR/general.log
 
-. ~/bin/common.sh || exit 1
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 liferayrunningcheck
 

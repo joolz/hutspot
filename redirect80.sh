@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. ~/bin/common.sh || exit 1
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 rootcheck
 
