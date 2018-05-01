@@ -12,33 +12,14 @@ mvn clean || exit 1
 mvn package || exit 1
 
 PROJECT=${PWD##*/}
-PORTLETDIR="${PROJECT}-portlet"
 
-find $DXPSERVERDIR -name "${PROJECT}*" -exec rm {} \;
+find $DXPSERVERDIR -name "${PROJECT}*" -exec rm -rf {} \;
+sleep 5s
 
-if [ -d "$PORTLETDIR" ]; then
-	cd $PORTLETDIR/target
-else
-	cd target
-fi
+TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 
-WARS=`ls *.war | wc -l`
-
-if [ $WARS -eq 1 ]; then
-	cp -v *.war $DXPDEPLOYDIR
-elif [ $WARS -eq 0 ]; then
-	echo Have no wars, will search for jars
-	
-	JARS=`ls *.jar | wc -l`
-
-	if [ $JARS -eq 1 ]; then
-		cp -v *.jar $DXPDEPLOYDIR
-	else
-		echo Have $JARS jars, do not know what to do
-		exit 1
-	fi
-
-else
-	echo Have $WARS wars, do not know what to do
-	exit 1
-fi
+for TARGET in $TARGETS; do
+	pushd $TARGET
+	cp -v *.?ar $DXPDEPLOYDIR
+	popd
+done
