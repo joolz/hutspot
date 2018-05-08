@@ -17,6 +17,7 @@ DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=~/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
 DXPLOGDIR=$DXPBASEDIR/log
+NEXTCLOUDDIR=~/Nextcloud
 
 SMTP_HOST=mail.lokaal
 
@@ -44,6 +45,7 @@ confirm() {
 }
 
 dxplog() {
+	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
 	if [ "$1" == "-m" ]; then
 		MESSAGE="${DATEFORMATTED} `caller` - $2"
 	else
@@ -79,6 +81,7 @@ say() {
 	if [ "$1" == "-l" ]; then
 		logger $2
 	fi
+	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
  	echo "${DATEFORMATTED} - $1"
 }
 

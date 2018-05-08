@@ -18,6 +18,8 @@ while [ 0 ]; do
 	ping -c 1 -W 4 $PINGEXTERNALHOST &> /dev/null
 	PINGEXTERNALSTATUS=$?
 
+	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
+
   echo ${DATEFORMATTED}: $IP_ADDRESS / $LINK / $RX / $TX / $COLLISIONS / \
 		ping $PINGEXTERNALHOST status $PINGEXTERNALSTATUS >> $LOGFILE
   sleep $INTERVAL
