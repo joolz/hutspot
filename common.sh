@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CREDSFILE=~/Documents/credentials.sh
+CREDSFILE=~/Nextcloud/beheer/credentials.sh
 
 if [ ! -f "$CREDSFILE" ]; then
 	echo Could not find $CREDSFILE
