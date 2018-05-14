@@ -19,6 +19,7 @@ case "$1" in
 	./patching-tool.sh install
 	rm default.properties
 	popd
+	rm -rf $DXPSERVERDIR/osgi/state
 	;;
 
 "binary")
@@ -31,6 +32,7 @@ case "$1" in
 	./patching-tool.sh install
 	rm default.properties
 	popd
+	rm -rf $DXPSERVERDIR/osgi/state
 	;;
 
 *)
