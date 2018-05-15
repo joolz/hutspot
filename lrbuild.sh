@@ -13,7 +13,10 @@ mvn package || exit 1
 
 PROJECT=${PWD##*/}
 
-find $DXPSERVERDIR -name "${PROJECT}*" -exec rm -rf {} \;
+if [ "$PROJECT" != "nl-ou-dlwo-legacy-theme" ]; then
+	find $DXPSERVERDIR -name "${PROJECT}*" -exec rm -rf {} \;
+fi
+
 sleep 5s
 
 TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
