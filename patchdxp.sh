@@ -7,31 +7,29 @@ source $CREDSFILE || exit 1
 
 liferayrunningcheck
 
+pushd $DXPSERVERDIR/patching-tool || exit 1
+
 case "$1" in
 
 "source")
 	confirm "Will patch DXP sources. Continue?"
-	pushd $DXPSERVERDIR/patching-tool || exit 1
 	rm patches/* || exit 1
 	cp $DXPPATCHESDIR/source/* patches/
 	cp $DXPPATCHESDIR/combined/* patches/
 	cp source.properties default.properties
 	./patching-tool.sh install
 	rm default.properties
-	popd
 	rm -rf $DXPSERVERDIR/osgi/state
 	;;
 
 "binary")
 	confirm "Will patch DXP binaries. Continue?"
-	pushd $DXPSERVERDIR/patching-tool || exit 1
 	rm patches/* || exit 1
 	cp $DXPPATCHESDIR/binary/* patches/
 	cp $DXPPATCHESDIR/combined/* patches/
 	cp binary.properties default.properties
 	./patching-tool.sh install
 	rm default.properties
-	popd
 	rm -rf $DXPSERVERDIR/osgi/state
 	;;
 
@@ -41,3 +39,9 @@ case "$1" in
 
 esac
 
+# Regardles of what we've done, restore binary as default for normal use
+if [ ! -f default.properties ]; then
+	cp binary.properties default.properties
+fi
+
+popd
