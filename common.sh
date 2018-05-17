@@ -112,3 +112,10 @@ liferaycleanup() {
 	rm -rf $DXPSERVERDIR/tomcat-8.0.32/work
 }
 
+sudocheck() {
+	sudo -n true
+	if [ "$?" -ne "0" ]; then
+		echo "Need to be able to sudo"
+		exit 1
+	fi
+}
