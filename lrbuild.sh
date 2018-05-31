@@ -8,8 +8,8 @@ if [ ! -f pom.xml ]; then
 	exit 1
 fi
 
-#mvn clean || exit 1
-#mvn package || exit 1
+mvn clean || exit 1
+mvn package || exit 1
 
 PROJECT=${PWD##*/}
 
