@@ -8,8 +8,8 @@ if [ ! -f pom.xml ]; then
 	exit 1
 fi
 
-mvn clean || exit 1
-mvn package || exit 1
+#mvn clean || exit 1
+#mvn package || exit 1
 
 PROJECT=${PWD##*/}
 
@@ -23,6 +23,13 @@ TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 
 for TARGET in $TARGETS; do
 	pushd $TARGET
-	cp -v *.?ar $DXPDEPLOYDIR
+	ARS=`ls *.?ar`
+	for AR in $ARS; do
+		if [ "$AR" = *"portlet-service"* ]; then
+			echo "Will skip $AR"
+		else
+			cp -v $AR $DXPDEPLOYDIR
+		fi
+	done
 	popd
 done
