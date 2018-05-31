@@ -4,6 +4,13 @@ source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
 case "$1" in
+"")
+	Q_SCHEMA=$LOCAL_DB_SCHEMA
+	Q_USER=$LOCAL_DB_USER
+	Q_PASSWORD=$LOCAL_DB_PASSWORD
+	Q_HOST=$LOCAL_DB_HOST
+	Q_PORT=$LOCAL_DB_PORT
+	;;
 "local")
 	Q_SCHEMA=$LOCAL_DB_SCHEMA
 	Q_USER=$LOCAL_DB_USER
