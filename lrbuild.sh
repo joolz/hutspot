@@ -13,7 +13,7 @@ mvn package || exit 1
 
 PROJECT=${PWD##*/}
 
-if [ "$PROJECT" != "nl-ou-dlwo-legacy-theme" ]; then
+if [ "$PROJECT" != "nl-ou-dlwo-theme" ]; then
 	find $DXPSERVERDIR -name "${PROJECT}*" -exec rm -rf {} \;
 fi
 
