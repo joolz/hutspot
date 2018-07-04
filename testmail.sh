@@ -1,6 +1,9 @@
 #!/bin/bash
 
-TO=`whoami`@ou.nl
+sendto() {
+	echo "send testmail with dummy content (this script) to $1"
+	mailx -s "Test mail from $HOSTNAME" $1 < $0
+}
 
-echo "send testmail with dummy content (this script) to $TO"
-mailx -s "Test mail from $HOSTNAME" $TO < $0
+sendto `whoami`@ou.nl
+
