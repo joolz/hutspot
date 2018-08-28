@@ -6,4 +6,4 @@ sendto() {
 }
 
 sendto `whoami`@ou.nl
-
+sendto `whoami`
