@@ -101,7 +101,11 @@ log "Stop tomcat"
 /etc/init.d/tomcat stop
 
 log "Remove osgi/state"
-rm -r $DXPOSGIDIR/state
+rm -rf $DXPOSGIDIR/state
+check $?
+
+log "Remove osgi/wab"
+rm -rf $DXPOSGIDIR/wab
 check $?
 
 log "Remove modules"
