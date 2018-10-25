@@ -42,6 +42,8 @@ case "$1" in
 *)
 	echo "Usage: $0 [local | two | awo | inc] [QUERY]"
 	echo when not specifying a query you get a shell
+	echo
+	echo When you want a local root connection, do sudo mysql --user=root
 	exit 1
 	;;
 esac
