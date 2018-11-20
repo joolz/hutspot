@@ -39,6 +39,13 @@ case "$1" in
 	Q_HOST=$INC_DB_HOST
 	Q_PORT=$INC_DB_PORT
 	;;
+"temp")
+	Q_SCHEMA=$TEMP_DB_SCHEMA
+	Q_USER=$TEMP_DB_USER
+	Q_PASSWORD=$TEMP_DB_PASSWORD
+	Q_HOST=$LOCAL_DB_HOST
+	Q_PORT=$LOCAL_DB_PORT
+	;;
 *)
 	echo "Usage: $0 [local | two | awo | inc] [QUERY]"
 	echo when not specifying a query you get a shell
