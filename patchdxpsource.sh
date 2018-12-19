@@ -7,7 +7,7 @@ source $CREDSFILE || exit 1
 
 liferayrunningcheck
 
-pushd $DXPSERVERDIR/patching-tool || exit 1
+checkedPush $DXPSERVERDIR/patching-tool
 
 case "$1" in
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+
 declare -a PROJECTS=( \
 	"nl-ou-dlwo-announcements" \
 	"nl-ou-dlwo-ckeditor" \
@@ -21,7 +23,7 @@ declare -a PROJECTS=( \
 	"nl-ou-dlwo-userprofile" \
 	)
 
-pushd ~/Desktop
+checkedPushd ~/Desktop
 
 mkdir tempdeploy
 cd tempdeploy || exit 1
@@ -30,11 +32,11 @@ for I in "${PROJECTS[@]}"
 do
 	echo Clone ssh://bamboo://repositories/dlwo/$I
 	hg clone ssh://bamboo://repositories/dlwo/$I || exit 1
-	pushd $I || exit 1
+	checkedPushd pushd $I
 	mvn clean || exit 1
 	mvn package || exit 1
 	mvn liferay:deploy || exit 1
-	popd
+	popd >/dev/null 2>&1
 done
 
-popd
+popd >/dev/null 2>&1

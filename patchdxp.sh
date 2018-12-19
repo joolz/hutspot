@@ -1,11 +1,13 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+
 sudocheck
 
 PT=patching-tool
 REPO=ssh://bamboo://repositories/dlwo/$PT
 
-pushd $DXPSERVERDIR || exit 1
+checkedPushd $DXPSERVERDIR
 
 if [ -d "${PT}/.hg" ]; then
 	confirm "${PT}/.hg exists. Remove local changes and update from repo?"
@@ -14,7 +16,7 @@ if [ -d "${PT}/.hg" ]; then
 	hg pull
 	hg update -r default -C
 	hg purge
-	popd
+	popd >/dev/null 2>&1
 	sudo chown -R tomcat:tomcat $PT
 else
 	confirm "${PT}/.hg does not exist. Remove current dir and clone from repo?"
@@ -31,4 +33,4 @@ liferayrunningcheck
 cd ${DXPSERVERDIR}/${PT} || exit 1
 sudo -u tomcat ./${PT}.sh install
 
-popd
+popd >/dev/null 2>&1

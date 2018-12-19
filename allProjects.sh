@@ -1,18 +1,21 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+
 function doIt() {
 	if [ -d $1 ]; then
-		pushd $1
+		checkedPushd $1
 		hg pull
 		hg update -r default -C
+		mvn clean
 		popd
 	else
 		hg clone ssh://bamboo://repositories/dlwo/$1
 	fi
 }
 
--d ~/tmp/alles || mkdir ~/tmp/alles
-pushd ~/tmp/alles || exit 1
+test -d ~/tmp/alles || mkdir ~/tmp/alles
+checkedPushd ~/tmp/alles
 
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
@@ -29,7 +32,7 @@ doIt nl-ou-dlwo-menu
 doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
 doIt nl-ou-dlwo-products
-doIt nl-ou-dlwo-sanitizer-hook
+doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-template-expandos
 doIt nl-ou-dlwo-theme
 doIt nl-ou-dlwo-theme-contributor
@@ -37,4 +40,4 @@ doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
 doIt nl-ou-dlwo-userprofile-portlet
 
-popd
+popd >/dev/null 2>&1

@@ -22,7 +22,7 @@ sleep 5s
 TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 
 for TARGET in $TARGETS; do
-	pushd $TARGET
+	checkedPush $TARGET
 	ARS=`ls *.?ar`
 	for AR in $ARS; do
 		if [ "$AR" = *"portlet-service"* ]; then
