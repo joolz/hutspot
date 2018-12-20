@@ -96,8 +96,15 @@ cleanupProject() {
 		checkedPushd $2
 		find . -name "*" -type f | while read -r FILE
 		do
-			BARE=`basename $FILE`
-			BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+			EXTENSION="${FILE##*.}"
+			if [ "$EXTENSION" == "war" ]; then
+				# no version in wars
+				BARE=`basename $FILE`
+				BARE="${BARE%.*}"
+			else
+				BARE=`basename $FILE`
+				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+			fi
 			if [ "$BARE" == "$1" ]; then
 				rm -v $FILE
 			fi
