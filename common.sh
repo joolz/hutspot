@@ -38,8 +38,10 @@ SLEEP_SHORT=2m
 checkedPushd() {
 	# use in combination with popd >/dev/null 2>&1
 	pushd $1 >/dev/null 2>&1
-	if [ "$?" -ne "0" ]; then
-		echo Error $? going to $1
+	ERROR=$?
+	if [ "$ERROR" -ne "0" ]; then
+		CURRENT=`pwd`
+		echo Error $ERROR going from $CURRENT to $1
 		exit 1
 	fi
 }
@@ -132,3 +134,104 @@ sudocheck() {
 		exit 1
 	fi
 }
+
+getProject() {
+	# in directory $1, get project $2 and branch $3
+	if [[ -z "$1" || -z "$2" ]]; then
+		echo Need directory, project
+		exit 1
+	fi
+	if [ -z "$3" ]; then
+		BR=default
+	else
+		BR=$3
+	fi
+	checkedPushd $1
+	if [ -d "$2" ]; then
+		cd $2 || exit 1
+		hg pull || exit 1
+		hg up -r $BR -C || exit 1
+		hg purge || exit 1
+	else
+		hg clone $REPOS/$2 || exit 1
+		cd $2
+		hg up $BR
+	fi
+	mvn clean package || exit 1
+	popd >/dev/null 2>&1
+}
+
+removeNonOsgi() {
+	# remove no-osgi jars
+	checkedPushd $1
+	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+	while read -r LINE; do
+		checkedPushd $LINE
+		find . -name "*.jar" -maxdepth 1 -type f | while read -r FILE
+		do
+			FOUND=`jar -tvf "$FILE" | grep "MANIFEST.MF"`
+			if [ "$FOUND" != "" ]; then
+				TMPDIR=`mktemp -d -p $TMP`
+				checkedPushd $TMPDIR
+				jar -xvf "../${FILE}" $FOUND &> /dev/null
+				# assume string only occurs in manifest file
+				OSGI=`grep -r "Bundle-SymbolicName" *`
+				popd >/dev/null 2>&1
+				rm -rf $TMPDIR
+				if [ "$OSGI" == "" ]; then
+					rm -v $FILE
+				fi
+			fi
+		done
+		popd >/dev/null 2>&1
+	done <<< $TARGETS
+	popd >/dev/null 2>&1
+}
+
+cleanupFile() {
+	# remove $1 files from directory $2
+	if [[ ! -z "$1" && ! -z "$2" ]]; then
+		checkedPushd $2
+		find . -name "*" -type f | while read -r FILE
+		do
+			EXTENSION="${FILE##*.}"
+			if [ "$EXTENSION" == "war" ]; then
+				if [ "$3" == "unversioned" ]; then
+					# deployed wars have no version
+					BARE=`basename $FILE`
+					BARE="${BARE%.*}"
+				else
+					BARE=`basename $FILE`
+					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				fi
+			else
+				BARE=`basename $FILE`
+				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+			fi
+			if [ "$BARE" == "$1" ]; then
+				rm -v $FILE
+			fi
+		done
+		popd >/dev/null 2>&1
+	fi
+}
+
+copyArtifacts() {
+	# move artifacts to releaser/target
+	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+	while read -r LINE; do
+		checkedPushd $LINE
+		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
+		while read -r LINE2; do
+			if [ ! -z "$LINE2" ]; then
+				BARE=`basename $LINE2`
+				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				cleanupFile $BARE $DXPSERVERDIR/osgi/modules
+				cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
+				mv $LINE2 $DXPSERVERDIR/deploy
+			fi
+		done <<< $ARS
+		popd >/dev/null 2>&1
+	done <<< $TARGETS
+}
+
