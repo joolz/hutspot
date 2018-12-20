@@ -9,6 +9,7 @@ WORKDIR=/home/jal/Desktop/work
 TEMPDIRLOCATION=/home/jal/tmp
 
 checkedPushd() {
+	# non-verbose pushd with error check
 	pushd $1 >/dev/null 2>&1
 	if [ "$?" -ne "0" ]; then
 		echo Error $? going to $1
@@ -17,6 +18,7 @@ checkedPushd() {
 }
 
 liferayrunningcheck() {
+	# abort if liferay is running
 	RUN=`ps -ef | grep tomcat | grep "catalina.base" | grep -v grep | wc -l`
 	if [ "$RUN" -ne "0" ]; then
 		echo Liferay active, exiting
@@ -25,6 +27,7 @@ liferayrunningcheck() {
 }
 
 getFresh() {
+	# get project and branch
 	if [ -z "$2" ]; then
 		BR=default
 	else
@@ -48,6 +51,7 @@ getFresh() {
 }
 
 removeNonOsgi() {
+	# remove no-osgi jars
 	checkedPushd $WORKDIR/$1
 	find . -name target -type d | while read -r TARGETDIR
 	do
@@ -75,10 +79,8 @@ removeNonOsgi() {
 }
 
 moveToReleaser() {
-	if [ "$1" != "nl-ou-dlwo-theme" ]; then
-		# skip theme because we also have themeX, themeY etc.
-		find $WORKDIR/$RELEASER/target -name "${1}*" -exec rm -rf {} \; 
-	fi
+	# move artifacts to releaser/target
+	cleanupProject $1 $WORKDIR/$RELEASER/target
 	find $WORKDIR/$1 -name target -type d | while read -r TARGETDIR
 	do
 		checkedPushd $TARGETDIR
@@ -87,46 +89,54 @@ moveToReleaser() {
 	done
 }
 
+cleanupProject() {
+	# remove files from project $1 from directory $2
+	# Project is the projectname without version or extension
+	if [[ ! -z "$1" && ! -z "$2" ]]; then
+		checkedPushd $2
+		find . -name "*" -type f | while read -r FILE
+		do
+			BARE=`basename $FILE`
+			BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+			if [ "$BARE" == "$1" ]; then
+				rm -v $FILE
+			fi
+		done
+		popd >/dev/null 2>&1
+	fi
+}
+
 cleanupLiferay() {
+	# remove any existing versions of all artefacts in releaser/target
+	# from liferay
 	checkedPushd $WORKDIR/$RELEASER/target
 	find . -name "*" -type f | while read -r FILE
 	do
-		if [ "$FILE" != "nl-ou-dlwo-theme" ]; then
-			# skip theme because we also have themeX, themeY etc.
-			FILE=`basename $FILE`
-			FILE=`echo $FILE | sed 's/-[0-9]\+.*//'`
-			checkedPushd $LR/osgi/modules
-			find . -name "${FILE}*" -exec rm -v {} \;
-			popd >/dev/null 2>&1
-			checkedPushd $LR/osgi/war
-			find . -name "${FILE}*" -exec rm -v {} \;
-			popd >/dev/null 2>&1
-		fi
+		FILE=`basename $FILE`
+		FILE=`echo $FILE | sed 's/-[0-9]\+.*//'`
+		echo "Remove existing ${FILE}* from Liferay"
+		cleanupProject $FILE $LR/osgi/modules
+		cleanupProject $FILE $LR/osgi/war
 	done
-	rm -rfv $LR/osgi/state
+	rm -rf $LR/osgi/state
 	popd >/dev/null 2>&1
 }
 
 usage() {
-	echo "$0 is a bash script that will try to get the $RELEASERBRANCH branch"
-	echo "of $RELEASER from $REPOS and build it. Next, it will look for"
-	echo "$BRANCHES_FILE that should be in this format:"
+	echo "$0 is a bash script that will try to get the $RELEASERBRANCH branch of $RELEASER from $REPOS and build it. Next, it will look for $BRANCHES_FILE that should be in this format:"
 	echo
 	echo "project1name,branch1name"
 	echo "project2name,branch2name"
 	echo
-	echo "and for each line fetch the project, switch to the specified branch"
-	echo "and build it. Next, the version of that project in $RELEASER/target"
-	echo "will be removed and replaced by the resulting artifacts of the build."
+	echo "For each line fetch the project:"
+	echo "- switch to the specified branch or changeset"
+	echo "- build it"
+	echo "- remove the existing version of that project in $RELEASER/target"
+	echo "- move the resulting artifacts of the build to $RELEASER/target"
 	echo
-	echo "Next, anything in $RELEASER/target will be copied to $LR/deploy,"
-	echo "after existing versions of the artifacts in $LR/osgi/war and modules"
-	echo "have been removed. When cleaning up, nl-ou-dlwo-theme* will be"
-	echo "disregarded, because nl-ou-dlwo-theme-etc* can also exist. Finally"
-	echo "$LR/osgi/state will be removed."
+	echo "Next, non-osgi jars in $RELEASER/target wil be removed and the remaining files copied to $LR/deploy. Existing versions of the artifacts in $LR/osgi/war and modules will removed and finally $LR/osgi/state will be removed."
 	echo
-	echo "Before using $0 make sure the variables on top of the script match"
-	echo "your environment before executing the script!"
+	echo "Before using $0 make sure the variables on top of the script match your environment!"
 }
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
@@ -147,8 +157,8 @@ else
 	while read PROJECT BRANCH
 	do
 		getFresh $PROJECT $BRANCH
-		removeNonOsgi $PROJECT
 		moveToReleaser $PROJECT
+		removeNonOsgi $PROJECT
 	done < $BRANCHES_FILE
 fi
 
