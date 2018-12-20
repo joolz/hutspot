@@ -6,14 +6,15 @@ RELEASER=nl-ou-dlwo-releaser
 RELEASERBRANCH=default
 BRANCHES_FILE=/home/jal/bin/branches.csv
 WORKDIR=/home/jal/Desktop/work
-TEMPDIRLOCATION=/home/jal/tmp
 
 checkedPushd() {
 	# non-verbose pushd with error check
 	pushd $1 >/dev/null 2>&1
-	if [ "$?" -ne "0" ]; then
-		echo Error $? going to $1
-		exit 1
+	ERROR=$?
+	if [ "$ERROR" -ne "0" ]; then
+		CURRENT=`pwd`
+		echo "Error $ERROR going from $CURRENT to $1"
+		exit $ERROR
 	fi
 }
 
@@ -26,24 +27,26 @@ liferayrunningcheck() {
 	fi
 }
 
-getFresh() {
-	# get project and branch
-	if [ -z "$2" ]; then
+getProject() {
+	# in directory $1, get project $2 and branch $3
+	if [[ -z "$1" || -z "$2" ]]; then
+		echo Need directory, project
+		exit 1
+	fi
+	if [ -z "$3" ]; then
 		BR=default
 	else
-		BR=$2
+		BR=$3
 	fi
-	echo "Get $1 branch $BR"
-	checkedPushd $WORKDIR
-	if [ -d "$1" ]; then
-		# this will remove any outstanding changes
-		cd $1 || exit 1
+	checkedPushd $1
+	if [ -d "$2" ]; then
+		cd $2 || exit 1
 		hg pull || exit 1
 		hg up -r $BR -C || exit 1
 		hg purge || exit 1
 	else
-		hg clone $REPOS/$1 || exit 1
-		cd $1
+		hg clone $REPOS/$2 || exit 1
+		cd $2
 		hg up $BR
 	fi
 	mvn clean package || exit 1
@@ -52,15 +55,15 @@ getFresh() {
 
 removeNonOsgi() {
 	# remove no-osgi jars
-	checkedPushd $WORKDIR/$1
-	find . -name target -type d | while read -r TARGETDIR
-	do
-		checkedPushd $TARGETDIR
+	checkedPushd $1
+	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+	while read -r LINE; do
+		checkedPushd $LINE
 		find . -name "*.jar" -maxdepth 1 -type f | while read -r FILE
 		do
 			FOUND=`jar -tvf "$FILE" | grep "MANIFEST.MF"`
 			if [ "$FOUND" != "" ]; then
-				TMPDIR=`mktemp -d -p $TEMPDIRLOCATION`
+				TMPDIR=`mktemp -d -p $TMP`
 				checkedPushd $TMPDIR
 				jar -xvf "../${FILE}" $FOUND &> /dev/null
 				# assume string only occurs in manifest file
@@ -68,39 +71,53 @@ removeNonOsgi() {
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					echo Remove non-osgi jar $FILE
 					rm -v $FILE
 				fi
 			fi
 		done
 		popd >/dev/null 2>&1
-	done
+	done <<< $TARGETS
 	popd >/dev/null 2>&1
 }
 
-moveToReleaser() {
+copyArtifacts() {
 	# move artifacts to releaser/target
-	cleanupProject $1 $WORKDIR/$RELEASER/target
-	find $WORKDIR/$1 -name target -type d | while read -r TARGETDIR
-	do
-		checkedPushd $TARGETDIR
-		mv *.?ar $WORKDIR/$RELEASER/target
+	if [[ ! -z "$1" && ! -z "$2" ]]; then
+		checkedPushd $1
+		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+		while read -r LINE; do
+			checkedPushd $LINE
+			ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
+			while read -r LINE2; do
+				if [ ! -z "$LINE2" ]; then
+					BARE=`basename $LINE2`
+					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+					cleanupFile $BARE $2
+					mv $LINE2 $2
+				fi
+			done <<< $ARS
+			popd >/dev/null 2>&1
+		done <<< $TARGETS
 		popd >/dev/null 2>&1
-	done
+	fi
 }
 
-cleanupProject() {
-	# remove files from project $1 from directory $2
-	# Project is the projectname without version or extension
+cleanupFile() {
+	# remove $1 files from directory $2
 	if [[ ! -z "$1" && ! -z "$2" ]]; then
 		checkedPushd $2
 		find . -name "*" -type f | while read -r FILE
 		do
 			EXTENSION="${FILE##*.}"
 			if [ "$EXTENSION" == "war" ]; then
-				# no version in wars
-				BARE=`basename $FILE`
-				BARE="${BARE%.*}"
+				if [ "$3" == "unversioned" ]; then
+					# deployed wars have no version
+					BARE=`basename $FILE`
+					BARE="${BARE%.*}"
+				else
+					BARE=`basename $FILE`
+					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				fi
 			else
 				BARE=`basename $FILE`
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
@@ -121,9 +138,8 @@ cleanupLiferay() {
 	do
 		FILE=`basename $FILE`
 		FILE=`echo $FILE | sed 's/-[0-9]\+.*//'`
-		echo "Remove existing ${FILE}* from Liferay"
-		cleanupProject $FILE $LR/osgi/modules
-		cleanupProject $FILE $LR/osgi/war
+		cleanupFile $FILE $LR/osgi/modules
+		cleanupFile $FILE $LR/osgi/war unversioned
 	done
 	rm -rf $LR/osgi/state
 	popd >/dev/null 2>&1
@@ -155,7 +171,7 @@ fi
 liferayrunningcheck
 checkedPushd $WORKDIR
 
-getFresh $RELEASER $RELEASERBRANCH
+getProject $WORKDIR $RELEASER $RELEASERBRANCH
 
 if [ ! -f "$BRANCHES_FILE" ]; then
 	echo "No $BRANCHES_FILE. Will only deploy $RELEASER"
@@ -163,9 +179,9 @@ else
 	IFS=','
 	while read PROJECT BRANCH
 	do
-		getFresh $PROJECT $BRANCH
-		moveToReleaser $PROJECT
-		removeNonOsgi $PROJECT
+		getProject $WORKDIR $PROJECT $BRANCH
+		removeNonOsgi $WORKDIR/$PROJECT
+		copyArtifacts $WORKDIR/$PROJECT $WORKDIR/$RELEASER/target
 	done < $BRANCHES_FILE
 fi
 
