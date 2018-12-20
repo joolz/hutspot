@@ -6,7 +6,7 @@ source $CREDSFILE || exit 1
 TEMP_SYNC_DIR=~/tmp/
 TARGET_DIR=/media/windows_home/backup_sourceforge
 
-checkedPush $TEMP_SYNC_DIR
+checkedPushd $TEMP_SYNC_DIR
 mkdir ${DATEFORMATTED} || exit 1
 
 rsync -av openu.hg.sourceforge.net::hgroot/openu/* $TEMP_SYNC_DIR/$NOW || exit 1

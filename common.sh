@@ -35,7 +35,7 @@ DB_DEFAULT_COLLATE=utf8_unicode_ci
 SLEEP_LONG=10m
 SLEEP_SHORT=2m
 
-checkedPush() {
+checkedPushd() {
 	# use in combination with popd >/dev/null 2>&1
 	pushd $1 >/dev/null 2>&1
 	if [ "$?" -ne "0" ]; then

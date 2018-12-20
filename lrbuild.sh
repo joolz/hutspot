@@ -8,6 +8,8 @@ if [ ! -f pom.xml ]; then
 	exit 1
 fi
 
+echo TODO real osgi check
+
 mvn clean || exit 1
 mvn package || exit 1
 
@@ -22,7 +24,7 @@ sleep 5s
 TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 
 for TARGET in $TARGETS; do
-	checkedPush $TARGET
+	checkedPushd $TARGET
 	ARS=`ls *.?ar`
 	for AR in $ARS; do
 		if [ "$AR" = *"portlet-service"* ]; then
