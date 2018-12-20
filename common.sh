@@ -53,6 +53,10 @@ confirm() {
 	fi
 }
 
+hasBom() {
+	head -c3 "$1" | LC_ALL=C grep -qP '\xef\xbb\xbf';
+}
+
 dxplog() {
 	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
 	if [ "$1" == "-m" ]; then
