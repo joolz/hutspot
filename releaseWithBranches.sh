@@ -54,32 +54,31 @@ getProject() {
 }
 
 removeNonOsgi() {
-	# remove no-osgi jars
-	checkedPushd $1
-	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
-	while read -r LINE; do
-		checkedPushd $LINE
-		find . -name "*.jar" -maxdepth 1 -type f | while read -r FILE
-		do
-			FOUND=`jar -tvf "$FILE" | grep "MANIFEST.MF"`
-			if [ "$FOUND" != "" ]; then
-				TMPDIR=`mktemp -d -p $TMP`
-				checkedPushd $TMPDIR
-				jar -xvf "../${FILE}" $FOUND &> /dev/null
-				# assume string only occurs in manifest file
-				OSGI=`grep -r "Bundle-SymbolicName" *`
-				popd >/dev/null 2>&1
-				rm -rf $TMPDIR
-				if [ "$OSGI" == "" ]; then
-					rm $FILE || exit 1
-					FULLNAME=`readlink -f $FILE`
-					echo "Removed non-osgi file $FULLNAME"
-				fi
+# remove no-osgi jars
+checkedPushd $1
+TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+while read -r LINE; do
+	checkedPushd $LINE
+	find . -name "*.jar" -maxdepth 1 -type f | while read -r FILE
+	do
+		FULLNAME=`readlink -f $FILE`
+		FOUND=`jar -tvf "$FILE" | grep "MANIFEST.MF"`
+		if [ "$FOUND" != "" ]; then
+			TMPDIR=`mktemp -d -p $TMP`
+			checkedPushd $TMPDIR
+			jar -xvf "${FULLNAME}" $FOUND &> /dev/null || exit 1 #
+			# assume string only occurs in manifest file
+			OSGI=`grep -r "Bundle-SymbolicName" *`
+			popd >/dev/null 2>&1
+			rm -rf $TMPDIR
+			if [ "$OSGI" == "" ]; then
+				rm -v $FILE
 			fi
-		done
-		popd >/dev/null 2>&1
-	done <<< $TARGETS
+		fi
+	done
 	popd >/dev/null 2>&1
+done <<< $TARGETS
+popd >/dev/null 2>&1
 }
 
 copyArtifacts() {
