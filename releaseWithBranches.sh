@@ -71,7 +71,9 @@ removeNonOsgi() {
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					rm -v $FILE
+					rm $FILE || exit 1
+					FULLNAME=`readlink -f $FILE`
+					echo "Removed non-osgi file $FULLNAME"
 				fi
 			fi
 		done
@@ -123,7 +125,9 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm -v $FILE
+				rm $FILE || exit 1
+				FULLNAME=`readlink -f $FILE`
+				echo "Removed $FULLNAME"
 			fi
 		done
 		popd >/dev/null 2>&1
@@ -141,7 +145,8 @@ cleanupLiferay() {
 		cleanupFile $FILE $LR/osgi/modules
 		cleanupFile $FILE $LR/osgi/war unversioned
 	done
-	rm -rf $LR/osgi/state
+	rm -rf $LR/osgi/state || exit 1
+	echo "Removed $LR/osgi/state"
 	popd >/dev/null 2>&1
 }
 
