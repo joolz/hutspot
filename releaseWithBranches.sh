@@ -146,20 +146,21 @@ cleanupLiferay() {
 }
 
 usage() {
+	echo "BEFORE USING $0 MAKE SURE THE VARIABLES ON TOP OF THE SCRIPT MATCH YOUR ENVIRONMENT!"
+	echo
 	echo "$0 is a bash script that will try to get the $RELEASERBRANCH branch of $RELEASER from $REPOS and build it. Next, it will look for $BRANCHES_FILE that should be in this format:"
 	echo
-	echo "project1name,branch1name"
-	echo "project2name,branch2name"
+	echo "someproject,branchname"
+	echo "someotherproject,changesetname"
 	echo
-	echo "For each line fetch the project:"
+	echo "and for each line:"
+	echo "- fetch the project"
 	echo "- switch to the specified branch or changeset"
 	echo "- build it"
 	echo "- remove the existing version of that project in $RELEASER/target"
 	echo "- move the resulting artifacts of the build to $RELEASER/target"
 	echo
-	echo "Next, non-osgi jars in $RELEASER/target wil be removed and the remaining files copied to $LR/deploy. Existing versions of the artifacts in $LR/osgi/war and modules will removed and finally $LR/osgi/state will be removed."
-	echo
-	echo "Before using $0 make sure the variables on top of the script match your environment!"
+	echo "Non-osgi jars will be removed and the remaining files copied to $LR/deploy. Existing versions of the artifacts in $LR/osgi/war and modules will removed and finally $LR/osgi/state will be removed."
 }
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
