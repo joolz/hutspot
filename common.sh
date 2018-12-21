@@ -113,6 +113,16 @@ liferayrunningcheck() {
 	fi
 }
 
+isLiferayRunning() {
+	RUN=`ps -ef | grep tomcat | grep "catalina.base" | grep -v grep | wc -l`
+	if [ "$RUN" -ne "0" ]; then
+		return 1
+	else
+		return 0
+	fi
+
+}
+
 rootcheck() {
 	if [[ $EUID -ne 0 ]]; then
 		echo "This script must be run as root"
@@ -162,7 +172,7 @@ getProject() {
 }
 
 removeNonOsgi() {
-	# remove no-osgi jars
+	# remove non-osgi jars
 	checkedPushd $1
 	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 	while read -r LINE; do
@@ -180,7 +190,9 @@ removeNonOsgi() {
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					rm -v $FILE
+					rm $FILE || exit 1
+					FULLNAME=`readlink -f $FILE`
+					echo "Removed $FULLNAME"
 				fi
 			fi
 		done
@@ -210,7 +222,9 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm -v $FILE
+				rm $FILE || exit 1
+				FULLNAME=`readlink -f $FILE`
+				echo "Removed $FULLNAME"
 			fi
 		done
 		popd >/dev/null 2>&1
@@ -225,10 +239,12 @@ copyArtifacts() {
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
 		while read -r LINE2; do
 			if [ ! -z "$LINE2" ]; then
-				BARE=`basename $LINE2`
-				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				cleanupFile $BARE $DXPSERVERDIR/osgi/modules
-				cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
+				if [ ! isLiferayRunning ]; then
+					BARE=`basename $LINE2`
+					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+					cleanupFile $BARE $DXPSERVERDIR/osgi/modules
+					cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
+				fi
 				mv $LINE2 $DXPSERVERDIR/deploy
 			fi
 		done <<< $ARS
