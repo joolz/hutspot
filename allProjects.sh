@@ -40,5 +40,6 @@ doIt nl-ou-dlwo-theme-contributor
 doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
 doIt nl-ou-dlwo-userprofile-portlet
+doIt scripts
 
 popd >/dev/null 2>&1
