@@ -1,6 +1,11 @@
 #!/bin/bash
 
-F=Dump20181024.sql
+F=$1
+
+if [ -z "$1" ]; then
+	echo "usage: $0 <dump.sql>"
+	exit 1
+fi
 
 sed -i -e 's/`address`/`Address`/g' $F
 

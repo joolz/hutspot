@@ -31,6 +31,7 @@ doIt nl-ou-dlwo-maildigester
 doIt nl-ou-dlwo-menu
 doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
+doIt nl-ou-dlwo-releaser
 doIt nl-ou-dlwo-products
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-template-expandos
