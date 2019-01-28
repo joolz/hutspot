@@ -1,11 +1,19 @@
 #!/bin/bash
 
+# location of the software repos
 REPOS=ssh://bamboo://repositories/dlwo
+
+# location of the DXP server
 LR=/opt/dxp/server
+
+# name of the releaser project
 RELEASER=nl-ou-dlwo-releaser
+
+# branch of the releaser project that should be used
 RELEASERBRANCH=default
+
+# file containing projects of which a non-standard changeset should be used. See usage()
 BRANCHES_FILE=/home/jal/bin/branches.csv
-WORKDIR=/home/jal/Desktop/work
 
 checkedPushd() {
 	# non-verbose pushd with error check
@@ -176,6 +184,7 @@ fi
 
 # do it
 liferayrunningcheck
+WORKDIR=`mktemp -d`
 checkedPushd $WORKDIR
 
 getProject $WORKDIR $RELEASER $RELEASERBRANCH
@@ -195,5 +204,7 @@ fi
 cleanupLiferay
 
 cp -v $WORKDIR/$RELEASER/target/* $LR/deploy
+
+rm -r $WORKDIR
 
 popd >/dev/null 2>&1
