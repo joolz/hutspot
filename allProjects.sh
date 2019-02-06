@@ -21,15 +21,21 @@ function doIt() {
 		hg clone ssh://bamboo://repositories/$REPO/$1
 	fi
 
-	# release snapshots to artifactory. TODO make confitional
-	#if [ -f "pom.xml" ]; then
-	#	checkedPushd $1
-	#	mvn clean package -e -X -U || exit 1
-	#	mvn -P "bamboo-buildserver" deploy || exit 1
-	#	popd
-	#fi
-
+	if [ "$DEPLOY" == true ]; then
+		checkedPushd $1
+		if [ -f "pom.xml" ]; then
+			echo "Release snaphot $1 to artifactory"
+			mvn clean package -e -X -U || exit 1
+			mvn -P "bamboo-buildserver" deploy || exit 1
+		fi
+		popd
+	fi
 }
+
+if [ "$1" == "--deploy" ]; then
+	echo will also try to deploy to artifactory
+	DEPLOY=true
+fi
 
 test -d ~/tmp/alles || mkdir ~/tmp/alles
 checkedPushd ~/tmp/alles
