@@ -14,8 +14,8 @@ if [ -d "$DXPSERVERDIR" ]; then
 	exit 1
 fi
 
-SERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0-sp4-20170705142422877.zip
-ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-new yearly digitalenterprisedevelopment-7.0-openuniversitynetherlandsyoulearnexdlwo.xml"
+SERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.10-sp10-20190128202135661.zip
+ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversitynetherlandsyoulearn10IPs.xml"
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
 OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"
@@ -55,9 +55,9 @@ mkdir -p $DXPSERVERDIR/osgi/configs
 echo "filePath=$DXPSERVERDIR/geoip/GeoLiteCity.dat" \
 	>| $DXPSERVERDIR/osgi/configs/com.liferay.ip.geocoder.internal.IPGeocoderConfiguration.cfg
 
-dxplog "Run patching tool"
-rm -r patching-tool
-unzip $PATCHINGTOOL -d .
+#dxplog "Run patching tool"
+#rm -r patching-tool
+#unzip $PATCHINGTOOL -d .
 cd patching-tool || exit 1
 mkdir -p patches
 cp $DXPPATCHESDIR/* patches/ || exit 1

@@ -40,22 +40,22 @@ fi
 test -d ~/tmp/alles || mkdir ~/tmp/alles
 checkedPushd ~/tmp/alles
 
-doIt nl-ou-dlwo-announcements
-doIt nl-ou-dlwo-bridges
-doIt nl-ou-dlwo-ckeditor-config
-doIt nl-ou-dlwo-ckeditor-plugins
-doIt nl-ou-dlwo-collaborate
-doIt nl-ou-dlwo-control-menu
-doIt nl-ou-dlwo-courseplan
-doIt nl-ou-dlwo-groupchat
-doIt nl-ou-dlwo-groupwall
-doIt nl-ou-dlwo-layouttemplate
-doIt nl-ou-dlwo-maildigester
-doIt nl-ou-dlwo-menu
-doIt nl-ou-dlwo-pagecloaker
-doIt nl-ou-dlwo-pagestructure
-doIt nl-ou-dlwo-releaser
-doIt nl-ou-dlwo-products
+# doIt nl-ou-dlwo-announcements
+# doIt nl-ou-dlwo-bridges
+# doIt nl-ou-dlwo-ckeditor-config
+# doIt nl-ou-dlwo-ckeditor-plugins
+# doIt nl-ou-dlwo-collaborate
+# doIt nl-ou-dlwo-control-menu
+# doIt nl-ou-dlwo-courseplan
+# doIt nl-ou-dlwo-groupchat
+# doIt nl-ou-dlwo-groupwall
+# doIt nl-ou-dlwo-layouttemplate
+# doIt nl-ou-dlwo-maildigester
+# doIt nl-ou-dlwo-menu
+# doIt nl-ou-dlwo-pagecloaker
+# doIt nl-ou-dlwo-pagestructure
+# doIt nl-ou-dlwo-products
+# doIt nl-ou-dlwo-releaser
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
 doIt nl-ou-dlwo-site-tools
