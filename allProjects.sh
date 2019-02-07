@@ -24,9 +24,12 @@ function doIt() {
 	if [ "$DEPLOY" == true ]; then
 		checkedPushd $1
 		if [ -f "pom.xml" ]; then
-			echo "Release snaphot $1 to artifactory"
-			mvn clean package -e -X -U || exit 1
-			mvn -P "bamboo-buildserver" deploy || exit 1
+			CANDEPLOY=`grep "<developerConnection>" pom.xml`
+			if [ ! -z "$CANDEPLOY" ]; then
+				echo "Release snaphot $1 to artifactory"
+				mvn clean package -e -X -U || exit 1
+				mvn -P "bamboo-buildserver" deploy || exit 1
+			fi
 		fi
 		popd
 	fi
@@ -40,21 +43,22 @@ fi
 test -d ~/tmp/alles || mkdir ~/tmp/alles
 checkedPushd ~/tmp/alles
 
-# doIt nl-ou-dlwo-announcements
-# doIt nl-ou-dlwo-bridges
-# doIt nl-ou-dlwo-ckeditor-config
-# doIt nl-ou-dlwo-ckeditor-plugins
-# doIt nl-ou-dlwo-collaborate
-# doIt nl-ou-dlwo-control-menu
-# doIt nl-ou-dlwo-courseplan
-# doIt nl-ou-dlwo-groupchat
-# doIt nl-ou-dlwo-groupwall
-# doIt nl-ou-dlwo-layouttemplate
-# doIt nl-ou-dlwo-maildigester
-# doIt nl-ou-dlwo-menu
-# doIt nl-ou-dlwo-pagecloaker
-# doIt nl-ou-dlwo-pagestructure
-# doIt nl-ou-dlwo-products
+doIt nl-ou-dlwo-announcements
+doIt nl-ou-dlwo-bridges
+doIt nl-ou-dlwo-ckeditor-config
+doIt nl-ou-dlwo-ckeditor-plugins
+doIt nl-ou-dlwo-collaborate
+doIt nl-ou-dlwo-control-menu
+doIt nl-ou-dlwo-courseplan
+doIt nl-ou-dlwo-groupchat
+doIt nl-ou-dlwo-groupwall
+doIt nl-ou-dlwo-layouttemplate
+doIt nl-ou-dlwo-maildigester
+doIt nl-ou-dlwo-menu
+doIt nl-ou-dlwo-pagecloaker
+doIt nl-ou-dlwo-pagestructure
+doIt nl-ou-dlwo-permissions-dlfolder
+doIt nl-ou-dlwo-products
 # doIt nl-ou-dlwo-releaser
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
