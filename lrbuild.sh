@@ -8,6 +8,8 @@ if [ ! -f pom.xml ]; then
 	exit 1
 fi
 
+find . -type d -name .sass_cache -exec rm -r {} \;
+
 mvn clean || exit 1
 mvn package || exit 1
 

@@ -40,8 +40,8 @@ if [ "$1" == "--deploy" ]; then
 	DEPLOY=true
 fi
 
-test -d ~/tmp/alles || mkdir ~/tmp/alles
-checkedPushd ~/tmp/alles
+test -d ~/tmp/allProjects || mkdir ~/tmp/allProjects
+checkedPushd ~/tmp/allProjects
 
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
