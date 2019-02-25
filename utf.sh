@@ -1,29 +1,17 @@
 #!/bin/bash
 
-INFORMAT=ISO-8859-1
-OUTFORMAT=UTF-8
+UTF="UTF-8"
+BACKUPEXTENSION="endodingbackup"
 
-if [ -z "$1" ]; then
-  echo Usage: $0 filename
-  exit 1
-fi
+find . -type f | while read -r FILE
+do
+	echo -n "."
+	CURRENTENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
 
-FILEINFO=`file -b $1`
+	if [ "${CURRENTENCODING}" == "ISO-8859" ]; then
+		echo Make backup to ${FILE}.${BACKUPEXTENSION} and convert
+		mv ${FILE} ${FILE}.${BACKUPEXTENSION}
+		iconv -f ISO-8859-1 -t ${UTF}//TRANSLIT ${FILE}.backup -o ${FILE}
+	fi
 
-case "$FILEINFO" in
-
-# *ASCII* )
-#   echo $1 is $FILEINFO, no conversion
-#   ;;
-
-  *UTF-8* )
-    echo $1 is $FILEINFO, no conversion
-    ;;
-
-  * )
-    echo $1 is $FILEINFO, make backup and convert
-    cp $1 $1.backup
-    iconv -f $INFORMAT -t $OUTFORMAT $1.backup | dos2unix > $1
-    ;;
-
-esac
+done
