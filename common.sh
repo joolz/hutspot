@@ -253,3 +253,19 @@ copyArtifacts() {
 	done <<< $TARGETS
 }
 
+cleanupLiferay() {
+	# remove any existing versions of all artefacts in releaser/target
+	# from liferay
+	checkedPushd $WORKDIR/$RELEASER/target
+	find . -name "nl-ou-dlwo*" -type f | while read -r FILE
+	do
+		FILE=`basename $FILE`
+		FILE=`echo $FILE | sed 's/-[0-9]\+.*//'`
+		cleanupFile $FILE $DXPSERVERDIR/osgi/modules
+		cleanupFile $FILE $DXPSERVERDIR/osgi/war unversioned
+	done
+	rm -rf $DXPSERVERDIR/osgi/state || exit 1
+	echo "Removed $DXPSERVERDIR/osgi/state"
+	popd >/dev/null 2>&1
+}
+
