@@ -1,16 +1,16 @@
 #!/bin/bash
 
 UTF="UTF-8"
-declare ERRORS
-ERRORS=""
+ASCII="ASCII"
+HTML="HTML"
 
-find . -name '*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
+find . -name 'Language*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
 	ENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
 
 	FULLPATH=`readlink -f ${FILE}`
 	echo ${FULLPATH} has encoding ${ENCODING}
 
-	if [ "${ENCODING}" != "${UTF}" ]; then
+	if [ "${ENCODING}" != "${UTF}" ] && [ "${ENCODING}" != "${ASCII}" ] && [ "${ENCODING}" != "${HTML}" ]; then
 		false
 		exit
 	fi
