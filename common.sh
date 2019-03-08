@@ -190,7 +190,9 @@ removeNonOsgi() {
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					rm -v $FILE || exit 1
+					rm $FILE || exit 1
+					FULLNAME=`readlink -f $FILE`
+					echo removed \'$FULLNAME\'
 				fi
 			fi
 		done
@@ -220,7 +222,9 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm -v $FILE || exit 1
+				rm $FILE || exit 1
+ 				FULLNAME=`readlink -f $FILE`
+				echo removed \'$FULLNAME\'
 			fi
 		done
 		popd >/dev/null 2>&1
