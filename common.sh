@@ -132,10 +132,10 @@ rootcheck() {
 }
 
 liferaycleanup() {
-	rm -rf $DXPSERVERDIR/osgi/state
-	rm -rf $DXPSERVERDIR/work
-	rm -rf $DXPSERVERDIR/tomcat-8.0.32/temp
-	rm -rf $DXPSERVERDIR/tomcat-8.0.32/work
+	rm -rfv $DXPSERVERDIR/osgi/state
+	rm -rfv $DXPSERVERDIR/work
+	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/temp
+	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/work
 }
 
 sudocheck() {
@@ -173,7 +173,6 @@ getProject() {
 }
 
 removeNonOsgi() {
-	# remove non-osgi jars
 	checkedPushd $1
 	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 	while read -r LINE; do
@@ -191,9 +190,7 @@ removeNonOsgi() {
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					rm $FILE || exit 1
-					FULLNAME=`readlink -f $FILE`
-					echo "Removed $FULLNAME"
+					rm -v $FILE || exit 1
 				fi
 			fi
 		done
@@ -223,9 +220,7 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm $FILE || exit 1
-				FULLNAME=`readlink -f $FILE`
-				echo "Removed $FULLNAME"
+				rm -v $FILE || exit 1
 			fi
 		done
 		popd >/dev/null 2>&1
@@ -240,13 +235,11 @@ copyArtifacts() {
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
 		while read -r LINE2; do
 			if [ ! -z "$LINE2" ]; then
-				if [ ! isLiferayRunning ]; then
-					BARE=`basename $LINE2`
-					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-					cleanupFile $BARE $DXPSERVERDIR/osgi/modules
-					cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
-				fi
-				mv $LINE2 $DXPSERVERDIR/deploy
+				BARE=`basename $LINE2`
+				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				cleanupFile $BARE $DXPSERVERDIR/osgi/modules
+				cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
+				mv -v $LINE2 $DXPSERVERDIR/deploy
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1
@@ -264,7 +257,7 @@ cleanupLiferay() {
 		cleanupFile $FILE $DXPSERVERDIR/osgi/modules
 		cleanupFile $FILE $DXPSERVERDIR/osgi/war unversioned
 	done
-	rm -rf $DXPSERVERDIR/osgi/state || exit 1
+	rm -rfv $DXPSERVERDIR/osgi/state || exit 1
 	echo "Removed $DXPSERVERDIR/osgi/state"
 	popd >/dev/null 2>&1
 }
