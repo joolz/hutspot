@@ -39,8 +39,15 @@ case "$1" in
 	Q_HOST=$INC_DB_HOST
 	Q_PORT=$INC_DB_PORT
 	;;
-"pwo")
+"pwocopy")
 	Q_SCHEMA=pwocopy
+	Q_USER=dxp
+	Q_PASSWORD=$LOCAL_DB_PASSWORD
+	Q_HOST=$LOCAL_DB_HOST
+	Q_PORT=$LOCAL_DB_PORT
+	;;
+"twocopy")
+	Q_SCHEMA=twocopy
 	Q_USER=dxp
 	Q_PASSWORD=$LOCAL_DB_PASSWORD
 	Q_HOST=$LOCAL_DB_HOST
