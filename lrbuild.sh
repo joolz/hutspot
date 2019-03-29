@@ -8,13 +8,14 @@ ASCII="ASCII"
 HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
 
-# cleanup first. Hope this doesn't interfere with concurrent builds
-rm -f ${ERRORFILE}
-
 if [ ! -f pom.xml ]; then
 	echo No pom
 	exit 1
 fi
+
+# cleanup first. Hope this doesn't interfere with concurrent builds
+rm -f ${ERRORFILE}
+mvn clean || exit 1
 
 find . -name 'Language*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
 	ENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
@@ -44,7 +45,6 @@ fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
 
-mvn clean || exit 1
 mvn package || exit 1
 
 PROJECT=${PWD##*/}
