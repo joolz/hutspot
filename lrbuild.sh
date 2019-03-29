@@ -6,7 +6,10 @@ source $CREDSFILE || exit 1
 UTF="UTF-8"
 ASCII="ASCII"
 HTML="HTML"
-ERRORFILE="ERRORFILE.removethis"
+ERRORFILE="$TMP/ERRORFILE.removethis"
+
+# cleanup first. Hope this doesn't interfere with concurrent builds
+rm -f ${ERRORFILE}
 
 if [ ! -f pom.xml ]; then
 	echo No pom
