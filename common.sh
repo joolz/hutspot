@@ -1,6 +1,7 @@
 #!/bin/bash
 
-CREDSFILE=~/Nextcloud/beheer/credentials.sh
+NEXTCLOUDDIR=~/Nextcloud
+CREDSFILE=$NEXTCLOUDDIR/beheer/credentials.sh
 
 if [ ! -f "$CREDSFILE" ]; then
 	echo Could not find $CREDSFILE
@@ -10,14 +11,20 @@ fi
 DATEFORMATTED=`date +%Y%m%d-%H%M%S`
 
 DXPBASEDIR=/opt/dxp
+
+DXPSOURCEZIP=liferay-dxp-digital-enterprise-src-7.0.10.10-sp10-20190128202135661.zip
+DXPSOURCEPHYSICALDIR=liferay-dxp-digital-enterprise-src-7.0.10.10-sp10
 DXPSOURCEDIR=$DXPBASEDIR/src
+
+DXPSERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.10-sp10-20190128202135661.zip
+DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.10-sp10
 DXPSERVERDIR=$DXPBASEDIR/server
+
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
-DXPDOWNLOADSDIR=~/Nextcloud/Downloads/dxp
-DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches/binary
+DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
+DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
 DXPLOGDIR=$DXPBASEDIR/log
-NEXTCLOUDDIR=~/Nextcloud
 
 SMTP_HOST=mail.lokaal
 
