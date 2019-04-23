@@ -39,29 +39,15 @@ case "$1" in
 	Q_HOST=$INC_DB_HOST
 	Q_PORT=$INC_DB_PORT
 	;;
-"pwocopy")
-	Q_SCHEMA=pwocopy
+"prut")
+	Q_SCHEMA=prut
 	Q_USER=dxp
 	Q_PASSWORD=$LOCAL_DB_PASSWORD
-	Q_HOST=$LOCAL_DB_HOST
-	Q_PORT=$LOCAL_DB_PORT
-	;;
-"twocopy")
-	Q_SCHEMA=twocopy
-	Q_USER=dxp
-	Q_PASSWORD=$LOCAL_DB_PASSWORD
-	Q_HOST=$LOCAL_DB_HOST
-	Q_PORT=$LOCAL_DB_PORT
-	;;
-"temp")
-	Q_SCHEMA=$TEMP_DB_SCHEMA
-	Q_USER=$TEMP_DB_USER
-	Q_PASSWORD=$TEMP_DB_PASSWORD
 	Q_HOST=$LOCAL_DB_HOST
 	Q_PORT=$LOCAL_DB_PORT
 	;;
 *)
-	echo "Usage: $0 [local | two | awo | inc] [QUERY]"
+	echo "Usage: $0 [DB_NAME] [QUERY]"
 	echo when not specifying a query you get a shell
 	echo
 	echo When you want a local root connection, do sudo mysql --user=root
