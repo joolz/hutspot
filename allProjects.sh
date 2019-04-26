@@ -59,7 +59,6 @@ doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
 doIt nl-ou-dlwo-permissions-dlfolder
 doIt nl-ou-dlwo-products
-# doIt nl-ou-dlwo-releaser
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
 doIt nl-ou-dlwo-site-tools
@@ -69,7 +68,9 @@ doIt nl-ou-dlwo-theme-contributor
 doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
 doIt nl-ou-dlwo-userprofile-portlet
+doIt nl.ou.yl.assessment
 doIt scripts
+doIt tiles-portlet
 
 popd >/dev/null 2>&1
 
