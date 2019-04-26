@@ -16,3 +16,5 @@ echo Search for $1 in $ARCHIVE_FORMAT files
 for I in *.$ARCHIVE_FORMAT; do 
   grep -oP "$1" <(unzip -l "$I") && echo "Found in $I";
 done
+
+doneMessage

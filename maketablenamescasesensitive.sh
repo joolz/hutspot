@@ -8,7 +8,6 @@ if [ -z "$1" ]; then
 fi
 
 sed -i -e 's/`address`/`Address`/g' $F
-
 sed -i -e 's/`account_`/`Account_`/g' $F
 sed -i -e 's/`address`/`Address`/g' $F
 sed -i -e 's/`announcementsdelivery`/`AnnouncementsDelivery`/g' $F
@@ -316,3 +315,5 @@ sed -i -e 's/`dlwo_ps_pagestructure`/`dlwo_ps_PageStructure`/g' $F
 sed -i -e 's/`dlwo_tplexp_templateexpando`/`dlwo_tplexp_TemplateExpando`/g' $F
 sed -i -e 's/`dlwo_trans_translationset`/`dlwo_trans_TranslationSet`/g' $F
 sed -i -e 's/`fubar_foo`/`fubar_Foo`/g' $F
+
+doneMessage

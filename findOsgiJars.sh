@@ -22,3 +22,5 @@ for FILE in ls *jar; do
 		fi
 	fi
 done
+
+doneMessage

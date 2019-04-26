@@ -72,3 +72,5 @@ doIt nl-ou-dlwo-userprofile-portlet
 doIt scripts
 
 popd >/dev/null 2>&1
+
+doneMessage

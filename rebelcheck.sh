@@ -8,3 +8,4 @@ for I in $DIRS; do
 	find $I -name rebel.xml -exec grep -L "<dir name=\"$ECLIPSE_WORKSPACE" {} \;
 done
 
+doneMessage

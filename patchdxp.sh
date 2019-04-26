@@ -34,3 +34,4 @@ cd ${DXPSERVERDIR}/${PT} || exit 1
 sudo -u tomcat ./${PT}.sh install
 
 popd >/dev/null 2>&1
+doneMessage

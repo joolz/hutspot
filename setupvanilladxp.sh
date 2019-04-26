@@ -110,3 +110,4 @@ DURATION=$((SECONDS - START))
 DURATIONREADABLE=`convertsecs $DURATION`
 
 logger "Finished installing vanilla DXP in $DXPSERVERDIR in $DURATIONREADABLE"
+doneMessage

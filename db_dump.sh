@@ -63,3 +63,4 @@ fi
 
 tar -czf ${BU_FILE}.tar.gz $BU_FILE && rm $BU_FILE
 say "Dump made to file ${BU_FILE}.tar.gz"
+doneMessage
