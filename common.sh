@@ -8,7 +8,7 @@ if [ ! -f "$CREDSFILE" ]; then
 	exit 1
 fi
 
-DATEFORMATTED=`date +%Y%m%d-%H%M%S`
+DATEFORMAT="%Y-%m-%d %H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
 
@@ -68,7 +68,7 @@ hasBom() {
 }
 
 dxplog() {
-	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
+	DATEFORMATTED=`date +"${DATEFORMAT}"`
 	if [ "$1" == "-m" ]; then
 		MESSAGE="${DATEFORMATTED} `caller` - $2"
 	else
@@ -104,7 +104,7 @@ say() {
 	if [ "$1" == "-l" ]; then
 		logger $2
 	fi
-	DATEFORMATTED=`date +%Y%m%d-%H%M%S`
+	DATEFORMATTED=`date +"${DATEFORMAT}"`
  	echo "${DATEFORMATTED} - $1"
 }
 
@@ -273,3 +273,7 @@ cleanupLiferay() {
 	popd >/dev/null 2>&1
 }
 
+doneMessage() {
+	DATEFORMATTED=`date +"${DATEFORMAT}"`
+	echo "Done at $DATEFORMATTED"
+}

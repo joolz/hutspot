@@ -55,3 +55,4 @@ removeNonOsgi $CURDIR
 
 copyArtifacts
 
+doneMessage
