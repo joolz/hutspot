@@ -33,8 +33,6 @@ START=$SECONDS
 
 cd $DXPBASEDIR
 
-ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
-
 logger "Remove existing sources, unzip and create link"
 rm -f $DXPSOURCEDIR
 rm -rf $DXPSOURCEPHYSICALDIR
@@ -48,6 +46,7 @@ unzip $DXPDOWNLOADSDIR/$DXPSERVERZIP -d $DXPBASEDIR || exit 1
 ln -s $DXPSERVERPHYSICALDIR $DXPSERVERDIR || exit 1
 
 cd $DXPSERVERDIR || exit 1
+ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
 
 cp $MYSQLJAR tomcat-8.0.32/lib/ext/
 mkdir tomcat-8.0.32/lib/ext/global
@@ -72,25 +71,25 @@ mkdir -p patches
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-# TODO
 logger "Patch sources"
-rm -f default.properties
-cp $DXPPATCHESDIR/source/* patches/ || exit 1
-cp $DXPPATCHESDIR/combined/* patches/ || exit 1
-./patching-tool.sh source auto-discovery
-./patching-tool.sh source install
+rm -f default.properties || exit 1
+cp $DXPPATCHESDIR/source.properties . || exit 1
+mv source.properties default.properties || exit 1
+cp $DXPPATCHESDIR/source/* patches/
+cp $DXPPATCHESDIR/combined/* patches/
+./patching-tool.sh install
 
 logger "Patch server"
-rm -f default.properties
-rm patches/*
+rm -f default.properties || exit 1
+cp $DXPPATCHESDIR/default.properties . || exit 1
+rm patches/* || exit 1
 cp $DXPPATCHESDIR/binary/* patches/ || exit 1
-cp $DXPPATCHESDIR/combined/* patches/ || exit 1
-./patching-tool.sh auto-discovery
+cp $DXPPATCHESDIR/combined/* patches/
 ./patching-tool.sh install
 
 logger "Copy license"
 cd $DXPSERVERDIR || exit 1
-mkdir deploy
+mkdir -p deploy || exit 1
 cp -v "$ACTIVATIONKEY" deploy/
 cp -v "$OATHPROVIDER" deploy/
 
