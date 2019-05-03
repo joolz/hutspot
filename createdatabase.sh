@@ -24,6 +24,6 @@ sudo mysql \
 	--port=${LOCAL_DB_PORT} \
 	--user=root \
 	--password=${LOCAL_DB_PASSWORD} \
-	-e "${CMD}"
+	-e "${CMD}" || exit 1
 
 doneMessage
