@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # see http://www.unicode.org/emoji/charts/full-emoji-list.html
-SMILEYS="😀🤣🤪🤔🤮😱💀💩👽💌💣👰💃🏄🦁🦃🐲🎾♒📛🈂⚫🏴☠️🏴"
 
 # see http://www.columbia.edu/~fdc/utf8/
 RUNE="ᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ ᛋᚳᛖᚪᛚ᛫ᚦᛖᚪᚻ᛫ᛗᚪᚾᚾᚪ᛫ᚷᛖᚻᚹᛦᛚᚳ᛫ᛗᛁᚳᛚᚢᚾ᛫ᚻᛦᛏ᛫ᛞᚫᛚᚪᚾ ᚷᛁᚠ᛫ᚻᛖ᛫ᚹᛁᛚᛖ᛫ᚠᚩᚱ᛫ᛞᚱᛁᚻᛏᚾᛖ᛫ᛞᚩᛗᛖᛋ᛫ᚻᛚᛇᛏᚪᚾ᛬"
@@ -14,4 +13,15 @@ GEORGIAN="ვეპხის ტყაოსანი შოთა რუსთ�
 
 JAPANESE="私はガラスを食べられます。それは私を傷つけません。"
 
+I=100
+MAX=1500
+
+for ((i=$I; i<= $MAX; ++i)) do
+	SMILEYS="$SMILEYS `echo -en "\U0001f${I}"`"
+	((I++))
+done
+
+echo "-----------------------------------------------"
+echo "Store and retrieve this"
+echo "-----------------------------------------------"
 echo "${SMILEYS} ${RUNE} ${BRUT} ${POLYTONIC} ${GEORGIAN} ${JAPANESE}"
