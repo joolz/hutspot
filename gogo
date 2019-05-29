@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source ~/bin/common.sh
+
+isLiferayRunning
+
+RUNNING=$?
+
+if [ $RUNNING -eq 1 ]; then
+
+	echo "Leave the gogo shell with disconnect. Do not use logout, exit etc., this will shutdown DXP!"
+	echo Press any key to continue ...
+
+	read -n1 joepie
+
+	telnet localhost 11311
+
+else
+
+	echo Liferay is not running
+
+fi
