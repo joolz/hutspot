@@ -25,6 +25,7 @@ DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
 DXPLOGDIR=$DXPBASEDIR/log
+PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
 SMTP_HOST=mail.lokaal
 
@@ -35,13 +36,21 @@ ECLIPSE_WORKSPACE=/home/jal/workspace
 TMP=$DXPBASEDIR/tmp
 mkdir -p $TMP
 
-PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
-
 DB_CHARACTER_SET=utf8
 DB_DEFAULT_COLLATE=utf8_unicode_ci
 
 SLEEP_LONG=10m
 SLEEP_SHORT=2m
+
+checkOnline() {
+	CHECKHOST="www.xs4all.nl"
+	wget -q --tries=10 --timeout=20 -O - $CHECKHOST > /dev/null
+	ONLINECHECK=$?
+	if [ $ONLINECHECK -ne 0 ]; then
+		echo "Could not reach $CHECKHOST, seems we're offline"
+		exit 1
+	fi
+}
 
 checkedPushd() {
 	# use in combination with popd >/dev/null 2>&1
@@ -114,8 +123,9 @@ tomcatpid() {
 }
 
 liferayrunningcheck() {
-	RUN=`ps -ef | grep tomcat | grep "catalina.base" | grep -v grep | wc -l`
-	if [ "$RUN" -ne "0" ]; then
+	isLiferayRunning
+	RUNNING=$?
+	if [ $RUNNING -eq 1 ]; then
 		echo Liferay active, exiting
 		exit 1
 	fi
