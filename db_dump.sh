@@ -1,4 +1,4 @@
-	#!/bin/bash
+#!/bin/bash
 
 source ~/bin/common.sh
 source $CREDSFILE || exit 1
@@ -33,7 +33,7 @@ case "$1" in
 	BU_PORT=$INC_DB_PORT
 	;;
 *)
-	echo Usage: db_dump local | two | awo | inc
+	echo "Usage: db_dump local | two | awo | inc"
 	exit 1
 	;;
 esac
