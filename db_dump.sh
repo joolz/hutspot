@@ -40,6 +40,8 @@ esac
 
 cd $DB_DUMP_DIR || exit 1
 
+DATEFORMATTED=`date +"${DATEFORMAT}"`
+
 BU_FILE=${DATEFORMATTED}.$BU_SCHEMA.mysql
 
 say "Backup mysql $BU_SCHEMA"
