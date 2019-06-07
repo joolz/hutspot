@@ -6,5 +6,5 @@ source ~/bin/common.sh || exit 1
 
 mkdir -p $1 || exit
 cd $1 || exit
-convert -size 100x100 xc:white blank.jpg
-mv blank.jpg 1.0
+convert -size 100x100 xc:blue blue.jpg
+mv blue.jpg 1.0
