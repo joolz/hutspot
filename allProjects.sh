@@ -69,6 +69,7 @@ doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
 doIt nl-ou-dlwo-userprofile-portlet
 doIt nl.ou.yl.assessment
+doIt nl.ou.yl.domain
 doIt scripts
 doIt tiles-portlet
 
