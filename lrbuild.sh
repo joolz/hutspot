@@ -8,6 +8,9 @@ ASCII="ASCII"
 HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
 
+# comma separated
+MUSTINSTALL="nl.ou.yl.domain"
+
 if [ ! -f pom.xml ]; then
 	echo No pom
 	exit 1
@@ -46,6 +49,16 @@ fi
 find . -type d -name .sass_cache -exec rm -r {} \;
 
 mvn package || exit 1
+
+CURDIR=${PWD##*/}
+for I in ${MUSTINSTALL//,/ }
+do
+	if [ "$I" == "$CURDIR" ]; then
+		echo "mvn install $I"
+		mvn install
+	fi
+done
+
 
 PROJECT=${PWD##*/}
 PROJECT=`basename $PROJECT`
