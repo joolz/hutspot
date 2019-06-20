@@ -119,7 +119,7 @@ say() {
 
 tomcatpid() {
 	TOMCAT_PID=`ps -ef|grep tomcat|grep java|awk '{print $2}'`
-	return $TOMCAT_PID
+	echo $TOMCAT_PID
 }
 
 liferayrunningcheck() {

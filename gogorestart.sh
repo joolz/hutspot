@@ -1,9 +1,18 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+
 SERVICE=$1
 
 if [ -z "$SERVICE" ]; then
 	echo "Usage: $0 [name of osgi bundle to restart]"
+	exit 1
+fi
+
+TOMCAT_PID=`tomcatpid`
+
+if [ -z "$TOMCAT_PID" ]; then
+	echo "No tomcat PID found"
 	exit 1
 fi
 
