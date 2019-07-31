@@ -31,7 +31,7 @@ SMTP_HOST=mail.lokaal
 
 DB_TEMP_SCHEMA=dxp_temp
 DB_DUMP_DIR=~/Desktop
-ECLIPSE_WORKSPACE=/home/jal/workspace
+ECLIPSE_WORKSPACE=/home/jal/eclipse-workspace
 
 TMP=$DXPBASEDIR/tmp
 mkdir -p $TMP
