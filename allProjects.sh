@@ -26,9 +26,13 @@ function doIt() {
 		if [ -f "pom.xml" ]; then
 			CANDEPLOY=`grep "<developerConnection>" pom.xml`
 			if [ ! -z "$CANDEPLOY" ]; then
-				echo "Release snaphot $1 to artifactory"
-				mvn clean package -e -X -U || exit 1
-				mvn -P "bamboo-buildserver" deploy || exit 1
+				if [ "$1" == "nl-ou-dlwo-releaser" ]; then
+					echo "Will not build $!"
+				else
+					echo "Release snaphot $1 to artifactory"
+					mvn clean package -e -X -U || exit 1
+					mvn -P "bamboo-buildserver" deploy || exit 1
+				fi
 			fi
 		fi
 		popd
@@ -43,7 +47,6 @@ fi
 test -d ~/tmp/allProjects || mkdir ~/tmp/allProjects
 checkedPushd ~/tmp/allProjects
 
-doIt template-portal-ext rest
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
 doIt nl-ou-dlwo-ckeditor-config
@@ -62,6 +65,7 @@ doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
 doIt nl-ou-dlwo-permissions-dlfolder
 doIt nl-ou-dlwo-products
+doIt nl-ou-dlwo-releaser
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
 doIt nl-ou-dlwo-site-tools
@@ -75,6 +79,7 @@ doIt nl-ou-dlwo-userprofile-portlet
 doIt nl.ou.yl.assessment
 doIt nl.ou.yl.domain
 doIt scripts
+doIt template-portal-ext rest
 doIt tiles-portlet
 
 popd >/dev/null 2>&1
