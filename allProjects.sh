@@ -43,6 +43,7 @@ fi
 test -d ~/tmp/allProjects || mkdir ~/tmp/allProjects
 checkedPushd ~/tmp/allProjects
 
+doIt template-portal-ext rest
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
 doIt nl-ou-dlwo-ckeditor-config
