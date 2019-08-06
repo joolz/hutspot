@@ -93,6 +93,9 @@ mkdir -p deploy || exit 1
 cp -v "$ACTIVATIONKEY" deploy/
 cp -v "$OATHPROVIDER" deploy/
 
+mkdir -p osgi/modules
+mkdir -p osgi/war
+
 logger "Make $SETENV"
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Dfile.encoding=UTF8\"" >| $SETENV
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Djava.net.preferIPv4Stack=true\"" >> $SETENV
