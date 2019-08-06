@@ -28,6 +28,9 @@ SETENV=$TOMCATDIR/bin/setenv.sh
 ROOTCLASSESDIR=$TOMCATDIR/webapps/ROOT/WEB-INF/classes
 SYSTEMPROPS=$ROOTCLASSESDIR/system-ext.properties
 
+logger "Remove own snapshots from Maven repo"
+find ~/.m2/repository -type f -name "nl*SNAPSHOT*" -exec rm -v {} \;
+
 logger "Start installing vanilla DXP in $DXPSERVERDIR"
 START=$SECONDS
 
