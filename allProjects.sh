@@ -81,6 +81,7 @@ doIt nl.ou.yl.domain
 doIt scripts
 doIt template-portal-ext rest
 doIt tiles-portlet
+doIt amqsimulator
 
 popd >/dev/null 2>&1
 
