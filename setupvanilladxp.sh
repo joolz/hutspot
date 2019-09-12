@@ -65,6 +65,10 @@ mkdir -p $DXPSERVERDIR/osgi/configs
 echo "filePath=$DXPSERVERDIR/geoip/GeoLiteCity.dat" \
 	>| $DXPSERVERDIR/osgi/configs/com.liferay.ip.geocoder.internal.IPGeocoderConfiguration.cfg
 
+logger "Link document library"
+rm -rf $DXPSERVERDIR/data/document_library
+ln -s $DXPDOWNLOADSDIR/document_library $DXPSERVERDIR/data/document_library
+
 logger "Install patching tool"
 rm -r patching-tool
 unzip "$PATCHINGTOOL" -d .
