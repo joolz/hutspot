@@ -20,7 +20,7 @@ MYSQLJAR=$DXPDOWNLOADSDIR/mysql.jar
 GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
 SETENV=$SERVER/tomcat-8.0.32/bin/setenv.sh
 
-PATCHINGTOOL="$DXPDOWNLOADSDIR/Patching Tool 2.0.11.zip"
+PATCHINGTOOL=$DXPDOWNLOADSDIR/patching-tool-2.0.12.zip
 PROPS=$DXPSERVERDIR/portal-ext.properties
 TOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 WEBXML=$TOMCATDIR/webapps/ROOT/WEB-INF/web.xml
@@ -82,16 +82,16 @@ logger "Patch sources"
 rm -f default.properties || exit 1
 cp $DXPPATCHESDIR/source.properties . || exit 1
 mv source.properties default.properties || exit 1
-cp $DXPPATCHESDIR/source/* patches/
-cp $DXPPATCHESDIR/combined/* patches/
+cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
+cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 ./patching-tool.sh install
 
 logger "Patch server"
 rm -f default.properties || exit 1
 cp $DXPPATCHESDIR/default.properties . || exit 1
 rm patches/* || exit 1
-cp $DXPPATCHESDIR/binary/* patches/ || exit 1
-cp $DXPPATCHESDIR/combined/* patches/
+cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/ || exit 1
+cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 ./patching-tool.sh install
 
 logger "Copy license"

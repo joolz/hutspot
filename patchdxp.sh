@@ -1,37 +1,48 @@
 #!/bin/bash
 
+# workaround script for https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-118
+
 source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
-sudocheck
-
-PT=patching-tool
-REPO=ssh://bamboo://repositories/dlwo/$PT
-
-checkedPushd $DXPSERVERDIR
-
-if [ -d "${PT}/.hg" ]; then
-	confirm "${PT}/.hg exists. Remove local changes and update from repo?"
-	sudo chown -R jal $PT
-	pushd $PT
-	hg pull
-	hg update -r default -C
-	hg purge
-	popd >/dev/null 2>&1
-	sudo chown -R tomcat:tomcat $PT
-else
-	confirm "${PT}/.hg does not exist. Remove current dir and clone from repo?"
-	sudo rm -rf $PT
-	sudo mkdir $PT
-	sudo chown jal $PT
-	hg clone $REPO ${PT}/
-	sudo chown -R tomcat:tomcat $PT
-fi
-
-confirm "Install the patches?"
 liferayrunningcheck
 
-cd ${DXPSERVERDIR}/${PT} || exit 1
-sudo -u tomcat ./${PT}.sh install
+checkedPushd $DXPSERVERDIR/patching-tool
 
-popd >/dev/null 2>&1
+case "$1" in
+
+"source")
+	confirm "Will patch DXP sources. Continue?"
+	rm patches/* || exit 1
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
+	cp source.properties default.properties
+	./patching-tool.sh install
+	rm default.properties
+	rm -rf $DXPSERVERDIR/osgi/state
+	;;
+
+"binary")
+	confirm "Will patch DXP binaries. Continue?"
+	rm patches/* || exit 1
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
+	cp binary.properties default.properties
+	./patching-tool.sh install
+	rm default.properties
+	rm -rf $DXPSERVERDIR/osgi/state
+	;;
+
+*)
+	echo "Usage: $0 [source|binary]"
+	;;
+
+esac
+
+# Regardles of what we've done, restore binary as default for normal use
+if [ ! -f default.properties ]; then
+	cp binary.properties default.properties
+fi
+
+popd
 doneMessage

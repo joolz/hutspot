@@ -24,6 +24,7 @@ DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
+DXPPATCHLEVEL="de-84" # dir under patches where the combinations are kept
 DXPLOGDIR=$DXPBASEDIR/log
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
@@ -239,9 +240,9 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm $FILE || exit 1
+				rm -i $FILE || exit 1
  				FULLNAME=`readlink -f $FILE`
-				echo "File ${FILE} matches ${BARE}, remove ${FULLNAME}"
+				echo "File ${FILE} matches ${BARE}, removed ${FULLNAME}"
 			fi
 		done
 		popd >/dev/null 2>&1
