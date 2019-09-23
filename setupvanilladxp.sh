@@ -11,7 +11,8 @@ liferayrunningcheck
 
 confirm "Existing server and sources will be removed, after that, a fresh install will be done. Continue?"
 
-ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversitynetherlandsyoulearn10IPs.xml"
+# ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversitynetherlandsyoulearn10IPs.xml"
+ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversiteitnetherlands.xml"
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
 OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"
