@@ -12,19 +12,19 @@ DATEFORMAT="%Y-%m-%d %H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
 
-DXPSOURCEZIP=liferay-dxp-digital-enterprise-src-7.0.10.10-sp10-20190128202135661.zip
-DXPSOURCEPHYSICALDIR=liferay-dxp-digital-enterprise-src-7.0.10.10-sp10
+DXPSOURCEZIP=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11-20190506123513875.zip
+DXPSOURCEPHYSICALDIR=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11
 DXPSOURCEDIR=$DXPBASEDIR/src
 
-DXPSERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.10-sp10-20190128202135661.zip
-DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.10-sp10
+DXPSERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.11-sp11-20190506123513875.zip
+DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.11-sp11
 DXPSERVERDIR=$DXPBASEDIR/server
 
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
-DXPPATCHLEVEL="de-84" # dir under patches where the combinations are kept
+DXPPATCHLEVEL="de-85" # dir under patches where the combinations are kept
 DXPLOGDIR=$DXPBASEDIR/log
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
