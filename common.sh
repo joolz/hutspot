@@ -5,7 +5,7 @@ set -E
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$(date) \"${last_command}\" command exited with level $?."' EXIT
 
-DATEFORMAT="%Y-%m-%d %H:%M:%S"
+TMP=/tmp
 NEXTCLOUDDIR=~/Nextcloud
 CREDSFILE=$NEXTCLOUDDIR/beheer/credentials.sh
 
@@ -13,6 +13,8 @@ if [ ! -f "$CREDSFILE" ]; then
 	echo Could not find $CREDSFILE
 	exit 1
 fi
+
+DATEFORMAT="%Y-%m-%d %H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
 
@@ -37,9 +39,6 @@ SMTP_HOST=mail.lokaal
 DB_TEMP_SCHEMA=dxp_temp
 DB_DUMP_DIR=~/Desktop
 ECLIPSE_WORKSPACE=/home/jal/workspace
-
-TMP=$DXPBASEDIR/tmp
-mkdir -p $TMP
 
 DB_CHARACTER_SET=utf8
 DB_DEFAULT_COLLATE=utf8_unicode_ci
@@ -206,7 +205,7 @@ removeNonOsgi() {
 				TMPDIR=`mktemp -d -p $TMP`
 				checkedPushd $TMPDIR
 				FULLNAME=`readlink -f $FILE`
-				jar -xvf "${FULLNAME}" $FOUND &> /dev/null
+				jar -xvf "${FULLNAME}" $FOUND &> /dev/null || exit 1
 				# assume string only occurs in manifest file
 				OSGI=`grep -r "Bundle-SymbolicName" *`
 				popd >/dev/null 2>&1
