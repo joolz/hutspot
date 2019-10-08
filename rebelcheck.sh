@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 DIRS="$ECLIPSE_WORKSPACE $DXPSERVERDIR"
 

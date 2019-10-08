@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 SEARCHDIR=$DXPSERVERDIR
 
@@ -25,7 +25,7 @@ do
 
   echo ===================================
 
-  cd $SEARCHDIR || exit 1
+  cd $SEARCHDIR
 
   JARS=`find . -name $JARNAME`
 

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
+
 echo See https://help.ubuntu.com/12.04/serverguide/certificates-and-security.html
 echo
 

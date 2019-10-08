@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 BASE=~/Documents/accounts/chromium
 CMD="chromium-browser --user-data-dir=$BASE/$1"
@@ -9,7 +9,7 @@ CMD="chromium-browser --user-data-dir=$BASE/$1"
 if [ "$1" == "" ]; then
 	chromium-browser
 else
-	test -d $BASE || exit 1
+	test -d $BASE
 
 	if [ "$1" == "virgo" ]; then
 		rm -rf $BASE/$1

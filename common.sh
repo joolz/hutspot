@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# https://intoli.com/blog/exit-on-errors-in-bash-scripts/
+set -E
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
+
 NEXTCLOUDDIR=~/Nextcloud
 CREDSFILE=$NEXTCLOUDDIR/beheer/credentials.sh
 
@@ -94,7 +99,7 @@ waitforit() {
   echo -e "Waiting for $1 to complete"
   NOW=$(($(date +%s%N)/1000000))
   FIFO="$TMP/tomcat_$NOW"
-  mkfifo $FIFO || exit 1
+  mkfifo $FIFO
   tail -f $CATALINALOG > $FIFO &
   TAIL_PID=$!
   grep -m 1 "$2" $FIFO
@@ -177,16 +182,16 @@ getProject() {
 	fi
 	checkedPushd $1
 	if [ -d "$2" ]; then
-		cd $2 || exit 1
-		hg pull || exit 1
-		hg up -r $BR -C || exit 1
-		hg purge || exit 1
+		cd $2
+		hg pull
+		hg up -r $BR -C
+		hg purge
 	else
-		hg clone $REPOS/$2 || exit 1
+		hg clone $REPOS/$2
 		cd $2
 		hg up $BR
 	fi
-	mvn clean package || exit 1
+	mvn clean package
 	popd >/dev/null 2>&1
 }
 
@@ -202,13 +207,13 @@ removeNonOsgi() {
 				TMPDIR=`mktemp -d -p $TMP`
 				checkedPushd $TMPDIR
 				FULLNAME=`readlink -f $FILE`
-				jar -xvf "${FULLNAME}" $FOUND &> /dev/null || exit 1 #
+				jar -xvf "${FULLNAME}" $FOUND &> /dev/null
 				# assume string only occurs in manifest file
 				OSGI=`grep -r "Bundle-SymbolicName" *`
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
 				if [ "$OSGI" == "" ]; then
-					rm $FILE || exit 1
+					rm $FILE
 					FULLNAME=`readlink -f $FILE`
 					echo removed \'$FULLNAME\'
 				fi
@@ -240,7 +245,7 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm -i $FILE || exit 1
+				rm -i $FILE
  				FULLNAME=`readlink -f $FILE`
 				echo "File ${FILE} matches ${BARE}, removed ${FULLNAME}"
 			fi
@@ -279,7 +284,7 @@ cleanupLiferay() {
 		cleanupFile $FILE $DXPSERVERDIR/osgi/modules
 		cleanupFile $FILE $DXPSERVERDIR/osgi/war unversioned
 	done
-	rm -rfv $DXPSERVERDIR/osgi/state || exit 1
+	rm -rfv $DXPSERVERDIR/osgi/state
 	echo "Removed $DXPSERVERDIR/osgi/state"
 	popd >/dev/null 2>&1
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 for FILE in ls *jar; do
 	FULLNAME=`readlink -f $FILE`
@@ -9,7 +9,7 @@ for FILE in ls *jar; do
 	if [ "$FOUND" != "" ]; then
 		TMPDIR=`mktemp -d -p $TMP`
 		checkedPushd $TMPDIR
-		jar -xvf "${FULLNAME}" $FOUND &> /dev/null || exit 1 #
+		jar -xvf "${FULLNAME}" $FOUND &> /dev/null
 		# assume string only occurs in manifest file
 		OSGI=`grep -r "Bundle-SymbolicName" *`
 		popd >/dev/null 2>&1

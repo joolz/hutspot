@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 function doIt() {
 	if [ -d $1 ]; then
@@ -30,8 +31,8 @@ function doIt() {
 					echo "Will not build $!"
 				else
 					echo "Release snaphot $1 to artifactory"
-					mvn clean package -e -X -U || exit 1
-					mvn -P "bamboo-buildserver" deploy || exit 1
+					mvn clean package -e -X -U
+					mvn -P "bamboo-buildserver" deploy
 				fi
 			fi
 		fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 case "$1" in
 "")

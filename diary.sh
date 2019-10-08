@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 DIARYBASE=~/Nextcloud/diary
 YEAR=`date +%Y`
@@ -10,7 +11,7 @@ DAY_OF_WEEK=`date +%u`
 PREVIOUS_WEEK=`date -d 'last week' +%V`
 PREVIOUS_YEAR=`date -d 'last week' +%Y`
 
-mkdir -p $DIARYBASE/$YEAR || exit 1
+mkdir -p $DIARYBASE/$YEAR
 
 DIARY=${DIARYBASE}/${YEAR}/${YEAR}_week_${WEEK}.md
 PREVIOUS_DIARY=${DIARYBASE}/${PREVIOUS_YEAR}/${PREVIOUS_YEAR}_week_${PREVIOUS_WEEK}.md

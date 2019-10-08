@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
+
 LOGFILE=./findjar.log
 
 if [ "$1" = "" ]; then

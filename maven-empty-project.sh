@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
+
 if [ "$1" == "" ]; then
   echo Create maven dir stucture according to
   echo https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html
@@ -8,7 +11,7 @@ if [ "$1" == "" ]; then
   exit 1
 fi
 
-mkdir $1 || exit 1
+mkdir $1
 cd $1
 
 mkdir -p src/main/java

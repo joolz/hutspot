@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 UTF="UTF-8"
 ASCII="ASCII"
@@ -18,7 +18,7 @@ fi
 
 # cleanup first. Hope this doesn't interfere with concurrent builds
 rm -f ${ERRORFILE}
-mvn clean || exit 1
+mvn clean
 
 find . -name 'Language*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
 	ENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
@@ -48,7 +48,7 @@ fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
 
-mvn package || exit 1
+mvn package
 
 CURDIR=${PWD##*/}
 for I in ${MUSTINSTALL//,/ }

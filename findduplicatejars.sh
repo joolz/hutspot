@@ -1,12 +1,12 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 SEARCHDIR=$DXPSERVERDIR
 TEMPFILE=`mktemp`
 
-cd $SEARCHDIR || exit 1
+cd $SEARCHDIR
 
 echo Will use tempfile $TEMPFILE
 

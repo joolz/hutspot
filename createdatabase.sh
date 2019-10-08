@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 sudocheck
 
@@ -24,6 +24,6 @@ sudo mysql \
 	--port=${LOCAL_DB_PORT} \
 	--user=root \
 	--password=${LOCAL_DB_PASSWORD} \
-	-e "${CMD}" || exit 1
+	-e "${CMD}"
 
 doneMessage

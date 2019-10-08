@@ -5,7 +5,7 @@
 # production database. Logging will end up in $DXPLOGDIR/general.log
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 UPGRADEDIR=$DXPSERVERDIR/tools/portal-tools-db-upgrade-client
 IXMNGRFILE=$DXPSERVERDIR/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
@@ -13,7 +13,7 @@ IXPROPERTYTRUE="indexReadOnly=true"
 LOG="${DATEFORMATTED}-dxpdbupgrade.log"
 GCLOG="${DATEFORMATTED}-gc.log"
 
-cd $UPGRADEDIR || exit 1
+cd $UPGRADEDIR
 
 dxplog "Set $IXPROPERTYTRUE in $IXMNGRFILE"
 if [ -f $IXMNGRFILE ]; then
@@ -40,7 +40,7 @@ delete from JournalArticleImage
 	group by groupId, articleId, version, elName, languageId) as temp WHERE duplicates > 1) as temp2)
 	AND elInstanceId like '';"
 mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
-	--database="$LOCAL_DB_SCHEMA" --execute="$SQL" || exit 1
+	--database="$LOCAL_DB_SCHEMA" --execute="$SQL"
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
 dxplog "Delete orphan DDMTemplates"
@@ -50,7 +50,7 @@ delete from DDMTemplate where classNameId = (select classNameId from
 	'com.liferay.portlet.dynamicdatamapping.model.DDMStructure') and
 	classPK not in (select structureId from DDMStructure);"
 mysql --user="$LOCAL_DB_USER" --password="$LOCAL_DB_PASSWORD" \
-	--database="$LOCAL_DB_SCHEMA" --execute="$SQL" || exit 1
+	--database="$LOCAL_DB_SCHEMA" --execute="$SQL"
 
 dxplog "Start the database upgrade process. After the upgrade has completed, do upgrade:check in the gogo shell."
 START=$SECONDS

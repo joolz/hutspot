@@ -3,6 +3,7 @@
 # see https://www.howtoforge.com/sharing-terminal-sessions-with-tmux-and-screen
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 SHAREDGROUP=$1
 

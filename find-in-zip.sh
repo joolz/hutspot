@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
+
 if [ "$1" == "" ]; then
   echo Usage: $0 file-to-search-for [zip-archive-format]
   exit 1

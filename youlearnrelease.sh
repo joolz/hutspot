@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. /usr/local/bin/common.sh
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 RELEASER=nl-ou-dlwo-releaser
 SLEEP=900
@@ -86,7 +87,7 @@ check $?
 #fi
 
 log "Run maven project $RELEASER"
-$MVN -U package || exit 1
+$MVN -U package
 check $?
 
 log "Remove non-osgi jars"

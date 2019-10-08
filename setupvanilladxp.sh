@@ -5,7 +5,7 @@
 # 6.2 to DXP. Logging will end up in $DXPLOGDIR/general.log
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE || exit 1
+source $CREDSFILE
 
 liferayrunningcheck
 
@@ -40,16 +40,16 @@ cd $DXPBASEDIR
 logger "Remove existing sources, unzip and create link"
 rm -f $DXPSOURCEDIR
 rm -rf $DXPSOURCEPHYSICALDIR
-unzip $DXPDOWNLOADSDIR/$DXPSOURCEZIP -d $DXPBASEDIR || exit 1
-ln -s $DXPSOURCEPHYSICALDIR $DXPSOURCEDIR || exit 1
+unzip $DXPDOWNLOADSDIR/$DXPSOURCEZIP -d $DXPBASEDIR
+ln -s $DXPSOURCEPHYSICALDIR $DXPSOURCEDIR
 
 logger "Remove existing server, unzip and link"
 rm -f $DXPSERVERDIR
 rm -rf $DXPSERVERPHYSICALDIR
-unzip $DXPDOWNLOADSDIR/$DXPSERVERZIP -d $DXPBASEDIR || exit 1
-ln -s $DXPSERVERPHYSICALDIR $DXPSERVERDIR || exit 1
+unzip $DXPDOWNLOADSDIR/$DXPSERVERZIP -d $DXPBASEDIR
+ln -s $DXPSERVERPHYSICALDIR $DXPSERVERDIR
 
-cd $DXPSERVERDIR || exit 1
+cd $DXPSERVERDIR
 ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
 
 cp $MYSQLJAR tomcat-8.0.32/lib/ext/
@@ -73,31 +73,31 @@ ln -s $DXPDOWNLOADSDIR/document_library $DXPSERVERDIR/data/document_library
 logger "Install patching tool"
 rm -r patching-tool
 unzip "$PATCHINGTOOL" -d .
-cd patching-tool || exit 1
+cd patching-tool
 mkdir -p patches
 
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
 logger "Patch sources"
-rm -f default.properties || exit 1
-cp $DXPPATCHESDIR/source.properties . || exit 1
-mv source.properties default.properties || exit 1
+rm -f default.properties
+cp $DXPPATCHESDIR/source.properties .
+mv source.properties default.properties
 cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
 cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 ./patching-tool.sh install
 
 logger "Patch server"
-rm -f default.properties || exit 1
-cp $DXPPATCHESDIR/default.properties . || exit 1
-rm patches/* || exit 1
-cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/ || exit 1
+rm -f default.properties
+cp $DXPPATCHESDIR/default.properties .
+rm patches/*
+cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/
 cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 ./patching-tool.sh install
 
 logger "Copy license"
-cd $DXPSERVERDIR || exit 1
-mkdir -p deploy || exit 1
+cd $DXPSERVERDIR
+mkdir -p deploy
 cp -v "$ACTIVATIONKEY" deploy/
 cp -v "$OATHPROVIDER" deploy/
 

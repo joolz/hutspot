@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source ~/bin/common.sh
-source $CREDSFILE || exit 1
+source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 case "$1" in
 "local")
@@ -38,7 +38,7 @@ case "$1" in
 	;;
 esac
 
-cd $DB_DUMP_DIR || exit 1
+cd $DB_DUMP_DIR
 
 DATEFORMATTED=`date +"${DATEFORMAT}"`
 

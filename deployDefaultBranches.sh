@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE
 
 declare -a PROJECTS=( \
 	"nl-ou-dlwo-announcements" \
@@ -26,16 +27,16 @@ declare -a PROJECTS=( \
 checkedPushd ~/Desktop
 
 mkdir tempdeploy
-cd tempdeploy || exit 1
+cd tempdeploy
 
 for I in "${PROJECTS[@]}"
 do
 	echo Clone ssh://bamboo://repositories/dlwo/$I
-	hg clone ssh://bamboo://repositories/dlwo/$I || exit 1
+	hg clone ssh://bamboo://repositories/dlwo/$I
 	checkedPushd pushd $I
-	mvn clean || exit 1
-	mvn package || exit 1
-	mvn liferay:deploy || exit 1
+	mvn clean
+	mvn package
+	mvn liferay:deploy
 	popd >/dev/null 2>&1
 done
 
