@@ -12,5 +12,3 @@ else
 fi
 
 liferaycleanup
-
-doneMessage

@@ -135,5 +135,3 @@ fi
 
 log "Start tomcat"
 /etc/init.d/tomcat start
-
-doneMessage

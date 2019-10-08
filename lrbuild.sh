@@ -67,5 +67,3 @@ CURDIR=`pwd`
 removeNonOsgi $CURDIR
 
 copyArtifacts
-
-doneMessage

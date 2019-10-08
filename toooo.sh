@@ -6,5 +6,3 @@ libreoffice --headless --convert-to ods *.xls
 libreoffice --headless --convert-to ods *.xlsx
 libreoffice --headless --convert-to odp *.ppt
 libreoffice --headless --convert-to odp *.pptx
-
-doneMessage

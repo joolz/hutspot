@@ -70,4 +70,3 @@ if [ $SUCCESS == 0 ]; then
 fi
 
 sed -i "s/$IXPROPERTYTRUE//" $IXMNGRFILE
-doneMessage

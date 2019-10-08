@@ -85,5 +85,3 @@ doIt tiles-portlet
 doIt amqsimulator
 
 popd >/dev/null 2>&1
-
-doneMessage

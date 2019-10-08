@@ -64,4 +64,3 @@ cp -v $WORKDIR/$RELEASER/target/* $DXPSERVERDIR/deploy
 rm -r $WORKDIR
 
 popd >/dev/null 2>&1
-doneMessage

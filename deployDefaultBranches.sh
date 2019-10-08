@@ -41,4 +41,3 @@ do
 done
 
 popd >/dev/null 2>&1
-doneMessage

@@ -3,8 +3,9 @@
 # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
 set -E
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
-trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
+trap 'echo "$(date) \"${last_command}\" command exited with level $?."' EXIT
 
+DATEFORMAT="%Y-%m-%d %H:%M:%S"
 NEXTCLOUDDIR=~/Nextcloud
 CREDSFILE=$NEXTCLOUDDIR/beheer/credentials.sh
 
@@ -12,8 +13,6 @@ if [ ! -f "$CREDSFILE" ]; then
 	echo Could not find $CREDSFILE
 	exit 1
 fi
-
-DATEFORMAT="%Y-%m-%d %H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
 

@@ -17,5 +17,3 @@ if [ "${CURRENTENCODING}" != "${UTF-8}" ]; then
 	mv ${FILE} ${FILE}.${BACKUPEXTENSION}
 	iconv -f ISO-8859-1 -t ${UTF}//TRANSLIT ${FILE}.${BACKUPEXTENSION} -o ${FILE}
 fi
-
-doneMessage

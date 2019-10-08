@@ -115,4 +115,3 @@ do
 done
 
 popd >/dev/null
-doneMessage

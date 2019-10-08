@@ -43,5 +43,3 @@ do
 done
 
 rm $TEMPFILE
-
-doneMessage

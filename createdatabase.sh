@@ -25,5 +25,3 @@ sudo mysql \
 	--user=root \
 	--password=${LOCAL_DB_PASSWORD} \
 	-e "${CMD}"
-
-doneMessage

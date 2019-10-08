@@ -19,5 +19,3 @@ do
 	echo Find directory $DIRECTORY
 	find . -type d -name $DIRECTORY | grep -v .hg
 done
-
-doneMessage

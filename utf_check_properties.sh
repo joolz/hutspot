@@ -20,5 +20,3 @@ if [ $? -ne 0 ]; then
 	echo "ERROR: not all properties files are ${UTF-8}"
 	exit 1
 fi
-
-doneMessage

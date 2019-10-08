@@ -45,4 +45,3 @@ if [ ! -f default.properties ]; then
 fi
 
 popd
-doneMessage
