@@ -9,7 +9,7 @@ HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
 
 # comma separated
-MUSTINSTALL="nl.ou.yl.domain"
+MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
 
 if [ ! -f pom.xml ]; then
 	echo No pom
@@ -48,14 +48,14 @@ fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
 
-mvn package
+mvn package || exit 1
 
 CURDIR=${PWD##*/}
 for I in ${MUSTINSTALL//,/ }
 do
 	if [ "$I" == "$CURDIR" ]; then
 		echo "mvn install $I"
-		mvn install
+		mvn install || exit 1
 	fi
 done
 
