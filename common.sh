@@ -30,7 +30,7 @@ DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
-DXPPATCHLEVEL="de-85" # dir under patches where the combinations are kept
+DXPPATCHLEVEL="de-87" # dir under patches where the combinations are kept
 DXPLOGDIR=$DXPBASEDIR/log
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 

@@ -19,14 +19,16 @@ OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"
 
 MYSQLJAR=$DXPDOWNLOADSDIR/mysql.jar
 GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
+MATHJAXZIP=$DXPDOWNLOADSDIR/MathJax-2.7.3.zip
 SETENV=$SERVER/tomcat-8.0.32/bin/setenv.sh
 
 PATCHINGTOOL=$DXPDOWNLOADSDIR/patching-tool-2.0.12.zip
 PROPS=$DXPSERVERDIR/portal-ext.properties
 TOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
-WEBXML=$TOMCATDIR/webapps/ROOT/WEB-INF/web.xml
 SETENV=$TOMCATDIR/bin/setenv.sh
-ROOTCLASSESDIR=$TOMCATDIR/webapps/ROOT/WEB-INF/classes
+ROOTDIR=$TOMCATDIR/webapps/ROOT
+WEBXML=$ROOTDIR/WEB-INF/web.xml
+ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 SYSTEMPROPS=$ROOTCLASSESDIR/system-ext.properties
 
 logger "Remove own snapshots from Maven repo"
@@ -65,6 +67,9 @@ cp $GEOLITEDATA $DXPSERVERDIR/geoip
 mkdir -p $DXPSERVERDIR/osgi/configs
 echo "filePath=$DXPSERVERDIR/geoip/GeoLiteCity.dat" \
 	>| $DXPSERVERDIR/osgi/configs/com.liferay.ip.geocoder.internal.IPGeocoderConfiguration.cfg
+
+mkdir ${ROOTDIR}/scripts
+unzip ${MATHJAXZIP} -d ${ROOTDIR}/scripts
 
 logger "Link document library"
 rm -rf $DXPSERVERDIR/data/document_library
