@@ -83,5 +83,8 @@ doIt scripts
 doIt template-portal-ext rest
 doIt tiles-portlet
 doIt amqsimulator
+doIt nl.ou.yl.siteexpandos
+doIt nl.ou.yl.theme.contributor.knowledgeportal
+doIt nl.ou.yl.selftest
 
 popd >/dev/null 2>&1
