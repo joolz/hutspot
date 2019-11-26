@@ -86,5 +86,6 @@ doIt amqsimulator
 doIt nl.ou.yl.siteexpandos
 doIt nl.ou.yl.theme.contributor.knowledgeportal
 doIt nl.ou.yl.selftest
+doIt nl.ou.yl.jsf
 
 popd >/dev/null 2>&1
