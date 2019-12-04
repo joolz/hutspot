@@ -9,10 +9,10 @@ if [ -z "$SERVICE" ]; then
 	exit 1
 fi
 
-TOMCAT_PID=`tomcatpid`
+LIFERAY_PID=`liferaypid`
 
-if [ -z "$TOMCAT_PID" ]; then
-	echo "No tomcat PID found"
+if [ -z "$LIFERAY_PID" ]; then
+	echo "No liferay PID found"
 	exit 1
 fi
 

@@ -121,9 +121,9 @@ say() {
  	echo "${DATEFORMATTED} - $1"
 }
 
-tomcatpid() {
-	TOMCAT_PID=`ps -ef|grep tomcat|grep java|awk '{print $2}'`
-	echo $TOMCAT_PID
+liferaypid() {
+	LIFERAY_PID=`ps -ef | grep tomcat | grep java | grep -i liferay | awk '{print $2}'`
+	echo $LIFERAY_PID
 }
 
 liferayrunningcheck() {
@@ -136,13 +136,12 @@ liferayrunningcheck() {
 }
 
 isLiferayRunning() {
-	RUN=`ps -ef | grep tomcat | grep "catalina.base" | grep -v grep | wc -l`
+	RUN=`liferaypid`
 	if [ "$RUN" -ne "0" ]; then
 		return 1
 	else
 		return 0
 	fi
-
 }
 
 rootcheck() {
