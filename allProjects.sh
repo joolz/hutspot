@@ -85,6 +85,7 @@ doIt tiles-portlet
 doIt amqsimulator
 doIt nl.ou.yl.siteexpandos
 doIt nl.ou.yl.theme.contributor.knowledgeportal
+doIt nl.ou.yl.layouttemplate.knowledgeportal
 doIt nl.ou.yl.selftest
 doIt nl.ou.yl.jsf
 
