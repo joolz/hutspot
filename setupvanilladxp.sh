@@ -18,6 +18,7 @@ ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-
 OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"
 
 MYSQLJAR=$DXPDOWNLOADSDIR/mysql.jar
+XUGGLER=$DXPDOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
 GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
 MATHJAXZIP=$DXPDOWNLOADSDIR/MathJax-2.7.3.zip
 SETENV=$SERVER/tomcat-8.0.32/bin/setenv.sh
@@ -29,6 +30,7 @@ SETENV=$TOMCATDIR/bin/setenv.sh
 ROOTDIR=$TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
+ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
 SYSTEMPROPS=$ROOTCLASSESDIR/system-ext.properties
 
 logger "Remove own snapshots from Maven repo"
@@ -57,6 +59,9 @@ ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
 cp $MYSQLJAR tomcat-8.0.32/lib/ext/
 mkdir tomcat-8.0.32/lib/ext/global
 rm tomcat-8.0.32/bin/*bat
+
+mkdir -p $ROOTLIBDIR
+cp $XUGGLER $ROOTLIBDIR
 
 # see
 # https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-109
