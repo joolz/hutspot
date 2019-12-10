@@ -73,11 +73,8 @@ mkdir -p $DXPSERVERDIR/osgi/configs
 echo "filePath=$DXPSERVERDIR/geoip/GeoLiteCity.dat" \
 	>| $DXPSERVERDIR/osgi/configs/com.liferay.ip.geocoder.internal.IPGeocoderConfiguration.cfg
 
-echo ""service.disabled=true \
+echo "service.disabled=true" \
 	>| $DXPSERVERDIR/osgi/configs/nl.ou.yl.kafka.client.impl.KafkaClientImpl.cfg
-
-mkdir ${ROOTDIR}/scripts
-unzip ${MATHJAXZIP} -d ${ROOTDIR}/scripts
 
 logger "Link document library"
 rm -rf $DXPSERVERDIR/data/document_library
