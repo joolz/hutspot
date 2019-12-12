@@ -23,7 +23,8 @@ GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
 MATHJAXZIP=$DXPDOWNLOADSDIR/MathJax-2.7.3.zip
 SETENV=$SERVER/tomcat-8.0.32/bin/setenv.sh
 
-PATCHINGTOOL=$DXPDOWNLOADSDIR/patching-tool-2.0.12.zip
+# PATCHINGTOOL=$DXPDOWNLOADSDIR/patching-tool-2.0.12.zip
+PATCHINGTOOL=$DXPDOWNLOADSDIR/"Patching Tool 2.0.15.zip"
 PROPS=$DXPSERVERDIR/portal-ext.properties
 TOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 SETENV=$TOMCATDIR/bin/setenv.sh
@@ -33,8 +34,8 @@ ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
 SYSTEMPROPS=$ROOTCLASSESDIR/system-ext.properties
 
-logger "Remove own snapshots from Maven repo"
-find ~/tmp/m2_repository -type f -name "nl*SNAPSHOT*" -exec rm -v {} \;
+# logger "Remove own snapshots from Maven repo"
+# find ~/tmp/m2_repository -type f -name "nl*SNAPSHOT*" -exec rm -v {} \;
 
 logger "Start installing vanilla DXP in $DXPSERVERDIR"
 START=$SECONDS
