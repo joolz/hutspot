@@ -122,7 +122,7 @@ say() {
 }
 
 liferaypid() {
-	LIFERAY_PID=`ps -ef | grep tomcat | grep java | grep -i liferay | awk '{print $2}'`
+	LIFERAY_PID=`ps -ef | grep tomcat | grep java | grep -i dxp | awk '{print $2}'`
 	echo $LIFERAY_PID
 }
 
