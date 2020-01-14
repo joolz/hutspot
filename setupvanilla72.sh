@@ -74,23 +74,23 @@ mkdir -p patches
 
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
-# TODO this might not be necessary anymore
 
-logger "Patch sources"
-rm -f default.properties
-cp $DXP72PATCHESDIR/source.properties .
-mv source.properties default.properties
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
-./patching-tool.sh install
+# logger "Patch sources"
+# rm -f default.properties
+# cp $DXP72PATCHESDIR/source.properties .
+# mv source.properties default.properties
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
+# ./patching-tool.sh install
 
-logger "Patch server"
-rm -f default.properties
-cp $DXP72PATCHESDIR/default.properties .
-rm patches/*
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* patches/
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
-./patching-tool.sh install
+# TODO after patching (this way) the server will not start anympre
+# logger "Patch server"
+# rm -f default.properties
+# cp $DXP72PATCHESDIR/default.properties .
+# rm patches/*
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* patches/
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
+# ./patching-tool.sh install
 
 logger "Copy license"
 cd $DXP72SERVERDIR
