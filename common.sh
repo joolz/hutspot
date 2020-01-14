@@ -14,7 +14,7 @@ if [ ! -f "$CREDSFILE" ]; then
 	exit 1
 fi
 
-DATEFORMAT="%Y-%m-%d %H:%M:%S"
+DATEFORMAT="%Y-%m-%d_%H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
 

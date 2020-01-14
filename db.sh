@@ -46,6 +46,14 @@ case "$1" in
 	Q_HOST=$LOCAL_DB_HOST
 	Q_PORT=$LOCAL_DB_PORT
 	;;
+"docker")
+	Q_SCHEMA=dxp
+	Q_USER=root
+	Q_PASSWORD=password
+	# docker network inspect compose_default
+	Q_HOST=172.18.0.4
+	Q_PORT=3306
+	;;
 *)
 	echo "Usage: $0 [DB_NAME] [QUERY]"
 	echo when not specifying a query you get a shell

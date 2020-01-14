@@ -32,8 +32,16 @@ case "$1" in
 	BU_HOST=$INC_DB_HOST
 	BU_PORT=$INC_DB_PORT
 	;;
+"docker")
+  BU_SCHEMA=dxp
+  BU_USER=root
+  BU_PASSWORD=password
+  # docker network inspect compose_default
+  BU_HOST=172.18.0.4
+  BU_PORT=3306
+  ;;
 *)
-	echo "Usage: db_dump local | two | awo | inc"
+	echo "Usage: db_dump local | two | awo | inc | docker"
 	exit 1
 	;;
 esac
@@ -44,7 +52,7 @@ DATEFORMATTED=`date +"${DATEFORMAT}"`
 
 BU_FILE=${DATEFORMATTED}.$BU_SCHEMA.mysql
 
-say "Backup mysql $BU_SCHEMA"
+say "Backup schema $BU_SCHEMA to $BU_FILE"
 
 mysqldump \
 	--create-options \
