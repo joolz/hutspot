@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Script to install a vanilla DXP with some patches and upgrades.This
-# installation is intended to be used for the database upgrade from
-# 6.2 to DXP. Logging will end up in $DXPLOGDIR/general.log
-
 source ~/bin/common.sh || exit 1
 source $CREDSFILE
 
