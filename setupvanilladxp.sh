@@ -7,7 +7,6 @@ liferayrunningcheck
 
 confirm "Existing server and sources will be removed, after that, a fresh install will be done. Continue?"
 
-# ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversitynetherlandsyoulearn10IPs.xml"
 ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversiteitnetherlands.xml"
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
@@ -16,8 +15,6 @@ OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"
 MYSQLJAR=$DXPDOWNLOADSDIR/mysql.jar
 XUGGLER=$DXPDOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
 GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
-MATHJAXZIP=$DXPDOWNLOADSDIR/MathJax-2.7.3.zip
-SETENV=$SERVER/tomcat-8.0.32/bin/setenv.sh
 
 # PATCHINGTOOL=$DXPDOWNLOADSDIR/patching-tool-2.0.12.zip
 PATCHINGTOOL=$DXPDOWNLOADSDIR/"Patching Tool 2.0.15.zip"
@@ -28,7 +25,6 @@ ROOTDIR=$TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
-SYSTEMPROPS=$ROOTCLASSESDIR/system-ext.properties
 
 # logger "Remove own snapshots from Maven repo"
 # find ~/tmp/m2_repository -type f -name "nl*SNAPSHOT*" -exec rm -v {} \;
