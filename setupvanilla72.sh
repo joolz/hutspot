@@ -27,11 +27,11 @@ START=$SECONDS
 
 cd $DXP72BASEDIR
 
-# logger "Remove existing sources, unzip and create link"
-# rm -f $DXP72SOURCEDIR
-# rm -rf $DXP72SOURCEPHYSICALDIR
-# unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
-# ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
+logger "Remove existing sources, unzip and create link"
+rm -f $DXP72SOURCEDIR
+rm -rf $DXP72SOURCEPHYSICALDIR
+unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
+ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
 
 logger "Remove existing server, unzip and link"
 rm -f $DXP72SERVERDIR
@@ -75,13 +75,13 @@ mkdir -p patches
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-# logger "Patch sources"
-# rm -f default.properties
-# cp $DXP72PATCHESDIR/source.properties .
-# mv source.properties default.properties
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
-# ./patching-tool.sh install
+logger "Patch sources"
+rm -f default.properties
+cp $DXP72PATCHESDIR/source.properties .
+mv source.properties default.properties
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
+./patching-tool.sh install
 
 # TODO after patching (this way) the server will not start anympre
 # logger "Patch server"
@@ -117,6 +117,36 @@ echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttp.proxyHost=mail.lokaal"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttp.proxyPort=80"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyHost=mail.lokaal"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyPort=80"' >> $SETENV
+
+UPGRADEDIR=/opt/dxp72/server/tools/portal-tools-db-upgrade-client
+ASP=${UPGRADEDIR}/app-server.properties
+PUDP=${UPGRADEDIR}/portal-upgrade-database.properties
+PUEP=${UPGRADEDIR}/portal-upgrade-ext.properties
+UW=${UPGRADEDIR}/upgradewrapper.sh
+
+logger "Make upgradescript $ASP"
+echo "dir=/" >| $ASP
+echo "extra.lib.dirs=${TOMCATDIR}/bin" >> $ASP
+echo "global.lib.dir=${TOMCATDIR}/lib" >> $ASP
+echo "portal.dir=${TOMCATDIR}/webapps/ROOT" >> $ASP
+echo "server.detector.server.id=tomcat" >> $ASP
+
+logger "Make upgradescript $PUDP"
+echo "jdbc.default.driverClassName=com.mysql.jdbc.Driver" >| $PUDP
+echo "jdbc.default.url=jdbc:mysql://${DXPUPGRADE_DB_HOST}/${DXPUPGRADE_DB_SCHEMA}?characterEncoding=UTF-8" >> $PUDP
+echo "jdbc.default.username=${DXPUPGRADE_DB_USER}" >> $PUDP
+echo "jdbc.default.password=${DXPUPGRADE_DB_PASSWORD}" >> $PUDP
+
+logger "Make upgradescript $PUEP"
+echo "liferay.home=/opt/dxp72/server" >| $PUEP
+echo "dl.store.impl=com.liferay.portal.store.file.system.FileSystemStore" >> $PUEP
+
+logger "Make upgrade wrapper $UW"
+echo "./db_upgrade.sh \\" >| $UW
+echo "	-j \"-Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.timezone=GMT -Xmx10240m\" \\" >> $UW
+echo "	-l \"upgrade\`date +%Y%m%d-%H%M-%s\`.log\" \\" >> $UW
+
+chmod +x $UW
 
 DURATION=$((SECONDS - START))
 DURATIONREADABLE=`convertsecs $DURATION`
