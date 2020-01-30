@@ -265,6 +265,13 @@ cleanupFile() {
 
 copyArtifacts() {
 	# move artifacts to releaser/target
+
+	if [ $1 == "7.2" ]; then
+		TARGET=$DXP72SERVERDIR
+	else
+		TARGET=$DXPSERVERDIR
+	fi
+
 	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
 	while read -r LINE; do
 		checkedPushd $LINE
@@ -273,9 +280,9 @@ copyArtifacts() {
 			if [ ! -z "$LINE2" ]; then
 				BARE=`basename $LINE2`
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				cleanupFile $BARE $DXPSERVERDIR/osgi/modules
-				cleanupFile $BARE $DXPSERVERDIR/osgi/war unversioned
-				mv -v $LINE2 $DXPSERVERDIR/deploy
+				cleanupFile $BARE $TARGET/osgi/modules
+				cleanupFile $BARE $TARGET/osgi/war unversioned
+				mv -v $LINE2 $TARGET/deploy
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1

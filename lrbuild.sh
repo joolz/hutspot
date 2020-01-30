@@ -3,6 +3,7 @@
 source ~/bin/common.sh || exit 1
 source $CREDSFILE
 
+ARGUMENT=$1 # currently: 7.2 or nothing (default to 7.0)
 UTF="UTF-8"
 ASCII="ASCII"
 HTML="HTML"
@@ -46,6 +47,15 @@ if [ -n "$BAD_REBEL" ]; then
 	exit 1
 fi
 
+if [ "${ARGUMENT}" == "7.2" ]; then
+	echo "Do checks for 7.2"
+	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
+	if [ ! -z "${STRINGBUNDLER}" ]; then
+		echo "Old (non-petra) stringbundlers found"
+		exit 1
+	fi
+fi
+
 find . -type d -name .sass_cache -exec rm -r {} \;
 
 mvn package || exit 1
@@ -66,4 +76,4 @@ PROJECT=`basename $PROJECT`
 CURDIR=`pwd`
 removeNonOsgi $CURDIR
 
-copyArtifacts
+copyArtifacts ${ARGUMENT}
