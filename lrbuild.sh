@@ -23,11 +23,9 @@ mvn clean
 
 find . -name 'Language*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
 	ENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
-
-	FULLPATH=`readlink -f ${FILE}`
-	echo ${FULLPATH} has encoding ${ENCODING}
-
 	if [ "${ENCODING}" != "${UTF}" ] && [ "${ENCODING}" != "${ASCII}" ] && [ "${ENCODING}" != "${HTML}" ]; then
+		FULLPATH=`readlink -f ${FILE}`
+		echo ${FULLPATH} has encoding ${ENCODING}
 		touch ${ERRORFILE} # one way to get out of a piped loop and check the condition
 		exit
 	fi
@@ -54,6 +52,15 @@ if [ "${ARGUMENT}" == "7.2" ]; then
 		echo "Old (non-petra) stringbundlers found"
 		exit 1
 	fi
+
+	while read DEPRECATED; do
+		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
+		if [ ! -z "${FOUND}" ]; then
+			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+			exit 1
+		fi
+	done < ~/bin/deprecated_in_71.txt
+
 fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
