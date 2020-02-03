@@ -49,17 +49,17 @@ if [ "${ARGUMENT}" == "7.2" ]; then
 	echo "Do checks for 7.2"
 	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
 	if [ ! -z "${STRINGBUNDLER}" ]; then
-		echo "Old (non-petra) stringbundlers found"
+		echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
 		exit 1
 	fi
 
-	while read DEPRECATED; do
-		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
-		if [ ! -z "${FOUND}" ]; then
-			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-			exit 1
-		fi
-	done < ~/bin/deprecated_in_71.txt
+#	while read DEPRECATED; do
+#		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
+#		if [ ! -z "${FOUND}" ]; then
+#			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+#			exit 1
+#		fi
+#	done < ~/bin/deprecated_in_71.txt
 
 fi
 
