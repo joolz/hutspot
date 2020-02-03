@@ -87,5 +87,6 @@ doIt nl.ou.yl.theme.contributor.knowledgeportal
 doIt nl.ou.yl.layouttemplate.knowledgeportal
 doIt nl.ou.yl.selftest
 doIt nl.ou.yl.jsf
+doIt nl.ou.yl.bamboospecs rest
 
 popd >/dev/null 2>&1
