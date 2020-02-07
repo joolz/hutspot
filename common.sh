@@ -168,6 +168,11 @@ liferaycleanup() {
 	rm -rfv $DXPSERVERDIR/work
 	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/temp
 	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/work
+
+	rm -rfv $DXP72SERVERDIR/osgi/state
+	rm -rfv $DXP72SERVERDIR/work
+	rm -rfv $DXP72SERVERDIR/tomcat-8.0.32/temp
+	rm -rfv $DXP72SERVERDIR/tomcat-8.0.32/work
 }
 
 sudocheck() {
