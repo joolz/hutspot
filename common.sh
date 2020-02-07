@@ -149,7 +149,7 @@ liferayrunningcheck() {
 
 isLiferayRunning() {
 	RUN=`liferaypid`
-	if [ "$RUN" -ne "0" ]; then
+	if [ ! -z `liferaypid` ]; then
 		return 1
 	else
 		return 0
