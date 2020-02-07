@@ -1,0 +1,2 @@
+com.liferay.portal.kernel.util.StringBundler=com.liferay.petra.string.StringBundler
+com.liferay.portal.kernel.util.StringPool=com.liferay.petra.string.StringPool
