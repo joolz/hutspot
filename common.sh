@@ -262,7 +262,7 @@ cleanupFile() {
 			if [ "$BARE" == "$1" ]; then
 				rm $FILE
  				FULLNAME=`readlink -f $FILE`
-				echo "File ${FILE} matches ${BARE}, removed ${FULLNAME}"
+				echo "Removed ${FULLNAME} (matches ${BARE})"
 			fi
 		done
 		popd >/dev/null 2>&1
