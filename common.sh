@@ -57,6 +57,7 @@ DB_DEFAULT_COLLATE=utf8_unicode_ci
 
 SLEEP_LONG=10m
 SLEEP_SHORT=2m
+SLEEP_NAP=3s
 
 checkOnline() {
 	CHECKHOST="www.xs4all.nl"
@@ -259,7 +260,7 @@ cleanupFile() {
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 			fi
 			if [ "$BARE" == "$1" ]; then
-				rm -i $FILE
+				rm $FILE
  				FULLNAME=`readlink -f $FILE`
 				echo "File ${FILE} matches ${BARE}, removed ${FULLNAME}"
 			fi
@@ -285,9 +286,11 @@ copyArtifacts() {
 			if [ ! -z "$LINE2" ]; then
 				BARE=`basename $LINE2`
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				echo "-----------------------------------"
 				cleanupFile $BARE $TARGET/osgi/modules
 				cleanupFile $BARE $TARGET/osgi/war unversioned
 				mv -v $LINE2 $TARGET/deploy
+				sleep $SLEEP_NAP
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1
