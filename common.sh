@@ -290,7 +290,10 @@ copyArtifacts() {
 				cleanupFile $BARE $TARGET/osgi/modules
 				cleanupFile $BARE $TARGET/osgi/war unversioned
 				mv -v $LINE2 $TARGET/deploy
-				sleep $SLEEP_NAP
+				RUN=`liferaypid`
+				if [ ! -z `liferaypid` ]; then
+					sleep $SLEEP_NAP
+				fi
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1
