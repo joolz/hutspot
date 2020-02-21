@@ -271,8 +271,7 @@ cleanupFile() {
 
 copyArtifacts() {
 	# move artifacts to releaser/target
-
-	if [ $1 == "7.2" ]; then
+	if [ ! -z "$1" ] && [ $1 == "7.2" ]; then
 		TARGET=$DXP72SERVERDIR
 	else
 		TARGET=$DXPSERVERDIR
