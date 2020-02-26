@@ -88,5 +88,6 @@ doIt nl.ou.yl.layouttemplate.knowledgeportal
 doIt nl.ou.yl.selftest
 doIt nl.ou.yl.jsf
 doIt nl.ou.yl.bamboospecs rest
+doIt nl.ou.yl.editor.theme-contributor
 
 popd >/dev/null 2>&1
