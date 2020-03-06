@@ -47,6 +47,7 @@ fi
 
 checkedPushd ~/workspace
 
+doIt amqsimulator
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
 doIt nl-ou-dlwo-ckeditor-config
@@ -76,18 +77,19 @@ doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
 doIt nl-ou-dlwo-user-common
 doIt nl-ou-dlwo-userprofile-portlet
+doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
+doIt nl.ou.yl.bamboospecs rest
 doIt nl.ou.yl.domain
+doIt nl.ou.yl.editor.theme-contributor
+doIt nl.ou.yl.jsf
+doIt nl.ou.yl.layouttemplate.knowledgeportal
+doIt nl.ou.yl.selftest
+doIt nl.ou.yl.siteexpandos
+doIt nl.ou.yl.tasks
+doIt nl.ou.yl.theme.contributor.knowledgeportal
 doIt scripts
 doIt template-portal-ext rest
 doIt tiles-portlet
-doIt amqsimulator
-doIt nl.ou.yl.siteexpandos
-doIt nl.ou.yl.theme.contributor.knowledgeportal
-doIt nl.ou.yl.layouttemplate.knowledgeportal
-doIt nl.ou.yl.selftest
-doIt nl.ou.yl.jsf
-doIt nl.ou.yl.bamboospecs rest
-doIt nl.ou.yl.editor.theme-contributor
 
 popd >/dev/null 2>&1
