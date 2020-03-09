@@ -5,6 +5,14 @@ source $CREDSFILE
 
 case "$1" in
 "")
+	Q_SCHEMA=$DOCKER_DB_SCHEMA
+	Q_USER=$DOCKER_DB_USER
+	Q_PASSWORD=$DOCKER_DB_PASSWORD
+	# docker network inspect compose_default
+	Q_HOST=$DOCKER_DB_HOST
+	Q_PORT=$DOCKER_DB_PORT
+	;;
+"local")
 	Q_SCHEMA=$LOCAL_DB_SCHEMA
 	Q_USER=$LOCAL_DB_USER
 	Q_PASSWORD=$LOCAL_DB_PASSWORD
@@ -45,14 +53,6 @@ case "$1" in
 	Q_PASSWORD=$LOCAL_DB_PASSWORD
 	Q_HOST=$LOCAL_DB_HOST
 	Q_PORT=$LOCAL_DB_PORT
-	;;
-"docker")
-	Q_SCHEMA=dxp
-	Q_USER=root
-	Q_PASSWORD=password
-	# docker network inspect compose_default
-	Q_HOST=172.18.0.4
-	Q_PORT=3306
 	;;
 *)
 	echo "Usage: $0 [DB_NAME] [QUERY]"
