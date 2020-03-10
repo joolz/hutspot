@@ -27,7 +27,6 @@ DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
-DXPPATCHLEVEL="de-89" # dir under patches where the combinations are kept
 DXPLOGDIR=$DXPBASEDIR/log
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
@@ -42,7 +41,6 @@ DXP72TOMCATDIR=$DXP72SERVERDIR/tomcat-9.0.17
 DXP72DEPLOYDIR=$DXP72SERVERDIR/deploy
 DXP72DOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp72
 DXP72PATCHESDIR=$DXP72DOWNLOADSDIR/patches
-DXP72PATCHLEVEL="dxp-3" # dir under patches where the combinations are kept
 DXP72LOGDIR=$DXP72BASEDIR/log
 PORTAL_EXT72="${DXP72SERVERDIR}/portal-ext.properties"
 
@@ -318,4 +316,8 @@ cleanupLiferay() {
 doneMessage() {
 	DATEFORMATTED=`date +"${DATEFORMAT}"`
 	echo "Done at $DATEFORMATTED"
+}
+
+beep() {
+	paplay /usr/share/sounds/gnome/default/alerts/sonar.ogg
 }
