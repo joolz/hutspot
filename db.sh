@@ -19,13 +19,6 @@ case "$1" in
 	Q_HOST=$LOCAL_DB_HOST
 	Q_PORT=$LOCAL_DB_PORT
 	;;
-"local")
-	Q_SCHEMA=$LOCAL_DB_SCHEMA
-	Q_USER=$LOCAL_DB_USER
-	Q_PASSWORD=$LOCAL_DB_PASSWORD
-	Q_HOST=$LOCAL_DB_HOST
-	Q_PORT=$LOCAL_DB_PORT
-	;;
 "two")
 	Q_SCHEMA=$TWO_DB_SCHEMA
 	Q_USER=$TWO_DB_USER
@@ -47,13 +40,6 @@ case "$1" in
 	Q_HOST=$INC_DB_HOST
 	Q_PORT=$INC_DB_PORT
 	;;
-"prut")
-	Q_SCHEMA=prut
-	Q_USER=dxp
-	Q_PASSWORD=$LOCAL_DB_PASSWORD
-	Q_HOST=$LOCAL_DB_HOST
-	Q_PORT=$LOCAL_DB_PORT
-	;;
 *)
 	echo "Usage: $0 [DB_NAME] [QUERY]"
 	echo when not specifying a query you get a shell
@@ -69,6 +55,7 @@ if [ "$2" == "" ]; then
 		--port=$Q_PORT \
 		--user=$Q_USER \
 		--password=$Q_PASSWORD \
+		--protocol=tcp \
 		--prompt="\h:\p/\d\ -\ \R:\r:\s>\ " \
 		$Q_SCHEMA
 else
@@ -76,6 +63,7 @@ else
 		--host=$Q_HOST \
 		--port=$Q_PORT \
 		--user=$Q_USER \
+		--protocol=tcp \
 		--password=$Q_PASSWORD \
 		$Q_SCHEMA \
 		-e "$2" \

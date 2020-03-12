@@ -118,7 +118,7 @@ echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttp.proxyPort=80"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyHost=mail.lokaal"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyPort=80"' >> $SETENV
 
-UPGRADEDIR=/opt/dxp72/server/tools/portal-tools-db-upgrade-client
+UPGRADEDIR=${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
 ASP=${UPGRADEDIR}/app-server.properties
 PUDP=${UPGRADEDIR}/portal-upgrade-database.properties
 PUEP=${UPGRADEDIR}/portal-upgrade-ext.properties
@@ -138,7 +138,7 @@ echo "jdbc.default.username=${DXPUPGRADE_DB_USER}" >> $PUDP
 echo "jdbc.default.password=${DXPUPGRADE_DB_PASSWORD}" >> $PUDP
 
 logger "Make upgradescript $PUEP"
-echo "liferay.home=/opt/dxp72/server" >| $PUEP
+echo "liferay.home=${DXP72SERVERDIR}" >| $PUEP
 echo "dl.store.impl=com.liferay.portal.store.file.system.FileSystemStore" >> $PUEP
 
 logger "Make upgrade wrapper $UW"
