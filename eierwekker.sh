@@ -9,8 +9,8 @@ if [ -z "$GAAR" ]; then
 	exit 1
 fi
 
-NOW=`date`
-echo "Started at ${NOW}"
+START=`date`
+echo "Started at ${START}"
 
 for ((I = 1; I <= ${GAAR}; I++)); do
 	sleep 1m
@@ -18,5 +18,9 @@ for ((I = 1; I <= ${GAAR}; I++)); do
 done
 
 beep
-NOW=`date`
-echo "Finished at ${NOW}"
+
+END=`date`
+
+zenity --info \
+	--title="All done" \
+	--text="It's now ${END}. ${GAAR} minutes have passed since ${START}"
