@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 # https://stackoverflow.com/questions/51440902/how-to-replace-a-specific-dependency-version-in-pom-xml-file-using-sed-command-i
 
 function setVersion() {

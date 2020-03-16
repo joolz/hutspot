@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 GAAR=$1
 MESSAGE=$2

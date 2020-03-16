@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 F=$1
 
 if [ -z "$1" ]; then

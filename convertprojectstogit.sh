@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# https://www.daharveyjr.com/convert-a-mercurial-repository-to-git-using-hg-fast-export/
-
 source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
+# https://www.daharveyjr.com/convert-a-mercurial-repository-to-git-using-hg-fast-export/
 
 function doIt() {
 	pushd ${WORKDIR}/hg || exit 1

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
 
 ARGUMENT=$1 # currently: 7.2 or nothing (default to 7.0)
 UTF="UTF-8"

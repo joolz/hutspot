@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Get the part of the tomcat log starting with the deployment, up until the end and mail it.
-
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
+
+# Get the part of the tomcat log starting with the deployment, up until the end and mail it.
 
 if [ -z "$1" ]; then
 	logger "$0 called without parameters"

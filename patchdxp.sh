@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# workaround script for https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-118
-
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
+
+# workaround script for https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-118
 
 liferayrunningcheck
 

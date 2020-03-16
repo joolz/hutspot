@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 # see https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 
 # fire from bamboo to remove non-osgi jars of an artefacet, some more cleaning up

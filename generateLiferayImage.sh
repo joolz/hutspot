@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 # generate a small jpg called 1.0 in directory $1 (e.g. /opt/dxp/server/data/document_library/0/0/103565119.jpg)
 

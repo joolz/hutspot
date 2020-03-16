@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ~/bin/common.sh
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
 
 rm -fv $DXPTOMCATDIR/temp/*pdf
 rm -fv $DXPTOMCATDIR/temp/*html

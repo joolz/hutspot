@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
 
 if [ "$1" == "" ]; then
   echo Create maven dir stucture according to

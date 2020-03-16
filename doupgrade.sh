@@ -1,11 +1,11 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 # Script to do the database upgrade from 6.2 to DXP. This includes
 # remove the old db upgrademe and importing the dump from the
 # production database. Logging will end up in $DXPLOGDIR/general.log
-
-source ~/bin/common.sh || exit 1
-source $CREDSFILE
 
 UPGRADEDIR=$DXPSERVERDIR/tools/portal-tools-db-upgrade-client
 IXMNGRFILE=$DXPSERVERDIR/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg

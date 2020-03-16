@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
 
 BASE=~/Documents/accounts/chromium
 CMD="chromium-browser --user-data-dir=$BASE/$1"

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 # stolen from http://www.javacodegeeks.com/2012/08/which-java-thread-consumes-my-cpu.html
 
 PID=$(top -n1 | grep -m1 java | perl -pe 's/\e\[?.*?[\@-~] ?//g' | cut -f1 -d' ')

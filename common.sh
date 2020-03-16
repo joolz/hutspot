@@ -17,11 +17,7 @@ fi
 DATEFORMAT="%Y-%m-%d_%H:%M:%S"
 
 DXPBASEDIR=/opt/dxp
-DXPSOURCEZIP=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11-20190506123513875.zip
-DXPSOURCEPHYSICALDIR=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11
 DXPSOURCEDIR=$DXPBASEDIR/src
-DXPSERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.11-sp11-20190506123513875.zip
-DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.11-sp11
 DXPSERVERDIR=$DXPBASEDIR/server
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy

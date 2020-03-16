@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ~/bin/common.sh || exit 1
+source $CREDSFILE || exit 1
+
 out=${1%.*}-shadow.${1#*.}
 in=$1
 echo "Convert file : $out"

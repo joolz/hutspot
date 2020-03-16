@@ -1,11 +1,21 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
 
 liferayrunningcheck
 
 confirm "Existing server and sources will be removed, after that, a fresh install will be done. Continue?"
+
+for I in "$@"; do
+	case $I in
+		-n|--nosources)
+			NOSOURCES=true
+			;;
+		*)
+			;;
+	esac
+done
 
 ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversiteitnetherlands.xml"
 
@@ -33,11 +43,15 @@ START=$SECONDS
 
 cd $DXPBASEDIR
 
-logger "Remove existing sources, unzip and create link"
-rm -f $DXPSOURCEDIR
-rm -rf $DXPSOURCEPHYSICALDIR
-unzip $DXPDOWNLOADSDIR/$DXPSOURCEZIP -d $DXPBASEDIR
-ln -s $DXPSOURCEPHYSICALDIR $DXPSOURCEDIR
+if [ "$NOSOURCES" = true ]; then
+	logger "Skip sources"
+else
+	logger "Remove existing sources, unzip and create link"
+	rm -f $DXPSOURCEDIR
+	rm -rf $DXPSOURCEPHYSICALDIR
+	unzip $DXPDOWNLOADSDIR/$DXPSOURCEZIP -d $DXPBASEDIR
+	ln -s $DXPSOURCEPHYSICALDIR $DXPSOURCEDIR
+fi
 
 logger "Remove existing server, unzip and link"
 rm -f $DXPSERVERDIR
@@ -81,13 +95,17 @@ mkdir -p patches
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-logger "Patch sources"
-rm -f default.properties
-cp $DXPPATCHESDIR/source.properties .
-mv source.properties default.properties
-cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
-cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
-./patching-tool.sh install
+if [ "$NOSOURCES" = true ]; then
+	logger "Skip patching sources"
+else
+	logger "Patch sources"
+	rm -f default.properties
+	cp $DXPPATCHESDIR/source.properties .
+	mv source.properties default.properties
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
+	./patching-tool.sh install
+fi
 
 logger "Patch server"
 rm -f default.properties

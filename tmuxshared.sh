@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# see https://www.howtoforge.com/sharing-terminal-sessions-with-tmux-and-screen
-
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
+
+# see https://www.howtoforge.com/sharing-terminal-sessions-with-tmux-and-screen
 
 SHAREDGROUP=$1
 

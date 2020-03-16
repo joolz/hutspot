@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/bin/common.sh || exit 1
-source $CREDSFILE
+source $CREDSFILE || exit 1
 
 for FILE in ls *jar; do
 	FULLNAME=`readlink -f $FILE`
