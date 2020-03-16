@@ -3,6 +3,7 @@
 source ~/bin/common.sh || exit 1
 
 GAAR=$1
+MESSAGE=$2
 
 if [ -z "$GAAR" ]; then
 	echo Usage $0 gaar-in-minuten
@@ -17,10 +18,8 @@ for ((I = 1; I <= ${GAAR}; I++)); do
 	echo -n "$I "
 done
 
-beep
-
-END=`date`
-
 zenity --info \
 	--title="All done" \
-	--text="It's now ${END}. ${GAAR} minutes have passed since ${START}"
+	--text="${GAAR} minutes have passed. ${MESSAGE}"
+
+beep

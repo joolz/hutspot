@@ -2,14 +2,16 @@
 
 source ~/bin/common.sh || exit 1
 
-echo To do: xmlstarlet. Search for session-timeout
+NEWVALUE=$1
 
-vi `find ${DXPTOMCATDIR} -name "*xml" -exec grep -l "session.timeout" {} \;`
+if [ -z ${NEWVALUE} ]; then
+	echo "Usage: $0 timeoutvalueinminutes"
+	exit 1
+fi
 
-# ${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/web.xml
-# ${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/slim-runtime-web.xml
-# ${DXPTOMCATDIR}/conf/web.xml
-# <web-app>
-# <session-config>
-# <session-timeout>
+FILES="${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/web.xml,${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/slim-runtime-web.xml,${DXPTOMCATDIR}/conf/web.xml"
 
+for FILE in ${FILES//,/ }; do
+	echo ${FILE}
+	sed -r -i.bak "s/<session-timeout>([0-9]*)</<session-timeout>${NEWVALUE}</" ${FILE}
+done
