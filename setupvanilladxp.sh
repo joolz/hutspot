@@ -17,7 +17,7 @@ for I in "$@"; do
 	esac
 done
 
-ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversiteitnetherlands.xml"
+ACTIVATIONKEY="$DXPDOWNLOADSDIR/$DXPACTIVATIONKEY"
 
 # see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-90
 OATHPROVIDER="$DXPDOWNLOADSDIR/Liferay OAuth Provider 7.0.x-20170222.lpkg"

@@ -19,8 +19,8 @@ for ((I = 1; I <= ${GAAR}; I++)); do
 	echo -n "$I "
 done
 
+beep
+
 zenity --info \
 	--title="All done" \
 	--text="${GAAR} minutes have passed. ${MESSAGE}"
-
-beep
