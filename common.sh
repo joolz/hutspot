@@ -25,6 +25,7 @@ DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
 DXPLOGDIR=$DXPBASEDIR/log
 PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
+DXPLOG4JCONFIG=${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/classes/log4j.properties
 
 DXP72BASEDIR=/opt/72dxp
 DXP72SOURCEPHYSICALDIR=liferay-dxp-src-7.2.10.1-sp1
@@ -316,4 +317,15 @@ doneMessage() {
 
 beep() {
 	paplay /usr/share/sounds/gnome/default/alerts/sonar.ogg
+}
+
+addDebugLog() {
+	# add debug loglevel for package $1
+	if [ ! -z "$1" ]; then
+		EXISTS=`grep "$1" ${DXPLOG4JCONFIG}`
+		if [ -z "$EXISTS" ]; then
+			echo "" >> ${DXPLOG4JCONFIG}
+			echo "log4j.logger.${1}=DEBUG" >> ${DXPLOG4JCONFIG}
+		fi
+	fi
 }

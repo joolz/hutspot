@@ -139,4 +139,12 @@ echo "CATALINA_OPTS=\"$CATALINA_OPTS -Dhttps.proxyPort=80\"" >> $SETENV
 DURATION=$((SECONDS - START))
 DURATIONREADABLE=`convertsecs $DURATION`
 
+TIMEOUT=99
+logger "Set timeout to $TIMEOUT"
+. setdxptimeout.sh ${TIMEOUT}
+
+logger "Add debug logging for some packages"
+addDebugLog "nl.ou.yl.diffsanitized"
+addDebugLog "nl.ou.dlwo.antisamy.internal"
+
 logger "Finished installing vanilla DXP in $DXPSERVERDIR in $DURATIONREADABLE"
