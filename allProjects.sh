@@ -80,8 +80,10 @@ doIt nl-ou-dlwo-userprofile-portlet
 doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
 doIt nl.ou.yl.bamboospecs rest
+doIt nl.ou.yl.diffsanitized
 doIt nl.ou.yl.domain
 doIt nl.ou.yl.editor.theme-contributor
+doIt nl.ou.yl.entities
 doIt nl.ou.yl.jsf
 doIt nl.ou.yl.layouttemplate.knowledgeportal
 doIt nl.ou.yl.selftest
