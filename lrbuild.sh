@@ -57,7 +57,16 @@ BAD_REBEL=`find . -name rebel.xml -exec grep -lL "$WORKSPACE_LOCATION" {} \;`
 if [ -n "$BAD_REBEL" ]; then
 	echo "We have bad rebel files"
 	echo ${BAD_REBEL}
-	exit 1
+	read -r -n 1 -p "${1:-Remove them and continue?} [y/n]: " REPLY
+	
+	case $REPLY in
+      [yY])
+				rm ${BAD_REBEL}
+				;;
+      *)
+				exit 1
+				;;
+    esac
 fi
 
 if [ "${VERSION}" == "7.2" ]; then
