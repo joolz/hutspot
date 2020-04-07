@@ -3,19 +3,34 @@
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
-ARGUMENT=$1 # currently: 7.2 or nothing (default to 7.0)
-UTF="UTF-8"
-ASCII="ASCII"
-HTML="HTML"
-ERRORFILE="$TMP/ERRORFILE.removethis"
-
-# comma separated
-MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
-
 if [ ! -f pom.xml ]; then
 	echo No pom
 	exit 1
 fi
+
+UTF="UTF-8"
+ASCII="ASCII"
+HTML="HTML"
+ERRORFILE="$TMP/ERRORFILE.removethis"
+VERSION="7.0"
+PORTLETONLY=false
+# comma separated
+MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
+
+# handle parameters
+for i in "$@"
+do
+	case $i in
+			-v=*|--version=*)
+				VERSION="${i#*=}"
+				;;
+			-p|--portletonly)
+				PORTLETONLY=true
+				;;
+			*)
+				;;
+	esac
+done
 
 # cleanup first. Hope this doesn't interfere with concurrent builds
 rm -f ${ERRORFILE}
@@ -45,7 +60,7 @@ if [ -n "$BAD_REBEL" ]; then
 	exit 1
 fi
 
-if [ "${ARGUMENT}" == "7.2" ]; then
+if [ "${VERSION}" == "7.2" ]; then
 	echo "Do checks for 7.2"
 	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
 	if [ ! -z "${STRINGBUNDLER}" ]; then
@@ -53,14 +68,13 @@ if [ "${ARGUMENT}" == "7.2" ]; then
 		exit 1
 	fi
 
-#	while read DEPRECATED; do
-#		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
-#		if [ ! -z "${FOUND}" ]; then
-#			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-#			exit 1
-#		fi
-#	done < ~/bin/deprecated_in_71.txt
-
+	#	while read DEPRECATED; do
+	#		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
+	#		if [ ! -z "${FOUND}" ]; then
+	#			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+	#			exit 1
+	#		fi
+	#	done < ~/bin/deprecated_in_71.txt
 fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
@@ -76,11 +90,14 @@ do
 	fi
 done
 
-
 PROJECT=${PWD##*/}
 PROJECT=`basename $PROJECT`
 
 CURDIR=`pwd`
 removeNonOsgi $CURDIR
 
-copyArtifacts ${ARGUMENT}
+if [ "$PORTLETONLY" = true ]; then
+	copyArtifacts ${VERSION} "portlet-only"
+else
+	copyArtifacts ${VERSION}
+fi

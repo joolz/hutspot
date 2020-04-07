@@ -272,7 +272,12 @@ copyArtifacts() {
 		TARGET=$DXPSERVERDIR
 	fi
 
-	TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+	if [ "$2" == "portlet-only" ]; then
+		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | grep "\-portlet/"`
+	else
+		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+	fi
+	
 	while read -r LINE; do
 		checkedPushd $LINE
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
