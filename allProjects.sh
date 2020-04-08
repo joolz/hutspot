@@ -90,6 +90,7 @@ doIt nl.ou.yl.selftest
 doIt nl.ou.yl.siteexpandos
 doIt nl.ou.yl.tasks
 doIt nl.ou.yl.theme.contributor.knowledgeportal
+doIt osgi-configs rest
 doIt scripts
 doIt template-portal-ext rest
 doIt tiles-portlet
