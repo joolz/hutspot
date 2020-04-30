@@ -94,5 +94,7 @@ doIt osgi-configs rest
 doIt scripts
 doIt template-portal-ext rest
 doIt tiles-portlet
+doIt yl-1936 rest
+doIt yl-2588 rest
 
 popd >/dev/null 2>&1
