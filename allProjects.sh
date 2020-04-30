@@ -96,5 +96,6 @@ doIt template-portal-ext rest
 doIt tiles-portlet
 doIt yl-1936 rest
 doIt yl-2588 rest
+doIt nl.ou.yl.templatesandsites
 
 popd >/dev/null 2>&1
