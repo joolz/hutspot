@@ -144,8 +144,8 @@ logger "Set timeout to $TIMEOUT"
 . setdxptimeout.sh ${TIMEOUT}
 
 logger "Add debug logging for some packages"
-addDebugLog "nl.ou.yl.diffsanitized"
-addDebugLog "nl.ou.dlwo.antisamy.internal"
-addDebugLog "nl.ou.dlwo.export.service"
+# addDebugLog "nl.ou.yl.diffsanitized"
+# addDebugLog "nl.ou.dlwo.antisamy.internal"
+addDebugLog "nl.ou.yl.serviceoverride"
 
 logger "Finished installing vanilla DXP in $DXPSERVERDIR in $DURATIONREADABLE"
