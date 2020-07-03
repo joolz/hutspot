@@ -26,5 +26,5 @@ beep
 echo "${MESSAGETEXT}"
 
 zenity --info \
-	--title="All done" \
+	--title="It is finished." \
 	--text="${MESSAGETEXT}"
