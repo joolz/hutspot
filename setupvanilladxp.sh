@@ -147,5 +147,6 @@ logger "Add debug logging for some packages"
 # addDebugLog "nl.ou.yl.diffsanitized"
 # addDebugLog "nl.ou.dlwo.antisamy.internal"
 addDebugLog "nl.ou.yl.serviceoverride"
+addDebugLog "nl.ou.dlwo.export.service"
 
 logger "Finished installing vanilla DXP in $DXPSERVERDIR in $DURATIONREADABLE"
