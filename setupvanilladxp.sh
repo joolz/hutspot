@@ -62,6 +62,16 @@ ln -s $DXPSERVERPHYSICALDIR $DXPSERVERDIR
 cd $DXPSERVERDIR
 ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
 
+logger "Pre-create some directories (deploy/ etc.)"
+cd $DXPSERVERDIR
+mkdir -p deploy
+mkdir -p osgi/modules
+mkdir -p osgi/war
+
+logger "Copy $ACTIVATIONKEY and $OATHPROVIDER"
+cp -v "$ACTIVATIONKEY" deploy/
+cp -v "$OATHPROVIDER" deploy/
+
 cp $MYSQLJAR tomcat-8.0.32/lib/ext/
 mkdir tomcat-8.0.32/lib/ext/global
 rm tomcat-8.0.32/bin/*bat
@@ -114,15 +124,6 @@ rm patches/*
 cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/
 cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 ./patching-tool.sh install
-
-logger "Copy license"
-cd $DXPSERVERDIR
-mkdir -p deploy
-cp -v "$ACTIVATIONKEY" deploy/
-cp -v "$OATHPROVIDER" deploy/
-
-mkdir -p osgi/modules
-mkdir -p osgi/war
 
 logger "Make $SETENV"
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Dfile.encoding=UTF8\"" >| $SETENV
