@@ -13,12 +13,14 @@ PREVIOUS_YEAR=`date -d 'last week' +%Y`
 
 mkdir -p $DIARYBASE/$YEAR
 
+DIARYEDITOR='vi -o'
+
 DIARY=${DIARYBASE}/${YEAR}/${YEAR}_week_${WEEK}.md
 PREVIOUS_DIARY=${DIARYBASE}/${PREVIOUS_YEAR}/${PREVIOUS_YEAR}_week_${PREVIOUS_WEEK}.md
 
 if [ "$DAY_OF_WEEK" == "1" ]; then
-	vi -o $PREVIOUS_DIARY $DIARY
+	${DIARYEDITOR} -o $PREVIOUS_DIARY $DIARY
 else
-	vi $DIARY
+	${DIARYEDITOR} $DIARY
 fi
 
