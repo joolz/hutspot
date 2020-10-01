@@ -105,25 +105,29 @@ mkdir -p patches
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-if [ "$NOSOURCES" = true ]; then
-	logger "Skip patching sources"
+if [ -z "${DXPPATCHLEVEL}" ]; then
+	logger "No patchlevel specified, so not applying any patches"
 else
-	logger "Patch sources"
+	if [ "$NOSOURCES" = true ]; then
+		logger "Skip patching sources"
+	else
+		logger "Patch sources"
+		rm -f default.properties
+		cp $DXPPATCHESDIR/source.properties .
+		mv source.properties default.properties
+		cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
+		cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
+		./patching-tool.sh install
+	fi
+
+	logger "Patch server"
 	rm -f default.properties
-	cp $DXPPATCHESDIR/source.properties .
-	mv source.properties default.properties
-	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* patches/
+	cp $DXPPATCHESDIR/default.properties .
+	rm patches/*
+	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/
 	cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
 	./patching-tool.sh install
 fi
-
-logger "Patch server"
-rm -f default.properties
-cp $DXPPATCHESDIR/default.properties .
-rm patches/*
-cp $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* patches/
-cp $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* patches/
-./patching-tool.sh install
 
 logger "Make $SETENV"
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Dfile.encoding=UTF8\"" >| $SETENV
