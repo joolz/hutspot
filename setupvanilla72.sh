@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
@@ -7,13 +9,16 @@ liferayrunningcheck
 
 confirm "Existing server and sources will be removed, after that, a fresh install will be done. Continue?"
 
-ACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-openuniversiteitnetherlands.xml"
+ACTIVATIONKEY="$DXP72DOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.2-developeractivationkeys.xml"
+MYSQLJAR=$DXP72DOWNLOADSDIR/mysql-connector-java-5.1.49.jar
+XUGGLER=$DXP72DOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
+GEOLITEDATA=$DXP72DOWNLOADSDIR/GeoLiteCity.dat
 
-MYSQLJAR=$DXPDOWNLOADSDIR/mysql.jar
-XUGGLER=$DXPDOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
-GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
+[[ -e "${ACTIVATIONKEY}" ]] && echo "${ACTIVATIONKEY} exists" || { echo "${ACTIVATIONKEY} not found" 1>&2 ; exit 1; }
+[[ -e "${MYSQLJAR}" ]] && echo "${MYSQLJAR} exists" || { echo "${MYSQLJAR} not found" 1>&2 ; exit 1; }
+[[ -e "${XUGGLER}" ]] && echo "${XUGGLER} exists" || { echo "${XUGGLER} not found" 1>&2 ; exit 1; }
+[[ -e "${GEOLITEDATA}" ]] && echo "${GEOLITEDATA} exists" || { echo "${GEOLITEDATA} not found" 1>&2 ; exit 1; }
 
-PATCHINGTOOL=$DXPDOWNLOADSDIR/"Patching Tool 2.0.15.zip"
 PROPS=$DXP72SERVERDIR/portal-ext.properties
 SETENV=$DXP72TOMCATDIR/bin/setenv.sh
 ROOTDIR=$DXP72TOMCATDIR/webapps/ROOT
@@ -65,24 +70,21 @@ logger "Link document library"
 rm -rf $DXP72SERVERDIR/data/document_library
 ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
 
-logger "Install patching tool"
-rm -r patching-tool
-unzip "$PATCHINGTOOL" -d .
-cd patching-tool
-mkdir -p patches
-
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-logger "Patch sources"
-rm -f default.properties
-cp $DXP72PATCHESDIR/source.properties .
-mv source.properties default.properties
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
-./patching-tool.sh install
+# TODO https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
+# @release.info.version@
+# @release.info.version.display.name@
+#logger "Patch sources"
+#rm -f default.properties
+#cp $DXP72PATCHESDIR/source.properties .
+#mv source.properties default.properties
+#cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
+#cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
+#./patching-tool.sh install
 
-# TODO after patching (this way) the server will not start anympre
+# TODO after patching (this way) the server will not start anymore
 # logger "Patch server"
 # rm -f default.properties
 # cp $DXP72PATCHESDIR/default.properties .
@@ -114,8 +116,8 @@ echo 'CATALINA_OPTS="$CATALINA_OPTS -XX:NewSize=1536m"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -XX:SurvivorRatio=7"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttp.proxyHost=mail.lokaal"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttp.proxyPort=80"' >> $SETENV
-echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyHost=mail.lokaal"' >> $SETENV
 echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyPort=80"' >> $SETENV
+echo 'CATALINA_OPTS="$CATALINA_OPTS -Dhttps.proxyHost=mail.lokaal"' >> $SETENV
 
 UPGRADEDIR=${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
 ASP=${UPGRADEDIR}/app-server.properties
