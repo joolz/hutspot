@@ -85,16 +85,17 @@ cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/pa
 # cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
+rm -rf ${DXP72SERVERDIR}/osgi/state
 
-# TODO after patching (this way) the server will not start anymore
-# logger "Patch server"
-# rm -f default.properties
-# cp $DXP72PATCHESDIR/default.properties .
-# rm ${DXP72SERVERDIR}/patching-tool/patches/*
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
+logger "Patch server"
+rm -f default.properties
+cp $DXP72PATCHESDIR/default.properties .
+rm ${DXP72SERVERDIR}/patching-tool/patches/*
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
 # cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
-# cd ${DXP72SERVERDIR}/patching-tool
-# ./patching-tool.sh install
+cd ${DXP72SERVERDIR}/patching-tool
+./patching-tool.sh install
+rm -rf ${DXP72SERVERDIR}/osgi/state
 
 logger "Copy license"
 cd $DXP72SERVERDIR
