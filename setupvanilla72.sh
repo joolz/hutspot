@@ -73,24 +73,27 @@ ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
 # Due to a bug, server- and source-patches must be installed
 # separately and both need a file called default.properties
 
-# TODO https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
-# @release.info.version@
-# @release.info.version.display.name@
-#logger "Patch sources"
-#rm -f default.properties
-#cp $DXP72PATCHESDIR/source.properties .
-#mv source.properties default.properties
-#cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* patches/
-#cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
-#./patching-tool.sh install
+logger "Patch sources"
+
+# https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
+cp -f ${DXP72DOWNLOADSDIR}/ReleaseInfo.java ${DXP72SOURCEDIR}/portal-kernel/src/com/liferay/portal/kernel/util/
+
+rm -f default.properties
+cp $DXP72PATCHESDIR/source.properties .
+mv source.properties default.properties
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+cd ${DXP72SERVERDIR}/patching-tool
+./patching-tool.sh install
 
 # TODO after patching (this way) the server will not start anymore
 # logger "Patch server"
 # rm -f default.properties
 # cp $DXP72PATCHESDIR/default.properties .
-# rm patches/*
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* patches/
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* patches/
+# rm ${DXP72SERVERDIR}/patching-tool/patches/*
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
+# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+# cd ${DXP72SERVERDIR}/patching-tool
 # ./patching-tool.sh install
 
 logger "Copy license"
