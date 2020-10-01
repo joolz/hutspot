@@ -15,9 +15,8 @@ GEOLITEDATA=$DXPDOWNLOADSDIR/GeoLiteCity.dat
 
 PATCHINGTOOL=$DXPDOWNLOADSDIR/"Patching Tool 2.0.15.zip"
 PROPS=$DXP72SERVERDIR/portal-ext.properties
-TOMCATDIR=$DXP72SERVERDIR/tomcat-9.0.17
-SETENV=$TOMCATDIR/bin/setenv.sh
-ROOTDIR=$TOMCATDIR/webapps/ROOT
+SETENV=$DXP72TOMCATDIR/bin/setenv.sh
+ROOTDIR=$DXP72TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
@@ -42,9 +41,9 @@ ln -s $DXP72SERVERPHYSICALDIR $DXP72SERVERDIR
 cd $DXP72SERVERDIR
 ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext72.properties portal-ext.properties
 
-cp $MYSQLJAR $TOMCATDIR/lib/ext/
-mkdir $TOMCATDIR/lib/ext/global
-rm $TOMCATDIR/bin/*bat
+cp $MYSQLJAR $DXP72TOMCATDIR/lib/ext/
+mkdir $DXP72TOMCATDIR/lib/ext/global
+rm $DXP72TOMCATDIR/bin/*bat
 
 mkdir -p $ROOTLIBDIR
 cp $XUGGLER $ROOTLIBDIR
@@ -126,9 +125,9 @@ UW=${UPGRADEDIR}/upgradewrapper.sh
 
 logger "Make upgradescript $ASP"
 echo "dir=/" >| $ASP
-echo "extra.lib.dirs=${TOMCATDIR}/bin" >> $ASP
-echo "global.lib.dir=${TOMCATDIR}/lib" >> $ASP
-echo "portal.dir=${TOMCATDIR}/webapps/ROOT" >> $ASP
+echo "extra.lib.dirs=${DXP72TOMCATDIR}/bin" >> $ASP
+echo "global.lib.dir=${DXP72TOMCATDIR}/lib" >> $ASP
+echo "portal.dir=${DXP72TOMCATDIR}/webapps/ROOT" >> $ASP
 echo "server.detector.server.id=tomcat" >> $ASP
 
 logger "Make upgradescript $PUDP"
