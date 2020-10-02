@@ -10,12 +10,10 @@ liferayrunningcheck
 confirm "Existing server and sources will be removed, after that, a fresh install will be done. Continue?"
 
 ACTIVATIONKEY="$DXP72DOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.2-developeractivationkeys.xml"
-MYSQLJAR=$DXP72DOWNLOADSDIR/mysql-connector-java-5.1.49.jar
 XUGGLER=$DXP72DOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
 GEOLITEDATA=$DXP72DOWNLOADSDIR/GeoLiteCity.dat
 
 [[ -e "${ACTIVATIONKEY}" ]] && echo "${ACTIVATIONKEY} exists" || { echo "${ACTIVATIONKEY} not found" 1>&2 ; exit 1; }
-[[ -e "${MYSQLJAR}" ]] && echo "${MYSQLJAR} exists" || { echo "${MYSQLJAR} not found" 1>&2 ; exit 1; }
 [[ -e "${XUGGLER}" ]] && echo "${XUGGLER} exists" || { echo "${XUGGLER} not found" 1>&2 ; exit 1; }
 [[ -e "${GEOLITEDATA}" ]] && echo "${GEOLITEDATA} exists" || { echo "${GEOLITEDATA} not found" 1>&2 ; exit 1; }
 
@@ -46,7 +44,6 @@ ln -s $DXP72SERVERPHYSICALDIR $DXP72SERVERDIR
 cd $DXP72SERVERDIR
 ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext72.properties portal-ext.properties
 
-cp $MYSQLJAR $DXP72TOMCATDIR/lib/ext/
 mkdir $DXP72TOMCATDIR/lib/ext/global
 rm $DXP72TOMCATDIR/bin/*bat
 
@@ -137,10 +134,10 @@ echo "portal.dir=${DXP72TOMCATDIR}/webapps/ROOT" >> $ASP
 echo "server.detector.server.id=tomcat" >> $ASP
 
 logger "Make upgradescript $PUDP"
-echo "jdbc.default.driverClassName=com.mysql.jdbc.Driver" >| $PUDP
-echo "jdbc.default.url=jdbc:mysql://${DXPUPGRADE_DB_HOST}/${DXPUPGRADE_DB_SCHEMA}?characterEncoding=UTF-8" >> $PUDP
-echo "jdbc.default.username=${DXPUPGRADE_DB_USER}" >> $PUDP
-echo "jdbc.default.password=${DXPUPGRADE_DB_PASSWORD}" >> $PUDP
+echo "jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver" >| $PUDP
+echo "jdbc.default.url=jdbc:mysql://${LOCAL_DB_HOST}/${LOCAL_DB_SCHEMA}?characterEncoding=UTF-8" >> $PUDP
+echo "jdbc.default.username=${LOCAL_DB_USER}" >> $PUDP
+echo "jdbc.default.password=${LOCAL_DB_PASSWORD}" >> $PUDP
 
 logger "Make upgradescript $PUEP"
 echo "liferay.home=${DXP72SERVERDIR}" >| $PUEP
@@ -157,3 +154,5 @@ DURATION=$((SECONDS - START))
 DURATIONREADABLE=`convertsecs $DURATION`
 
 logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADABLE"
+
+logger "Database upgrade script ${UW} has been prepared. Follow these instructions https://help.liferay.com/hc/en-us/articles/360028711612-Introduction-to-Upgrading-to-Liferay-DXP-7-2"
