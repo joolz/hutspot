@@ -66,6 +66,9 @@ if [ "$2" == "" ]; then
 		--prompt="\h:\p/\d\ -\ \R:\r:\s>\ " \
 		$Q_SCHEMA
 else
+	DATEFORMATTED=`date +"${DATEFORMAT}"`
+	OUTPUTFILE=$DB_DUMP_DIR/${DATEFORMATTED}.html
+	
 	mysql \
 		--host=$Q_HOST \
 		--port=$Q_PORT \
@@ -74,5 +77,8 @@ else
 		--password=$Q_PASSWORD \
 		$Q_SCHEMA \
 		-e "$2" \
-		-B > $DB_DUMP_DIR/${DATEFORMATTED}-query.txt
+		--html \
+		> ${OUTPUTFILE}
+
+	echo "Output written to ${OUTPUTFILE}"
 fi

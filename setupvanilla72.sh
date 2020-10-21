@@ -146,9 +146,15 @@ echo "liferay.home=${DXP72SERVERDIR}" >| $PUEP
 echo "dl.store.impl=com.liferay.portal.store.file.system.FileSystemStore" >> $PUEP
 
 logger "Make upgrade wrapper $UW"
-echo "./db_upgrade.sh \\" >| $UW
+echo "#!/bin/bash" >| $UW
+echo "" >> $UW
+echo "echo \"indexReadOnly=\"true\"\" >| ${DXP72SERVERDIR}/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config" >> $UW
+echo "" >> $UW
+echo "./db_upgrade.sh \\" >> $UW
 echo "	-j \"-Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.timezone=GMT -Xmx10240m\" \\" >> $UW
 echo "	-l \"upgrade\`date +%Y%m%d-%H%M-%s\`.log\" \\" >> $UW
+echo "" >> $UW
+echo "rm ${DXP72SERVERDIR}/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config" >> $UW
 
 chmod +x $UW
 
