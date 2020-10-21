@@ -23,6 +23,8 @@ ROOTDIR=$DXP72TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
+# DB_SCHEMA_72=dxp72
+DB_SCHEMA_72=two
 
 logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
 START=$SECONDS
@@ -135,7 +137,7 @@ echo "server.detector.server.id=tomcat" >> $ASP
 
 logger "Make upgradescript $PUDP"
 echo "jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver" >| $PUDP
-echo "jdbc.default.url=jdbc:mysql://${LOCAL_DB_HOST}/${LOCAL_DB_SCHEMA}?characterEncoding=UTF-8" >> $PUDP
+echo "jdbc.default.url=jdbc:mysql://${LOCAL_DB_HOST}/${DB_SCHEMA_72}?characterEncoding=UTF-8" >> $PUDP
 echo "jdbc.default.username=${LOCAL_DB_USER}" >> $PUDP
 echo "jdbc.default.password=${LOCAL_DB_PASSWORD}" >> $PUDP
 
@@ -155,4 +157,9 @@ DURATIONREADABLE=`convertsecs $DURATION`
 
 logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADABLE"
 
-logger "Database upgrade script ${UW} has been prepared. Follow these instructions https://help.liferay.com/hc/en-us/articles/360028711612-Introduction-to-Upgrading-to-Liferay-DXP-7-2"
+confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
+logger "Updating database ${DB_SCHEMA_72}"
+${UW}
+
+logger "Finished updating database ${DB_SCHEMA_72}"
+

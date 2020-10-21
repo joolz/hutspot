@@ -40,6 +40,13 @@ case "$1" in
 	Q_HOST=$INC_DB_HOST
 	Q_PORT=$INC_DB_PORT
 	;;
+"pwomirror")
+	Q_SCHEMA=$PWO_MIRROR_DB_SCHEMA
+	Q_USER=$PWO_MIRROR_DB_USER
+	Q_PASSWORD=$PWO_MIRROR_DB_PASSWORD
+	Q_HOST=$PWO_MIRROR_DB_HOST
+	Q_PORT=$PWO_MIRROR_DB_PORT
+	;;
 *)
 	echo "Usage: $0 [DB_NAME] [QUERY]"
 	echo when not specifying a query you get a shell
