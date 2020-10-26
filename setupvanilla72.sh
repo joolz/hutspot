@@ -11,11 +11,19 @@ confirm "Existing server and sources will be removed, after that, a fresh instal
 
 ACTIVATIONKEY="$DXP72DOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.2-developeractivationkeys.xml"
 XUGGLER=$DXP72DOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
+ES_CONNECTOR="$DXP72DOWNLOADSDIR/Liferay Connector to Elasticsearch 7.lpkg"
 GEOLITEDATA=$DXP72DOWNLOADSDIR/GeoLiteCity.dat
+INDEXREADONLYCONFIG=$DXP72DOWNLOADSDIR/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
+
+if [ ! -f ${INDEXREADONLYCONFIG} ]; then
+	echo "indexReadOnly=\"true\"" > ${INDEXREADONLYCONFIG}
+fi
 
 [[ -e "${ACTIVATIONKEY}" ]] && echo "${ACTIVATIONKEY} exists" || { echo "${ACTIVATIONKEY} not found" 1>&2 ; exit 1; }
 [[ -e "${XUGGLER}" ]] && echo "${XUGGLER} exists" || { echo "${XUGGLER} not found" 1>&2 ; exit 1; }
+[[ -e "${ES_CONNECTOR}" ]] && echo "${ES_CONNECTOR} exists" || { echo "${ES_CONNECTOR} not found" 1>&2 ; exit 1; }
 [[ -e "${GEOLITEDATA}" ]] && echo "${GEOLITEDATA} exists" || { echo "${GEOLITEDATA} not found" 1>&2 ; exit 1; }
+[[ -e "${INDEXREADONLYCONFIG}" ]] && echo "${INDEXREADONLYCONFIG} exists" || { echo "${INDEXREADONLYCONFIG} not found" 1>&2 ; exit 1; }
 
 PROPS=$DXP72SERVERDIR/portal-ext.properties
 SETENV=$DXP72TOMCATDIR/bin/setenv.sh
@@ -101,6 +109,9 @@ cd $DXP72SERVERDIR
 mkdir -p deploy
 cp -v "$ACTIVATIONKEY" deploy/
 
+logger "Copy Elasticsearch connector"
+cp -v "$ES_CONNECTOR" deploy/
+
 mkdir -p osgi/modules
 mkdir -p osgi/war
 
@@ -148,14 +159,9 @@ echo "dl.store.impl=com.liferay.portal.store.file.system.FileSystemStore" >> $PU
 logger "Make upgrade wrapper $UW"
 echo "#!/bin/bash" >| $UW
 echo "" >> $UW
-echo "echo \"indexReadOnly=\"true\"\" >| ${DXP72SERVERDIR}/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config" >> $UW
-echo "" >> $UW
 echo "./db_upgrade.sh \\" >> $UW
 echo "	-j \"-Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.timezone=GMT -Xmx10240m\" \\" >> $UW
 echo "	-l \"upgrade\`date +%Y%m%d-%H%M-%s\`.log\" \\" >> $UW
-echo "" >> $UW
-echo "rm ${DXP72SERVERDIR}/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config" >> $UW
-
 chmod +x $UW
 
 DURATION=$((SECONDS - START))
@@ -164,8 +170,10 @@ DURATIONREADABLE=`convertsecs $DURATION`
 logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADABLE"
 
 confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
+cp -v ${INDEXREADONLYCONFIG} ${DXP72SERVERDIR}/osgi/configs
 logger "Updating database ${DB_SCHEMA_72}"
 ${UW}
+rm -v ${DXP72SERVERDIR}/osgi/configs/${INDEXREADONLYCONFIG}
 
 logger "Finished updating database ${DB_SCHEMA_72}"
 
