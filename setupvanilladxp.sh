@@ -129,6 +129,9 @@ else
 	./patching-tool.sh install
 fi
 
+logger "Copy in custom server.xml"
+cp -f ${DXPDOWNLOADSDIR}/server.xml ${TOMCATDIR}/conf
+
 logger "Make $SETENV"
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Dfile.encoding=UTF8\"" >| $SETENV
 echo "CATALINA_OPTS=\"$CATALINA_OPTS -Djava.net.preferIPv4Stack=true\"" >> $SETENV
