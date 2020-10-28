@@ -77,7 +77,6 @@ else
 		--password=$Q_PASSWORD \
 		$Q_SCHEMA \
 		-e "$2" \
-		--html \
 		> ${OUTPUTFILE}
 
 	echo "Output written to ${OUTPUTFILE}"
