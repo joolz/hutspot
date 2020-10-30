@@ -29,8 +29,8 @@ ROOTDIR=$DXP72TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
-# DB_SCHEMA_72=dxp72
-DB_SCHEMA_72=two
+DB_SCHEMA_72=dxp72
+# DB_SCHEMA_72=two
 
 logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
 START=$SECONDS
@@ -166,8 +166,10 @@ logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADA
 
 confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
 cp -v ${INDEXREADONLYCONFIG} ${DXP72SERVERDIR}/osgi/configs
+pushd ${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
 logger "Updating database ${DB_SCHEMA_72}"
 ${UW}
+popd
 rm -v ${DXP72SERVERDIR}/osgi/configs/${INDEXREADONLYCONFIG}
 
 logger "Finished updating database ${DB_SCHEMA_72}"
