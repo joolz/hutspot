@@ -11,7 +11,6 @@ confirm "Existing server and sources will be removed, after that, a fresh instal
 
 ACTIVATIONKEY="$DXP72DOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.2-developeractivationkeys.xml"
 XUGGLER=$DXP72DOWNLOADSDIR/xuggle-xuggler-arch-x86_64-pc-linux-gnu.jar
-ES_CONNECTOR="$DXP72DOWNLOADSDIR/Liferay Connector to Elasticsearch 7.lpkg"
 GEOLITEDATA=$DXP72DOWNLOADSDIR/GeoLiteCity.dat
 INDEXREADONLYCONFIG=$DXP72DOWNLOADSDIR/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
 
@@ -21,7 +20,6 @@ fi
 
 [[ -e "${ACTIVATIONKEY}" ]] && echo "${ACTIVATIONKEY} exists" || { echo "${ACTIVATIONKEY} not found" 1>&2 ; exit 1; }
 [[ -e "${XUGGLER}" ]] && echo "${XUGGLER} exists" || { echo "${XUGGLER} not found" 1>&2 ; exit 1; }
-[[ -e "${ES_CONNECTOR}" ]] && echo "${ES_CONNECTOR} exists" || { echo "${ES_CONNECTOR} not found" 1>&2 ; exit 1; }
 [[ -e "${GEOLITEDATA}" ]] && echo "${GEOLITEDATA} exists" || { echo "${GEOLITEDATA} not found" 1>&2 ; exit 1; }
 [[ -e "${INDEXREADONLYCONFIG}" ]] && echo "${INDEXREADONLYCONFIG} exists" || { echo "${INDEXREADONLYCONFIG} not found" 1>&2 ; exit 1; }
 
@@ -108,9 +106,6 @@ logger "Copy license"
 cd $DXP72SERVERDIR
 mkdir -p deploy
 cp -v "$ACTIVATIONKEY" deploy/
-
-logger "Copy Elasticsearch connector"
-cp -v "$ES_CONNECTOR" deploy/
 
 mkdir -p osgi/modules
 mkdir -p osgi/war
