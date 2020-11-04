@@ -1,9 +1,9 @@
 biz.aQute.bnd.annotation=4.2.0
 com.liferay.faces.alloy=3.0.1
-com.liferay.faces.bridge.ext=5.0.5
+com.liferay.faces.bridge.ext=6.0.0
 com.liferay.faces.bridge.impl=4.1.4
 com.liferay.faces.portal=4.0.0
-com.liferay.faces.util=3.2.0
+com.liferay.faces.util=3.3.0
 com.liferay.petra.lang=3.0.0
 com.liferay.petra.string=3.0.0
 com.liferay.portal.kernel=4.4.0
