@@ -159,64 +159,23 @@ echo "	-j \"-Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.ti
 echo "	-l \"upgrade\`date +%Y%m%d-%H%M-%s\`.log\" \\" >> $UW
 chmod +x $UW
 
-# logger "Check which projects have a ${DXP72BRANCHNAME} branch and deploy them"
-# for REPO in \
-# 	amqsimulator \
-# 	nl-ou-dlwo-announcements \
-# 	nl-ou-dlwo-bridges \
-# 	nl-ou-dlwo-ckeditor-config \
-# 	nl-ou-dlwo-ckeditor-plugins \
-# 	nl-ou-dlwo-collaborate \
-# 	nl-ou-dlwo-common \
-# 	nl-ou-dlwo-control-menu \
-# 	nl-ou-dlwo-courseplan \
-# 	nl-ou-dlwo-groupchat \
-# 	nl-ou-dlwo-groupwall \
-# 	nl-ou-dlwo-layouttemplate \
-# 	nl-ou-dlwo-maildigester \
-# 	nl-ou-dlwo-mb-common \
-# 	nl-ou-dlwo-menu \
-# 	nl-ou-dlwo-pagecloaker \
-# 	nl-ou-dlwo-pagestructure \
-# 	nl-ou-dlwo-permissions-dlfolder \
-# 	nl-ou-dlwo-products \
-# 	nl-ou-dlwo-releaser \
-# 	nl-ou-dlwo-sanitizer \
-# 	nl-ou-dlwo-sitebuilder \
-# 	nl-ou-dlwo-site-tools \
-# 	nl-ou-dlwo-template-expandos \
-# 	nl-ou-dlwo-theme \
-# 	nl-ou-dlwo-theme-contributor \
-# 	nl-ou-dlwo-theme-control-panel \
-# 	nl-ou-dlwo-translations \
-# 	nl-ou-dlwo-user-common \
-# 	nl-ou-dlwo-userprofile-portlet \
-# 	nl.ou.yl.account.preferences \
-# 	nl.ou.yl.assessment \
-# 	nl.ou.yl.domain \
-# 	nl.ou.yl.editor.theme-contributor \
-# 	nl.ou.yl.entities \
-# 	nl.ou.yl.jsf \
-# 	nl.ou.yl.layouttemplate.knowledgeportal \
-# 	nl.ou.yl.messagebus \
-# 	nl.ou.yl.messagetest \
-# 	nl.ou.yl.selftest \
-# 	nl.ou.yl.siteexpandos \
-# 	nl.ou.yl.tasks \
-# 	nl.ou.yl.templatesandsites \
-# 	nl.ou.yl.theme.contributor.knowledgeportal \
-# 	tiles-portlet
-# do
-# 	checkedPushd ~/workspace/${REPO}
-# 	set +e
-# 	ISCONVERTED=`hg branches | grep "${DXP72BRANCHNAME}"`
-# 	set -e
-# 	if [ ! -z "${ISCONVERTED}" ]; then
-# 		logger "${REPO} has branch ${DXP72BRANCHNAME}, deploy it to the server"
-# 		lrbuild.sh -v=7.2
-# 	fi
-# 	popd >/dev/null 2>&1
-# done
+logger "Check which projects have a ${DXP72BRANCHNAME} branch and deploy them"
+for REPO in \
+	nl-ou-dlwo-layouttemplate \
+	nl-ou-dlwo-pagestructure \
+	nl-ou-dlwo-theme \
+	nl-ou-dlwo-theme-contributor
+do
+	checkedPushd ~/workspace/${REPO}
+	set +e
+	ISCONVERTED=`hg branches | grep "${DXP72BRANCHNAME}"`
+	set -e
+	if [ ! -z "${ISCONVERTED}" ]; then
+		logger "${REPO} has branch ${DXP72BRANCHNAME}, deploy it to the server"
+		lrbuild.sh -v=7.2
+	fi
+	popd >/dev/null 2>&1
+done
 
 popd >/dev/null 2>&1
 
