@@ -11,18 +11,28 @@ function setVersion() {
 	VERSION=$3
 	FOUND=`grep "<artifactId>${ARTIFACT}</" ${PROJECT}`
 	if [ ! -z "${FOUND}" ]; then
+
 		xmlstarlet ed \
 			-N N="http://maven.apache.org/POM/4.0.0" \
 			-u '//N:dependency[N:artifactId = "'${ARTIFACT}'"]/N:version' \
 			-v "${VERSION}" \
 			${PROJECT} > ${PROJECT}.new
-		ERROR=$?
-		if [ "$ERROR" == 0 ]; then
+		FIRSTROUNDERROR=$?
+		
+		xmlstarlet ed \
+			-N N="http://maven.apache.org/POM/4.0.0" \
+			-u '//N:plugin[N:artifactId = "'${ARTIFACT}'"]/N:version' \
+			-v "${VERSION}" \
+			${PROJECT}.new > ${PROJECT}.newer
+		SECONDROUNDERROR=$?
+
+		if [ "$FIRSTROUNDERROR" == 0 ] && [ "$SECONDROUNDERROR" == 0 ]; then
 			rm ${PROJECT}
-			mv ${PROJECT}.new ${PROJECT}
+			rm ${PROJECT}.new
+			mv ${PROJECT}.newer ${PROJECT}
 			echo "Set ${PROJECT} artifact ${ARTIFACT} to version ${VERSION}"
 		else
-			echo "ERROR ${ERROR} setting ${PROJECT} artifact ${ARTIFACT} to version ${VERSION}"
+			echo "ERROR ${FIRSTROUNDERROR} or ${SECONDROUNDERROR} setting ${PROJECT} artifact ${ARTIFACT} to version ${VERSION}"
 			exit 1
 		fi
 	fi
