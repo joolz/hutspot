@@ -9,6 +9,7 @@ com.liferay.petra.string=3.0.0
 com.liferay.portal.kernel=4.4.0
 com.liferay.portal.spring.extender=3.0.0
 com.liferay.portal.tools.service.builder=1.0.366
+com.liferay.portal.upgrade.api=2.0.3
 com.liferay.util.java=4.0.7
 com.liferay.wiki.api=4.0.6
 commons-lang=2.6
