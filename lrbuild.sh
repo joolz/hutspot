@@ -12,7 +12,7 @@ UTF="UTF-8"
 ASCII="ASCII"
 HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
-VERSION="7.0"
+VERSION="7.2"
 PORTLETONLY=false
 # comma separated
 MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
