@@ -19,3 +19,5 @@ mvn archetype:generate \
 		-DapiPath=-api \
 		-DliferayVersion=7.2+ \
 		-DartifactId=${1}
+
+echo "Now set liferay.bom.version to ${DXP72BOMVERSION} and activate standalone project."
