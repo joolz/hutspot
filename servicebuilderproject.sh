@@ -10,11 +10,12 @@ mvn archetype:generate \
 		-DarchetypeGroupId=com.liferay \
 		-DarchetypeArtifactId=com.liferay.project.templates.service.builder \
 		-DinteractiveMode=false \
+		-DdependencyInjector=spring \
 		-DgroupId=nl.ou.dlwo \
 		-Dversion=1.0.0-SNAPSHOT \
 		-DaddOns=false \
 		-DbuildType=maven \
-		-Dproduct=portal \
+		-Dproduct=dxp \
 		-Dpackage=nl.ou.dlwo \
 		-DapiPath=-api \
 		-DliferayVersion=7.2+ \
