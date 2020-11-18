@@ -159,23 +159,17 @@ echo "	-j \"-Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.ti
 echo "	-l \"upgrade\`date +%Y%m%d-%H%M-%s\`.log\" \\" >> $UW
 chmod +x $UW
 
-logger "Check which projects have a ${DXP72BRANCHNAME} branch and deploy them"
-for REPO in \
-	nl-ou-dlwo-layouttemplate \
-	nl-ou-dlwo-pagestructure \
-	nl-ou-dlwo-theme \
-	nl-ou-dlwo-theme-contributor
-do
-	checkedPushd ~/workspace/${REPO}
-	set +e
-	ISCONVERTED=`hg branches | grep "${DXP72BRANCHNAME}"`
-	set -e
-	if [ ! -z "${ISCONVERTED}" ]; then
-		logger "${REPO} has branch ${DXP72BRANCHNAME}, deploy it to the server"
-		lrbuild.sh -v=7.2
-	fi
-	popd >/dev/null 2>&1
-done
+logger "Deploy already converted projects from releaser, branch ${DXP72BRANCHNAME}"
+TEMPRELEASER=`mktemp -d`
+pushd ${TEMPRELEASER}
+hg clone ssh://bamboo//repositories/dlwo/nl-ou-dlwo-releaser
+cd nl-ou-dlwo-releaser
+hg up DXP72
+mvn package
+cd target
+mv * ${DXP72SERVERDIR}/deploy
+popd
+rm -rf ${TEMPRELEASER}
 
 popd >/dev/null 2>&1
 
