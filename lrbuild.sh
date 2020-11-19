@@ -55,7 +55,7 @@ fi
 BAD_REBEL=`find . -name rebel.xml -exec grep -lL "$WORKSPACE_LOCATION" {} \;`
 
 if [ -n "$BAD_REBEL" ]; then
-	echo "We have bad rebel files"
+	echo "We have bad rebel files: do(es) not contain ${WORKSPACE_LOCATION}"
 	echo ${BAD_REBEL}
 	read -r -n 1 -p "${1:-Remove them and continue?} [y/n]: " REPLY
 	
