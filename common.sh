@@ -46,6 +46,8 @@ DXP72BRANCHNAME="DXP72"
 PORTAL_EXT72="${DXP72SERVERDIR}/portal-ext.properties"
 DXP72BOMVERSION=7.2.10.fp7 
 
+RELEASER=nl-ou-dlwo-releaser
+
 SMTP_HOST=mail.lokaal
 
 DB_TEMP_SCHEMA=dxp_temp
@@ -87,6 +89,11 @@ confirm() {
 		echo Bye
 		exit 0
 	fi
+}
+
+keytocontinue() {
+	echo "Press key to continue, ctrl c to stop"
+	read -s -n 1
 }
 
 hasBom() {

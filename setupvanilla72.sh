@@ -162,7 +162,7 @@ chmod +x $UW
 logger "Deploy already converted projects from releaser, branch ${DXP72BRANCHNAME}"
 TEMPRELEASER=`mktemp -d`
 pushd ${TEMPRELEASER}
-hg clone ssh://bamboo//repositories/dlwo/nl-ou-dlwo-releaser
+hg clone ssh://bamboo//repositories/dlwo/${RELEASER}
 cd nl-ou-dlwo-releaser
 hg up DXP72
 mvn package

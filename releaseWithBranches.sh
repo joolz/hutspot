@@ -6,9 +6,6 @@ source $CREDSFILE || exit 1
 # location of the software repos
 REPOS=ssh://bamboo://repositories/dlwo
 
-# name of the releaser project
-RELEASER=nl-ou-dlwo-releaser
-
 # branch of the releaser project that should be used
 RELEASERBRANCH=default
 

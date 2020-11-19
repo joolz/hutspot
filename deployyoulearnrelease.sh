@@ -3,7 +3,6 @@
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
-RELEASER=nl-ou-dlwo-releaser
 SLEEP=900
 
 # in cron, no one can hear you scream
