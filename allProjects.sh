@@ -2,12 +2,13 @@
 
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
+BRANCH=DXP72
 
 function doIt() {
 	if [ -d $1 ]; then
 		checkedPushd $1
 		hg pull
-		hg update -r default -C
+		hg update -r ${BRANCH} -C
 		if [ -f "pom.xml" ]; then
 			mvn clean
 		fi
