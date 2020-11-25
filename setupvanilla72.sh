@@ -71,6 +71,8 @@ echo "filePath=$DXP72SERVERDIR/geoip/GeoLiteCity.dat" \
 echo "service.disabled=true" \
 	>| $DXP72SERVERDIR/osgi/configs/nl.ou.yl.kafka.client.impl.KafkaClientImpl.cfg
 
+cp $DXP72DOWNLOADSDIR/nl.ou.yl.messagebus.config.AMQConfig.cfg $DXP72SERVERDIR/osgi/configs || exit 1
+
 logger "Link document library"
 rm -rf $DXP72SERVERDIR/data/document_library
 ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
@@ -87,7 +89,7 @@ rm -f default.properties
 cp $DXP72PATCHESDIR/source.properties .
 mv source.properties default.properties
 cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
 rm -rf ${DXP72SERVERDIR}/osgi/state
@@ -97,7 +99,7 @@ rm -f default.properties
 cp $DXP72PATCHESDIR/default.properties .
 rm ${DXP72SERVERDIR}/patching-tool/patches/*
 cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
-# cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
 rm -rf ${DXP72SERVERDIR}/osgi/state
