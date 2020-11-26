@@ -76,7 +76,6 @@ doIt nl-ou-dlwo-theme
 doIt nl-ou-dlwo-theme-contributor
 doIt nl-ou-dlwo-theme-control-panel
 doIt nl-ou-dlwo-translations
-doIt nl-ou-dlwo-user-common
 doIt nl-ou-dlwo-userprofile-portlet
 doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
