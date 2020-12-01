@@ -3,4 +3,4 @@
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
-tail -F ${DXP72TOMCATDIR}/logs/catalina.out
+rm -v ${DXP72TOMCATDIR}/logs/catalina.out
