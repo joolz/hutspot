@@ -77,13 +77,13 @@ if [ "${VERSION}" == "7.2" ]; then
 		exit 1
 	fi
 
-	#	while read DEPRECATED; do
-	#		FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
-	#		if [ ! -z "${FOUND}" ]; then
-	#			echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-	#			exit 1
-	#		fi
-	#	done < ~/bin/deprecated_in_71.txt
+	# while read DEPRECATED; do
+	# 	FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
+	# 	if [ ! -z "${FOUND}" ]; then
+	# 		echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+	# 		exit 1
+	# 	fi
+	# done < ~/bin/deprecated_in_71.txt
 fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;

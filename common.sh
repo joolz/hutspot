@@ -224,13 +224,12 @@ removeNonOsgi() {
 		checkedPushd $LINE
 		find . -name "*.jar" -maxdepth 1 -type f | while read -r FILE
 		do
-			FOUND=`jar -tvf "$FILE" | grep "MANIFEST.MF"`
+			FOUND=`jar -tf "$FILE" | grep "MANIFEST.MF"`
 			if [ "$FOUND" != "" ]; then
 				TMPDIR=`mktemp -d -p $TMP`
-				checkedPushd $TMPDIR
 				FULLNAME=`readlink -f $FILE`
-				jar -xvf "${FULLNAME}" $FOUND &> /dev/null || exit 1
-				# assume string only occurs in manifest file
+				checkedPushd $TMPDIR
+				jar -xvf "${FULLNAME}" $FOUND # &> /dev/null || exit 1
 				OSGI=`grep -r "Bundle-SymbolicName" *`
 				popd >/dev/null 2>&1
 				rm -rf $TMPDIR
@@ -253,6 +252,7 @@ cleanupFile() {
 		find . -name "*" -type f | while read -r FILE
 		do
 			EXTENSION="${FILE##*.}"
+			echo Extension is $EXTENSION
 			if [ "$EXTENSION" == "war" ]; then
 				if [ "$3" == "unversioned" ]; then
 					# deployed wars have no version
@@ -263,8 +263,11 @@ cleanupFile() {
 					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 				fi
 			else
+				echo "It's not a war"
 				BARE=`basename $FILE`
+				echo "BARE is $BARE"
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
+				echo "Nogmaals bare $BARE"
 			fi
 			if [ "$BARE" == "$1" ]; then
 				rm $FILE
@@ -297,7 +300,6 @@ copyArtifacts() {
 			if [ ! -z "$LINE2" ]; then
 				BARE=`basename $LINE2`
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				echo "-----------------------------------"
 				cleanupFile $BARE $TARGET/osgi/modules
 				cleanupFile $BARE $TARGET/osgi/war unversioned
 				mv -v $LINE2 $TARGET/deploy
