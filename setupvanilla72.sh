@@ -167,7 +167,7 @@ pushd ${TEMPRELEASER}
 hg clone ssh://bamboo//repositories/dlwo/${RELEASER}
 cd nl-ou-dlwo-releaser
 hg up DXP72
-mvn package
+mvn -U package # TODO remove -U when we are more stable
 cd target
 mv * ${DXP72SERVERDIR}/deploy
 popd
