@@ -252,7 +252,6 @@ cleanupFile() {
 		find . -name "*" -type f | while read -r FILE
 		do
 			EXTENSION="${FILE##*.}"
-			echo Extension is $EXTENSION
 			if [ "$EXTENSION" == "war" ]; then
 				if [ "$3" == "unversioned" ]; then
 					# deployed wars have no version
@@ -263,11 +262,8 @@ cleanupFile() {
 					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
 				fi
 			else
-				echo "It's not a war"
 				BARE=`basename $FILE`
-				echo "BARE is $BARE"
 				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				echo "Nogmaals bare $BARE"
 			fi
 			if [ "$BARE" == "$1" ]; then
 				rm $FILE
