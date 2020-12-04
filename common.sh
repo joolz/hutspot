@@ -59,7 +59,7 @@ DB_DEFAULT_COLLATE=utf8_unicode_ci
 
 SLEEP_LONG=10m
 SLEEP_SHORT=2m
-SLEEP_NAP=3s
+SLEEP_NAP=10s
 
 checkOnline() {
 	CHECKHOST="www.xs4all.nl"
