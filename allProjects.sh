@@ -9,10 +9,16 @@ function doIt() {
 		checkedPushd $1
 		hg pull
 		hg update -r ${BRANCH} -C
-		if [ -f "pom.xml" ]; then
-			mvn clean
+		if [ $? -ne 0 ]; then
+			popd
+			echo "Error switching to ${BRANCH}, delete ${1}"
+			rm -rf ${1}
+		else
+			if [ -f "pom.xml" ]; then
+				mvn clean
+			fi
+			popd
 		fi
-		popd
 	else
 		if [ -z "$2" ]; then
 			REPO="dlwo"
