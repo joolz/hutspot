@@ -89,7 +89,9 @@ rm -f default.properties
 cp $DXP72PATCHESDIR/source.properties .
 mv source.properties default.properties
 cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
+	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+fi
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
 rm -rf ${DXP72SERVERDIR}/osgi/state
@@ -99,7 +101,9 @@ rm -f default.properties
 cp $DXP72PATCHESDIR/default.properties .
 rm ${DXP72SERVERDIR}/patching-tool/patches/*
 cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
+	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+fi
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
 rm -rf ${DXP72SERVERDIR}/osgi/state
