@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<!--
+    Made by joolz at xs4all dot nl
+-->
+
+<!--
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<html>
+	<head>
+		<style>
+			.song{
+				text-align: center;
+				margin-bottom: 25px;
+				font-size: xx-large;
+				font-weight: bold;
+				color: teal;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.player{
+				text-align: center;
+				margin-bottom: 25px;
+				font-size: large;
+				font-weight: bold;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.focus {
+				text-align: center;
+				margin-bottom: 25px;
+				font-size: large;
+				font-weight: bold;
+				font-style: italic;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+		</style>
+		<script>
+			var titles = [];
+			var attitudes = [];
+			var focuses = [];
+			var players = ['JA', 'FB', 'PV'];
+			var currentPlayer = Math.floor(Math.random()*players.length);
+
+			function fillTitles() {
+				if (titles.length == 0) {
+					titles.push('Asturias');
+					titles.push('Banish Misfortune');
+					titles.push('Blockhead');
+					titles.push('Buddhas vacation');
+					titles.push('Camino de las Tropas');
+					titles.push('Canon Inversus');
+					titles.push('Cape Fear');
+					titles.push('Chuk');
+					titles.push('Coda Marine 475');
+					titles.push('Eye of the Needle');
+					titles.push('Gavotte II (from Cello Suite V)');
+					titles.push('Gennopédie');
+					titles.push('Growing Circle');
+					titles.push('Halloween');
+					titles.push('Hombre Lunar');
+					titles.push('Larks Tongues In Aspic I');
+					titles.push('Larks Tongues In Aspic II');
+					titles.push('Little Thrak');
+					titles.push('Maraton');
+					titles.push('Red');
+					titles.push('Regata');
+					titles.push('Sunday');
+					titles.push('Tesselations I');
+					titles.push('The Second Shot');
+					titles.push('Third Relation');
+					titles.push('THRAK');
+					titles.push('Voices of ancient children');
+					titles.push('VROOOM');
+				}
+			}
+
+			function fillAttitudes() {
+					if (attitudes.length == 0) {
+						attitudes.push('(after some deliberation) counts in');
+						attitudes.push('brings us');
+						attitudes.push('fearlessly takes the rein of');
+						attitudes.push('goes for it');
+						attitudes.push('hums along with');
+						attitudes.push('is proud to present');
+						attitudes.push('knows better than to play this but does it anyway');
+						attitudes.push('proudly presents');
+						attitudes.push('reluctantly leads us into');
+						attitudes.push('saves the day by playing');
+					}
+			}
+
+			function fillFocuses() {
+					if (focuses.length == 0) {
+						focuses.push('accented picking');
+						focuses.push('any piece except the one being played');
+						focuses.push('AVOIDING MISTAKES AT ANY COST!!!');
+						focuses.push('clean playing');
+						focuses.push('counting with the foot');
+						focuses.push('every fifth beat');
+						focuses.push('LH fingers only touching the strings with the fingertip');
+						focuses.push('limb rotation');
+						focuses.push('overdone vibrato');
+						focuses.push('playing dynamic');
+						focuses.push('precision');
+						focuses.push('strict alternate picking');
+						focuses.push('tasteful vibrato');
+						focuses.push('tempo');
+						focuses.push('the first string');
+						focuses.push('the left foot');
+						focuses.push('the left hand');
+						focuses.push('the main riff of Reign in Blood');
+						focuses.push('the notes between the rests');
+						focuses.push('the other players');
+						focuses.push('the pick');
+						focuses.push('the position of the LH thumb');
+						focuses.push('the rests between the notes');
+						focuses.push('the right foot');
+						focuses.push('the right hand');
+						focuses.push('the space below us');
+						focuses.push('the spleen');
+						focuses.push('the stomach');
+						focuses.push('tone');
+						focuses.push('using as little pressure as possible on the LH thumb');
+					}
+			}
+
+			function randomTitle() {
+				fillAttitudes();
+				var randomAttitude = attitudes[Math.floor(Math.random()*attitudes.length)];
+				document.getElementById("playerDisplay").innerHTML = players[currentPlayer] +
+					'<br />takes the microphone and ' + randomAttitude + ':';
+				attitudes.splice (attitudes.indexOf(randomAttitude), 1);
+				currentPlayer = currentPlayer == 2 ? 0 : currentPlayer + 1;
+
+				fillTitles();
+				var randomSong = titles[Math.floor(Math.random()*titles.length)];
+				titles.splice (titles.indexOf(randomSong), 1);
+				document.getElementById("titleDisplay").innerHTML = randomSong;
+
+				fillFocuses();
+				var randomFocus = focuses[Math.floor(Math.random()*focuses.length)];
+				focuses.splice (focuses.indexOf(randomFocus), 1);
+				document.getElementById("focusDisplay").innerHTML =
+					'(with focus on ' + randomFocus + ')';
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="song">
+			<img src="hat.gif" alt="hat" onclick="randomTitle();">
+		</div>
+		<div id="playerDisplay" class="player"></div>
+		<div id="titleDisplay" class="song"></div>
+		<div id="focusDisplay" class="focus"></div>
+	</body>
+
+</html>
