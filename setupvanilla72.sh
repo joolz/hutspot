@@ -31,16 +31,26 @@ ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
 DB_SCHEMA_72=dxp72
 
-logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
+SOURCESTOO=false
+
+if [ "$SOURCESTOO" == true ]; then
+	logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
+else
+	logger "Start installing vanilla DXP 7.2 in ${DXP72SERVERDIR}, sources are excluded"
+fi
+
 START=$SECONDS
 
 cd $DXP72BASEDIR
 
-logger "Remove existing sources, unzip and create link"
-rm -f $DXP72SOURCEDIR
-rm -rf $DXP72SOURCEPHYSICALDIR
-unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
-ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
+if [ "$SOURCESTOO" == true ]; then
+	logger "Remove existing sources, unzip and create link"
+	rm -f $DXP72SOURCEDIR
+	rm -rf $DXP72SOURCEPHYSICALDIR
+	unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
+	ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
+	cp $DXP72DOWNLOADSDIR/liferay-source-eclipse-metadata/.* $DXP72SOURCEDIR
+fi
 
 logger "Remove existing server, unzip and link"
 rm -f $DXP72SERVERDIR
@@ -76,24 +86,26 @@ logger "Link document library"
 rm -rf $DXP72SERVERDIR/data/document_library
 ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
 
-# Due to a bug, server- and source-patches must be installed
-# separately and both need a file called default.properties
+if [ "$SOURCESTOO" == true ]; then
+	# Due to a bug, server- and source-patches must be installed
+	# separately and both need a file called default.properties
 
-logger "Patch sources"
+	logger "Patch sources"
 
-# https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
-cp -f ${DXP72DOWNLOADSDIR}/ReleaseInfo.java ${DXP72SOURCEDIR}/portal-kernel/src/com/liferay/portal/kernel/util/
+	# https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
+	cp -f ${DXP72DOWNLOADSDIR}/ReleaseInfo.java ${DXP72SOURCEDIR}/portal-kernel/src/com/liferay/portal/kernel/util/
 
-rm -f default.properties
-cp $DXP72PATCHESDIR/source.properties .
-mv source.properties default.properties
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
-if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
-	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+	rm -f default.properties
+	cp $DXP72PATCHESDIR/source.properties .
+	mv source.properties default.properties
+	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
+	if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
+		cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+	fi
+	cd ${DXP72SERVERDIR}/patching-tool
+	./patching-tool.sh install
+	rm -rf ${DXP72SERVERDIR}/osgi/state
 fi
-cd ${DXP72SERVERDIR}/patching-tool
-./patching-tool.sh install
-rm -rf ${DXP72SERVERDIR}/osgi/state
 
 logger "Patch server"
 rm -f default.properties
