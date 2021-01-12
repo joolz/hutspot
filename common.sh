@@ -241,42 +241,23 @@ removeNonOsgi() {
 	popd >/dev/null 2>&1
 }
 
-cleanupFile() {
-	# remove $1 files from directory $2
-	if [[ ! -z "$1" && ! -z "$2" ]]; then
-		checkedPushd $2
-		find . -name "*" -type f | while read -r FILE
-		do
-			EXTENSION="${FILE##*.}"
-			if [ "$EXTENSION" == "war" ]; then
-				if [ "$3" == "unversioned" ]; then
-					# deployed wars have no version
-					BARE=`basename $FILE`
-					BARE="${BARE%.*}"
-				else
-					BARE=`basename $FILE`
-					BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				fi
-			else
-				BARE=`basename $FILE`
-				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-			fi
-			if [ "$BARE" == "$1" ]; then
-				rm $FILE
- 				FULLNAME=`readlink -f $FILE`
-				echo "Removed ${FULLNAME} (matches ${BARE})"
-			fi
-		done
-		popd >/dev/null 2>&1
-	fi
-}
-
 copyArtifacts() {
 	# move artifacts to releaser/target
 	if [ ! -z "$1" ] && [ $1 == "7.2" ]; then
 		TARGET=$DXP72SERVERDIR
 	else
 		TARGET=$DXPSERVERDIR
+	fi
+	PROJECTNAME=${PWD##*/}
+	
+	checkedPushd ${TARGET}
+	FOUND=`find . -name "${PROJECTNAME}*"`
+	find . -name "${PROJECTNAME}*" -exec rm -rfv {} \;
+	popd >/dev/null 2>&1
+
+	if [ ! -z `liferaypid` ] && [ ! -z "${FOUND}" ]; then
+		echo "Liferay is running (`liferaypid`) and files were removed, sleep $SLEEP_NAP"
+		sleep $SLEEP_NAP
 	fi
 
 	if [ "$2" == "portlet-only" ]; then
@@ -290,15 +271,7 @@ copyArtifacts() {
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
 		while read -r LINE2; do
 			if [ ! -z "$LINE2" ]; then
-				BARE=`basename $LINE2`
-				BARE=`echo $BARE | sed 's/-[0-9]\+.*//'`
-				cleanupFile $BARE $TARGET/osgi/modules
-				cleanupFile $BARE $TARGET/osgi/war unversioned
 				mv -v $LINE2 $TARGET/deploy
-				RUN=`liferaypid`
-				if [ ! -z `liferaypid` ]; then
-					sleep $SLEEP_NAP
-				fi
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1
