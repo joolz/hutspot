@@ -32,10 +32,6 @@ DXP72SOURCEPHYSICALDIR=liferay-dxp-src-7.2.10.3-sp3
 DXP72SOURCEZIP=liferay-dxp-src-7.2.10.3-sp3-202009100727.zip
 DXP72SERVERZIP=liferay-dxp-tomcat-7.2.10.3-sp3-20200910120006703.tar.gz
 DXP72SERVERPHYSICALDIR=liferay-dxp-7.2.10.3-sp3
-# DXP72SOURCEPHYSICALDIR=liferay-dxp-src-7.2.10.2-sp2
-# DXP72SOURCEZIP=liferay-dxp-src-7.2.10.2-sp2-202005111429.zip
-# DXP72SERVERZIP=liferay-dxp-tomcat-7.2.10.2-sp2-20200511121558464.tar.gz
-# DXP72SERVERPHYSICALDIR=liferay-dxp-7.2.10.2-sp2
 DXP72SOURCEDIR=$DXP72BASEDIR/src
 DXP72SERVERDIR=$DXP72BASEDIR/server
 DXP72TOMCATDIR=$DXP72SERVERDIR/tomcat-9.0.33
@@ -286,9 +282,9 @@ copyArtifacts() {
 	if [ "$2" == "portlet-only" ]; then
 		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | grep "\-portlet/"`
 	else
-		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/"`
+		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | sort`
 	fi
-	
+
 	while read -r LINE; do
 		checkedPushd $LINE
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
