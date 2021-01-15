@@ -31,7 +31,7 @@ ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
 DB_SCHEMA_72=dxp72
 
-SOURCESTOO=false
+SOURCESTOO=true
 
 if [ "$SOURCESTOO" == true ]; then
 	logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
@@ -42,15 +42,6 @@ fi
 START=$SECONDS
 
 cd $DXP72BASEDIR
-
-if [ "$SOURCESTOO" == true ]; then
-	logger "Remove existing sources, unzip and create link"
-	rm -f $DXP72SOURCEDIR
-	rm -rf $DXP72SOURCEPHYSICALDIR
-	unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
-	ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
-	cp $DXP72DOWNLOADSDIR/liferay-source-eclipse-metadata/.* $DXP72SOURCEDIR
-fi
 
 logger "Remove existing server, unzip and link"
 rm -f $DXP72SERVERDIR
@@ -65,14 +56,12 @@ mkdir $DXP72TOMCATDIR/lib/ext/global
 rm $DXP72TOMCATDIR/bin/*bat
 
 mkdir -p $ROOTLIBDIR
-cp $XUGGLER $ROOTLIBDIR
+cp -v $XUGGLER $ROOTLIBDIR
 
-# see
-# https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-109
-# and
-# https://customer.liferay.com/documentation/knowledge-base/-/kb/1086550
+# see https://web.liferay.com/group/customer/support/-/support/ticket/OUNDLWO-109
+# and https://customer.liferay.com/documentation/knowledge-base/-/kb/1086550
 mkdir -p $DXP72SERVERDIR/geoip
-cp $GEOLITEDATA $DXP72SERVERDIR/geoip
+cp -v $GEOLITEDATA $DXP72SERVERDIR/geoip
 mkdir -p $DXP72SERVERDIR/osgi/configs
 echo "filePath=$DXP72SERVERDIR/geoip/GeoLiteCity.dat" \
 	>| $DXP72SERVERDIR/osgi/configs/com.liferay.ip.geocoder.internal.IPGeocoderConfiguration.cfg
@@ -80,40 +69,43 @@ echo "filePath=$DXP72SERVERDIR/geoip/GeoLiteCity.dat" \
 echo "service.disabled=true" \
 	>| $DXP72SERVERDIR/osgi/configs/nl.ou.yl.kafka.client.impl.KafkaClientImpl.cfg
 
-cp $DXP72DOWNLOADSDIR/nl.ou.yl.messagebus.config.AMQConfig.cfg $DXP72SERVERDIR/osgi/configs || exit 1
+cp -v $DXP72DOWNLOADSDIR/nl.ou.yl.messagebus.config.AMQConfig.cfg $DXP72SERVERDIR/osgi/configs || exit 1
 
 logger "Link document library"
 rm -rf $DXP72SERVERDIR/data/document_library
 ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
 
+logger "Copy patching configurations"
+cp -v $DXP72PATCHESDIR/source.properties patching-tool/
+cp -v $DXP72PATCHESDIR/default.properties patching-tool/
+
 if [ "$SOURCESTOO" == true ]; then
-	# Due to a bug, server- and source-patches must be installed
-	# separately and both need a file called default.properties
+	logger "Remove existing sources, unzip and create link"
+	rm -fv $DXP72SOURCEDIR
+	rm -rfv ${DXP72BASEDIR}/${DXP72SOURCEPHYSICALDIR}
+	unzip $DXP72DOWNLOADSDIR/$DXP72SOURCEZIP -d $DXP72BASEDIR
+	ln -s $DXP72SOURCEPHYSICALDIR $DXP72SOURCEDIR
+	cp -v $DXP72DOWNLOADSDIR/liferay-source-eclipse-metadata/.classpath $DXP72SOURCEDIR
+	cp -v $DXP72DOWNLOADSDIR/liferay-source-eclipse-metadata/.project $DXP72SOURCEDIR
 
 	logger "Patch sources"
 
 	# https://help.liferay.com/hc/en-us/requests/32659 Need to patch ReleaseInfo.java first, see https://help.liferay.com/hc/es/articles/360043206032--Problem-with-the-configuration-Unknown-release-in-folder-when-patching-the-source-code
-	cp -f ${DXP72DOWNLOADSDIR}/ReleaseInfo.java ${DXP72SOURCEDIR}/portal-kernel/src/com/liferay/portal/kernel/util/
+	cp -vf ${DXP72DOWNLOADSDIR}/ReleaseInfo.java ${DXP72SOURCEDIR}/portal-kernel/src/com/liferay/portal/kernel/util/
 
-	rm -f default.properties
-	cp $DXP72PATCHESDIR/source.properties .
-	mv source.properties default.properties
-	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
+	cp -v $DXP72PATCHESDIR/$DXP72PATCHLEVEL/source/* ${DXP72SERVERDIR}/patching-tool/patches/
 	if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
-		cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+		cp -v $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
 	fi
 	cd ${DXP72SERVERDIR}/patching-tool
-	./patching-tool.sh install
+	./patching-tool.sh source install
 	rm -rf ${DXP72SERVERDIR}/osgi/state
 fi
 
 logger "Patch server"
-rm -f default.properties
-cp $DXP72PATCHESDIR/default.properties .
-rm ${DXP72SERVERDIR}/patching-tool/patches/*
-cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
+cp -v $DXP72PATCHESDIR/$DXP72PATCHLEVEL/binary/* ${DXP72SERVERDIR}/patching-tool/patches/
 if [ -d $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined ]; then
-	cp $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
+	cp -v $DXP72PATCHESDIR/$DXP72PATCHLEVEL/combined/* ${DXP72SERVERDIR}/patching-tool/patches/
 fi
 cd ${DXP72SERVERDIR}/patching-tool
 ./patching-tool.sh install
