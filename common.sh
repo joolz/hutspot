@@ -42,6 +42,8 @@ DXP72BRANCHNAME="DXP72"
 PORTAL_EXT72="${DXP72SERVERDIR}/portal-ext.properties"
 DXP72BOMVERSION=7.2.10.fp8 
 
+USE_SSL=false
+
 RELEASER=nl-ou-dlwo-releaser
 
 SMTP_HOST=mail.lokaal

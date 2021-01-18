@@ -23,15 +23,14 @@ fi
 [[ -e "${GEOLITEDATA}" ]] && echo "${GEOLITEDATA} exists" || { echo "${GEOLITEDATA} not found" 1>&2 ; exit 1; }
 [[ -e "${INDEXREADONLYCONFIG}" ]] && echo "${INDEXREADONLYCONFIG} exists" || { echo "${INDEXREADONLYCONFIG} not found" 1>&2 ; exit 1; }
 
-PROPS=$DXP72SERVERDIR/portal-ext.properties
 SETENV=$DXP72TOMCATDIR/bin/setenv.sh
 ROOTDIR=$DXP72TOMCATDIR/webapps/ROOT
 WEBXML=$ROOTDIR/WEB-INF/web.xml
 ROOTCLASSESDIR=$ROOTDIR/WEB-INF/classes
 ROOTLIBDIR=$ROOTDIR/WEB-INF/lib
-DB_SCHEMA_72=dxp72
+DB_SCHEMA_72=dxp72mb4
 
-SOURCESTOO=true
+SOURCESTOO=false
 
 if [ "$SOURCESTOO" == true ]; then
 	logger "Start installing vanilla DXP 7.2 in $DXP72SERVERDIR"
@@ -49,8 +48,50 @@ rm -rf $DXP72SERVERPHYSICALDIR
 tar -xvf $DXP72DOWNLOADSDIR/$DXP72SERVERZIP || exit 1
 ln -s $DXP72SERVERPHYSICALDIR $DXP72SERVERDIR
 
+logger "Copy in portal-ext.properties from repo and configure it"
+cd ${ECLIPSE_WORKSPACE}
+TEMPLATE_PE="template-portal-ext"
+if [ -d "${TEMPLATE_PE}" ]; then
+	pushd ${TEMPLATE_PE}
+	hg update -r DXP72 -C
+else
+	hg clone ssh://bamboo//repositories/rest/${TEMPLATE_PE}
+	pushd ${TEMPLATE_PE}
+fi
+
+cp portal-ext.properties $DXP72SERVERDIR
 cd $DXP72SERVERDIR
-ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext72.properties portal-ext.properties
+
+logger "Configure portal-ext.properties"
+PROPS=${DXP72SERVERDIR}/portal-ext.properties
+
+if [ "$USE_SSL" = true ]; then
+	logger "Add SSL settings to ${PROPS}"
+
+	sed -i "/^web\.server\.host/d" ${PROPS}
+	sed -i "/^web\.server\.protocol/d" ${PROPS}
+	sed -i "/^web\.server\.https\.port/d" ${PROPS}
+	sed -i "/^redirect\.url\.security\.mode/d" ${PROPS}
+	sed -i "/^redirect\.url\.domains\.allowed/d" ${PROPS}
+
+	echo "" >> ${PROPS}
+	echo "web.server.protocol=https" >> ${PROPS}
+	echo "web.server.https.port=443" >> ${PROPS}
+	echo "redirect.url.security.mode=domain" >> ${PROPS}
+	echo "redirect.url.domains.allowed=youlearnfun.two.ou.nl" >> ${PROPS}
+fi
+
+logger "Set template variables in portal-ext to local values"
+sed -i "s/LOCAL_DB_USER/$LOCAL_DB_USER/g" ${PROPS}
+sed -i "s/LOCAL_DB_PASSWORD/$LOCAL_DB_PASSWORD/g" ${PROPS}
+sed -i "s/LOCAL_DB_HOST/$LOCAL_DB_HOST/g" ${PROPS}
+sed -i "s/LOCAL_DB_PORT/$LOCAL_DB_PORT/g" ${PROPS}
+sed -i "s/LOCAL_DB_SCHEMA/$DB_SCHEMA_72/g" ${PROPS}
+sed -i "s/PORTAL_EXT_EMAIL_USER/$PORTAL_EXT_EMAIL_USER/g" ${PROPS}
+sed -i "s/PORTAL_EXT_EMAIL_ADDRESS/$PORTAL_EXT_EMAIL_ADDRESS/g" ${PROPS}
+sed -i "s~BROKER_URL~$BROKER_URL~g" ${PROPS}
+sed -i "s~LOCAL_LIFERAY_HOME~$DXP72SERVERDIR~g" ${PROPS}
+sed -i "s~LOCAL_DOCLIB~$DXP72SERVERDIR/data/document_library~g" ${PROPS}
 
 mkdir $DXP72TOMCATDIR/lib/ext/global
 rm $DXP72TOMCATDIR/bin/*bat
