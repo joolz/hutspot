@@ -246,20 +246,9 @@ removeNonOsgi() {
 copyArtifacts() {
 	# move artifacts to releaser/target
 	if [ ! -z "$1" ] && [ $1 == "7.2" ]; then
-		TARGET=$DXP72SERVERDIR
+		SERVERVERSION=$DXP72SERVERDIR
 	else
-		TARGET=$DXPSERVERDIR
-	fi
-	PROJECTNAME=${PWD##*/}
-	
-	checkedPushd ${TARGET}
-	FOUND=`find . -name "${PROJECTNAME}*"`
-	find . -name "${PROJECTNAME}*" -exec rm -rfv {} \;
-	popd >/dev/null 2>&1
-
-	if [ ! -z `liferaypid` ] && [ ! -z "${FOUND}" ]; then
-		echo "Liferay is running (`liferaypid`) and files were removed, sleep $SLEEP_NAP"
-		sleep $SLEEP_NAP
+		SERVERVERSION=$DXPSERVERDIR
 	fi
 
 	if [ "$2" == "portlet-only" ]; then
@@ -267,13 +256,35 @@ copyArtifacts() {
 	else
 		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | sort`
 	fi
+	
+	CLEANUPS=()
+	while read -r LINE; do
+		pushd $LINE > /dev/null
+		cd ..
+		NAME=${PWD##*/}
+		CLEANUPS+=("$NAME")
+		popd > /dev/null
+	done <<< $TARGETS
+
+	checkedPushd ${SERVERVERSION}
+	for PROJECTNAME in "${CLEANUPS[@]}"
+	do
+		find . -name "${PROJECTNAME}*" -exec rm -rfv {} \;
+		FOUND=true
+	done
+	popd >/dev/null 2>&1
+
+	if [ ! -z `liferaypid` ] && [ "${FOUND}" = true ]; then
+		echo "Liferay is running (`liferaypid`) and files were removed, sleep $SLEEP_NAP"
+		sleep $SLEEP_NAP
+	fi
 
 	while read -r LINE; do
 		checkedPushd $LINE
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
 		while read -r LINE2; do
 			if [ ! -z "$LINE2" ]; then
-				mv -v $LINE2 $TARGET/deploy
+				mv -v $LINE2 $SERVERVERSION/deploy
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1
