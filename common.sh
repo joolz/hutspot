@@ -268,17 +268,19 @@ copyArtifacts() {
 		popd > /dev/null
 	done <<< $TARGETS
 
+	NUM=0
 	checkedPushd ${SERVERVERSION}
 	for PROJECTNAME in "${CLEANUPS[@]}"
 	do
 		find . -name "${PROJECTNAME}*" -exec rm -rfv {} \;
-		FOUND=true
+		NUM=$((NUM + 1))
 	done
 	popd >/dev/null 2>&1
 
-	if [ ! -z `liferaypid` ] && [ "${FOUND}" = true ]; then
-		echo "Liferay is running (`liferaypid`) and files were removed, sleep $SLEEP_NAP"
-		sleep $SLEEP_NAP
+	if [ ! -z `liferaypid` ] && [ "${NUM}" > 0 ]; then
+		SLEEPTIME=$((NUM * 5))
+		echo "Liferay is running (`liferaypid`) and files were removed, sleep ${SLEEPTIME}"
+		sleep ${SLEEPTIME}
 	fi
 
 	while read -r LINE; do
