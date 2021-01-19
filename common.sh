@@ -261,8 +261,10 @@ copyArtifacts() {
 	while read -r LINE; do
 		pushd $LINE > /dev/null
 		cd ..
-		NAME=${PWD##*/}
-		CLEANUPS+=("$NAME")
+		if [ -f "pom.xml" ]; then
+			NAME=${PWD##*/}
+			CLEANUPS+=("$NAME")
+		fi
 		popd > /dev/null
 	done <<< $TARGETS
 
