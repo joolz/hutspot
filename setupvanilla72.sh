@@ -228,6 +228,9 @@ DURATIONREADABLE=`convertsecs $DURATION`
 
 logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADABLE"
 
+logger "Comment next line to do the database upgrade"
+exit 0
+
 confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
 cp -v ${INDEXREADONLYCONFIG} ${DXP72SERVERDIR}/osgi/configs
 pushd ${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
