@@ -228,21 +228,21 @@ rm -rf ${TEMPRELEASER}
 
 popd >/dev/null 2>&1
 
+TIMEOUT=600
+logger "Set timeout to ${600}"
+setdxptimeout.sh ${TIMEOUT}
+
 DURATION=$((SECONDS - START))
 DURATIONREADABLE=`convertsecs $DURATION`
 
 logger "Finished installing vanilla DXP 7.2 in $DXP72SERVERDIR in $DURATIONREADABLE"
 
-logger "Comment next line to do the database upgrade"
-exit 0
-
-confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
-cp -v ${INDEXREADONLYCONFIG} ${DXP72SERVERDIR}/osgi/configs
-pushd ${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
-logger "Updating database ${DB_SCHEMA_72}"
-${UW}
-popd
-rm -v ${DXP72SERVERDIR}/osgi/configs/${INDEXREADONLYCONFIG}
-
-logger "Finished updating database ${DB_SCHEMA_72}"
+# confirm "Database upgrade script ${UW} has been prepared. Do you want to run it to upgrade the database ${DB_SCHEMA_72}?"
+# cp -v ${INDEXREADONLYCONFIG} ${DXP72SERVERDIR}/osgi/configs
+# pushd ${DXP72SERVERDIR}/tools/portal-tools-db-upgrade-client
+# logger "Updating database ${DB_SCHEMA_72}"
+# ${UW}
+# popd
+# rm -v ${DXP72SERVERDIR}/osgi/configs/${INDEXREADONLYCONFIG}
+# logger "Finished updating database ${DB_SCHEMA_72}"
 

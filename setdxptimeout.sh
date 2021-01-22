@@ -10,7 +10,7 @@ if [ -z ${NEWVALUE} ]; then
 	exit 1
 fi
 
-FILES="${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/web.xml,${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/slim-runtime-web.xml,${DXPTOMCATDIR}/conf/web.xml"
+FILES="${DXP72TOMCATDIR}/webapps/ROOT/WEB-INF/web.xml,${DXP72TOMCATDIR}/webapps/ROOT/WEB-INF/slim-runtime-web.xml,${DXP72TOMCATDIR}/conf/web.xml"
 
 for FILE in ${FILES//,/ }; do
 	echo ${FILE}
