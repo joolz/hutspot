@@ -118,6 +118,10 @@ logger "Link document library"
 rm -rf $DXP72SERVERDIR/data/document_library
 ln -s $DXP72DOWNLOADSDIR/document_library $DXP72SERVERDIR/data/document_library
 
+logger "Link Elastic Search"
+rm -rf $DXP72SERVERDIR/data/elasticsearch6
+ln -s $DXP72DOWNLOADSDIR/elasticsearch6 $DXP72SERVERDIR/data/elasticsearch6
+
 logger "Copy patching configurations"
 cp -v $DXP72PATCHESDIR/source.properties patching-tool/
 cp -v $DXP72PATCHESDIR/default.properties patching-tool/
