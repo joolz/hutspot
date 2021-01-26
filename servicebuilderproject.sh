@@ -21,4 +21,4 @@ mvn archetype:generate \
 		-DliferayVersion=7.2+ \
 		-DartifactId=${1}
 
-echo "Now set liferay.bom.version to ${DXP72BOMVERSION} and activate standalone project."
+echo "Now set liferay.bom.version to ${DXPBOMVERSION} and activate standalone project."

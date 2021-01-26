@@ -16,31 +16,14 @@ fi
 
 DATEFORMAT="%Y-%m-%d_%H:%M:%S"
 
-DXPBASEDIR=/opt/dxp70
-DXPSOURCEDIR=$DXPBASEDIR/src
-DXPSERVERDIR=$DXPBASEDIR/server
-DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
-DXPDEPLOYDIR=$DXPSERVERDIR/deploy
-DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
-DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
-DXPLOGDIR=$DXPBASEDIR/log
-PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
-DXPLOG4JCONFIG=${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/classes/log4j.properties
+source ~/bin/72locations.sh
+# source ~/bin/70locations.sh
 
-DXP72BASEDIR=/opt/dxp
-DXP72SOURCEPHYSICALDIR=liferay-dxp-src-7.2.10.3-sp3
-DXP72SOURCEZIP=liferay-dxp-src-7.2.10.3-sp3-202009100727.zip
-DXP72SERVERZIP=liferay-dxp-tomcat-7.2.10.3-sp3-20200910120006703.tar.gz
-DXP72SERVERPHYSICALDIR=liferay-dxp-7.2.10.3-sp3
-DXP72SOURCEDIR=$DXP72BASEDIR/src
-DXP72SERVERDIR=$DXP72BASEDIR/server
-DXP72TOMCATDIR=$DXP72SERVERDIR/tomcat-9.0.33
-DXP72DEPLOYDIR=$DXP72SERVERDIR/deploy
-DXP72DOWNLOADSDIR=$DXP72BASEDIR/resources
-DXP72PATCHESDIR=$DXP72DOWNLOADSDIR/patches
-DXP72BRANCHNAME="DXP72"
-PORTAL_EXT72="${DXP72SERVERDIR}/portal-ext.properties"
-DXP72BOMVERSION=7.2.10.fp8 
+DXPSOURCEDIR=$DXPBASEDIR/src
+DXPDEPLOYDIR=$DXPSERVERDIR/deploy
+DXPLOGDIR=$DXPBASEDIR/log
+DXPLOG4JCONFIG=${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/classes/log4j.properties
+PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
 
 USE_SSL=false
 
@@ -172,13 +155,8 @@ rootcheck() {
 liferaycleanup() {
 	rm -rfv $DXPSERVERDIR/osgi/state
 	rm -rfv $DXPSERVERDIR/work
-	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/temp
-	rm -rfv $DXPSERVERDIR/tomcat-8.0.32/work
-
-	rm -rfv $DXP72SERVERDIR/osgi/state
-	rm -rfv $DXP72SERVERDIR/work
-	rm -rfv $DXP72SERVERDIR/tomcat-8.0.32/temp
-	rm -rfv $DXP72SERVERDIR/tomcat-8.0.32/work
+	rm -rfv $DXPTOMCATDIR/temp
+	rm -rfv $DXPTOMCATDIR/work
 }
 
 sudocheck() {
@@ -245,13 +223,7 @@ removeNonOsgi() {
 
 copyArtifacts() {
 	# move artifacts to releaser/target
-	if [ ! -z "$1" ] && [ $1 == "7.2" ]; then
-		SERVERVERSION=$DXP72SERVERDIR
-	else
-		SERVERVERSION=$DXPSERVERDIR
-	fi
-
-	if [ "$2" == "portlet-only" ]; then
+	if [ "$1" == "portlet-only" ]; then
 		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | grep "\-portlet/"`
 	else
 		TARGETS=`find . -type d -name target | grep -v .hg | grep -v "/bin/" | sort`
@@ -269,7 +241,7 @@ copyArtifacts() {
 	done <<< $TARGETS
 
 	NUM=0
-	checkedPushd ${SERVERVERSION}
+	checkedPushd ${DXPSERVERDIR}
 	for PROJECTNAME in "${CLEANUPS[@]}"
 	do
 		find . -name "${PROJECTNAME}*" -exec rm -rfv {} \;
@@ -288,7 +260,7 @@ copyArtifacts() {
 		ARS=`find . -type f -maxdepth 1 -name "*.?ar"`
 		while read -r LINE2; do
 			if [ ! -z "$LINE2" ]; then
-				mv -v $LINE2 $SERVERVERSION/deploy
+				mv -v $LINE2 $DXPSERVERDIR/deploy
 			fi
 		done <<< $ARS
 		popd >/dev/null 2>&1

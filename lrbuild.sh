@@ -69,22 +69,20 @@ if [ -n "$BAD_REBEL" ]; then
     esac
 fi
 
-if [ "${VERSION}" == "7.2" ]; then
-	echo "Do checks for 7.2"
-	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
-	if [ ! -z "${STRINGBUNDLER}" ]; then
-		echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
-		exit 1
-	fi
-
-	# while read DEPRECATED; do
-	# 	FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
-	# 	if [ ! -z "${FOUND}" ]; then
-	# 		echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-	# 		exit 1
-	# 	fi
-	# done < ~/bin/deprecated_in_71.txt
+echo "Do checks for 7.2"
+STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
+if [ ! -z "${STRINGBUNDLER}" ]; then
+	echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
+	exit 1
 fi
+
+# while read DEPRECATED; do
+# 	FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
+# 	if [ ! -z "${FOUND}" ]; then
+# 		echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+# 		exit 1
+# 	fi
+# done < ~/bin/deprecated_in_71.txt
 
 find . -type d -name .sass_cache -exec rm -r {} \;
 
@@ -106,7 +104,7 @@ CURDIR=`pwd`
 removeNonOsgi $CURDIR
 
 if [ "$PORTLETONLY" = true ]; then
-	copyArtifacts ${VERSION} "portlet-only"
+	copyArtifacts "portlet-only"
 else
-	copyArtifacts ${VERSION}
+	copyArtifacts
 fi

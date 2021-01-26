@@ -2,16 +2,15 @@
 
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
-BRANCH=DXP72
 
 function doIt() {
 	if [ -d $1 ]; then
 		checkedPushd $1
 		hg pull
-		hg update -r ${BRANCH} -C
+		hg update -r ${DXPBRANCHNAME} -C
 		if [ $? -ne 0 ]; then
 			popd
-			echo "Error switching to ${BRANCH}, delete ${1}"
+			echo "Error switching to ${DXPBRANCHNAME}, delete ${1}"
 			rm -rf ${1}
 		else
 			if [ -f "pom.xml" ]; then

@@ -3,4 +3,4 @@
 source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
-less ${DXP72TOMCATDIR}/logs/catalina.out
+less ${DXPTOMCATDIR}/logs/catalina.out

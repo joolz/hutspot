@@ -54,11 +54,11 @@ for REPO in \
 do
 	pushd ~/workspace/${REPO}
 	set +e
-	ISCONVERTED=`hg branches | grep "${DXP72BRANCHNAME}"`
+	ISCONVERTED=`hg branches | grep "${DXPBRANCHNAME}"`
 	set -e
 	if [ ! -z "${ISCONVERTED}" ]; then
-		logger "${REPO} has branch ${DXP72BRANCHNAME}, deploy it to the server"
-		lrbuild.sh -v=7.2
+		logger "${REPO} has branch ${DXPBRANCHNAME}, deploy it to the server"
+		lrbuild.sh
 	fi
 	popd
 done

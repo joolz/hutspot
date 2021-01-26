@@ -1,12 +1,16 @@
 DXPBASEDIR=/opt/dxp70
-DXPSOURCEDIR=$DXPBASEDIR/src
 DXPSERVERDIR=$DXPBASEDIR/server
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-8.0.32
-DXPDEPLOYDIR=$DXPSERVERDIR/deploy
+
 DXPDOWNLOADSDIR=$NEXTCLOUDDIR/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
-DXPLOGDIR=$DXPBASEDIR/log
-PORTAL_EXT="${DXPSERVERDIR}/portal-ext.properties"
-DXPLOG4JCONFIG=${DXPTOMCATDIR}/webapps/ROOT/WEB-INF/classes/log4j.properties
 
+DXPSOURCEZIP=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11-20190506123513875.zip
+DXPSOURCEPHYSICALDIR=liferay-dxp-digital-enterprise-src-7.0.10.11-sp11
 
+DXPSERVERZIP=liferay-dxp-digital-enterprise-tomcat-7.0.10.11-sp11-20190506123513875.zip
+DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.11-sp11
+
+DXPPATCHLEVEL="de-93" # dir under patches where the combinations are kept
+
+DXPACTIVATIONKEY="activation-key-digitalenterprisedevelopment-7.0-developeractivationkeys.xml"

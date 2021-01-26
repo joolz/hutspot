@@ -2,9 +2,9 @@
 
 source ~/bin/common.sh || exit 1
 
-FILE1=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom/${DXP72BOMVERSION}/release.dxp.bom-${DXP72BOMVERSION}.pom
-FILE2=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom.compile.only/${DXP72BOMVERSION}/release.dxp.bom.compile.only-${DXP72BOMVERSION}.pom
-FILE3=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom.third.party/${DXP72BOMVERSION}/release.dxp.bom.third.party-${DXP72BOMVERSION}.pom
+FILE1=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom/${DXPBOMVERSION}/release.dxp.bom-${DXPBOMVERSION}.pom
+FILE2=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom.compile.only/${DXPBOMVERSION}/release.dxp.bom.compile.only-${DXPBOMVERSION}.pom
+FILE3=/home/jal/tmp/m2_repository/com/liferay/portal/release.dxp.bom.third.party/${DXPBOMVERSION}/release.dxp.bom.third.party-${DXPBOMVERSION}.pom
 FILE4=/home/jal/workspace/nl.ou.yl.bom/pom.xml
 
 echo "In Liferay BOMs -----------------------------------------------"
