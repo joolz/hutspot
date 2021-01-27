@@ -7,25 +7,26 @@ function doIt() {
 	if [ -d $1 ]; then
 		checkedPushd $1
 		hg pull
-		hg update -r ${DXPBRANCHNAME} -C
-		if [ $? -ne 0 ]; then
-			popd
-			echo "Error switching to ${DXPBRANCHNAME}, delete ${1}"
-			rm -rf ${1}
-		else
-			if [ -f "pom.xml" ]; then
-				mvn clean
-			fi
-			popd
-		fi
 	else
 		if [ -z "$2" ]; then
 			REPO="dlwo"
 		else
 			REPO="$2"
 		fi
-		echo "REPO is $REPO"
 		hg clone ssh://bamboo://repositories/$REPO/$1
+		checkedPushd $1
+	fi
+
+	hg update -r ${DXPBRANCHNAME} -C
+	if [ $? -ne 0 ]; then
+		popd
+		echo "Error switching to ${DXPBRANCHNAME}, delete ${1}"
+		rm -rf ${1}
+	else
+		if [ -f "pom.xml" ]; then
+			mvn clean
+		fi
+		popd
 	fi
 
 	if [ "$DEPLOY" == true ]; then
