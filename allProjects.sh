@@ -80,7 +80,7 @@ doIt nl-ou-dlwo-site-tools
 doIt nl-ou-dlwo-template-expandos
 doIt nl-ou-dlwo-theme
 doIt nl-ou-dlwo-theme-contributor
-doIt nl-ou-dlwo-userprofile-portlet
+doIt nl-ou-dlwo-userprofile
 doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
 doIt nl.ou.yl.bamboospecs rest
