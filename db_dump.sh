@@ -4,6 +4,14 @@ source ~/bin/common.sh || exit 1
 source $CREDSFILE || exit 1
 
 case "$1" in
+"")
+	BU_SCHEMA=$DOCKER_DB_SCHEMA
+	BU_USER=$DOCKER_DB_USER
+	BU_PASSWORD=$DOCKER_DB_PASSWORD
+	# docker network inspect compose_default
+	BU_HOST=$DOCKER_DB_HOST
+	BU_PORT=$DOCKER_DB_PORT
+	;;
 "local")
 	BU_SCHEMA=$LOCAL_DB_SCHEMA
 	BU_USER=$LOCAL_DB_USER
@@ -32,14 +40,13 @@ case "$1" in
 	BU_HOST=$INC_DB_HOST
 	BU_PORT=$INC_DB_PORT
 	;;
-"docker")
-  BU_SCHEMA=dxp
-  BU_USER=root
-  BU_PASSWORD=password
-  # docker network inspect compose_default
-  BU_HOST=172.18.0.4
-  BU_PORT=3306
-  ;;
+"pwomirror")
+	BU_SCHEMA=$PWO_MIRROR_DB_SCHEMA
+	BU_USER=$PWO_MIRROR_DB_USER
+	BU_PASSWORD=$PWO_MIRROR_DB_PASSWORD
+	BU_HOST=$PWO_MIRROR_DB_HOST
+	BU_PORT=$PWO_MIRROR_DB_PORT
+	;;
 *)
 	echo "Usage: db_dump local | two | awo | inc | docker"
 	exit 1
@@ -59,8 +66,10 @@ mysqldump \
 	--user=$BU_USER \
 	--password=$BU_PASSWORD \
 	--result-file=$BU_FILE \
+	--protocol=tcp \
 	--host=$BU_HOST \
 	--port=$BU_PORT \
+	--column-statistics=0 \
 	--compress \
 	$BU_SCHEMA
 
@@ -71,5 +80,4 @@ if [ "$ERR" -ne "0" ]; then
 	exit 1
 fi
 
-tar -czf ${BU_FILE}.tar.gz $BU_FILE && rm $BU_FILE
-say "Dump made to file ${BU_FILE}.tar.gz"
+say "Dump made to file ${BU_FILE}"
