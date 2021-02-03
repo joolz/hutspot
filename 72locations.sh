@@ -2,7 +2,7 @@ DXPBASEDIR=/opt/dxp
 DXPSERVERDIR=$DXPBASEDIR/server
 DXPTOMCATDIR=$DXPSERVERDIR/tomcat-9.0.33
 
-DXPDOWNLOADSDIR=/home/jal/Nextcloud/Downloads/72resources
+DXPDOWNLOADSDIR=/home/jal/Nextcloud/Downloads/dxp
 DXPPATCHESDIR=$DXPDOWNLOADSDIR/patches
 
 DXPSOURCEZIP=liferay-dxp-src-7.2.10.3-sp3-202009100727.zip
