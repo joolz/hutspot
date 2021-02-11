@@ -19,15 +19,14 @@ function doIt() {
 
 	hg update -r ${DXPBRANCHNAME} -C
 	if [ $? -ne 0 ]; then
-		popd
-		echo "Error switching to ${DXPBRANCHNAME}, delete ${1}"
-		rm -rf ${1}
-	else
-		if [ -f "pom.xml" ]; then
-			mvn clean
-		fi
-		popd
+		echo "Error switching to ${DXPBRANCHNAME}"
 	fi
+
+	if [ -f "pom.xml" ]; then
+		mvn clean
+	fi
+
+	popd
 
 	if [ "$DEPLOY" == true ]; then
 		checkedPushd $1
@@ -73,7 +72,7 @@ doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
 doIt nl-ou-dlwo-permissions-dlfolder
 doIt nl-ou-dlwo-products
-doIt nl-ou-dlwo-releaser
+doIt nl-ou-dlwo-releaser dlwo fun
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
 doIt nl-ou-dlwo-site-tools
@@ -106,5 +105,6 @@ doIt tiles-portlet
 doIt yl-1936 rest
 doIt yl-2588 rest
 doIt yl-2659 rest
+doIt UTF8recode rest
 
 popd >/dev/null 2>&1
