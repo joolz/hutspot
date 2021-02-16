@@ -222,7 +222,7 @@ TEMPRELEASER=`mktemp -d`
 pushd ${TEMPRELEASER}
 hg clone ssh://bamboo//repositories/dlwo/${RELEASER}
 cd nl-ou-dlwo-releaser
-hg up ${DXPBRANCHNAME}
+hg up fun
 mvn -U package # TODO remove -U when we are more stable
 cd target
 mv * ${DXPSERVERDIR}/deploy
