@@ -16,10 +16,15 @@ function doIt() {
 		hg clone ssh://bamboo://repositories/$REPO/$1
 		checkedPushd $1
 	fi
-
-	hg update -r ${DXPBRANCHNAME} -C
+	
+	if [ -z "$3" ]; then
+		BRANCH=${DXPBRANCHNAME}
+	else
+		BRANCH="$3"
+	fi
+	hg update -r ${BRANCH} -C
 	if [ $? -ne 0 ]; then
-		echo "Error switching to ${DXPBRANCHNAME}"
+		echo "Error switching to ${BRANCH}"
 	fi
 
 	if [ -f "pom.xml" ]; then
@@ -53,7 +58,7 @@ fi
 
 checkedPushd ~/workspace
 
-doIt amqsimulator
+doIt amqsimulator dlwo default
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
 doIt nl-ou-dlwo-ckeditor-config
@@ -66,7 +71,7 @@ doIt nl-ou-dlwo-groupchat
 doIt nl-ou-dlwo-groupwall
 doIt nl-ou-dlwo-layouttemplate
 doIt nl-ou-dlwo-maildigester
-doIt nl-ou-dlwo-mb-common
+doIt nl-ou-dlwo-mb-common dlwo default
 doIt nl-ou-dlwo-menu
 doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
@@ -82,9 +87,9 @@ doIt nl-ou-dlwo-theme-contributor
 doIt nl-ou-dlwo-userprofile
 doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
-doIt nl.ou.yl.bamboospecs rest
-doIt nl.ou.yl.bom
-doIt nl.ou.yl.diffsanitized
+doIt nl.ou.yl.bamboospecs rest default
+doIt nl.ou.yl.bom dlwo default
+doIt nl.ou.yl.diffsanitized dlwo default
 doIt nl.ou.yl.domain
 doIt nl.ou.yl.editor.theme-contributor
 doIt nl.ou.yl.entities
@@ -95,16 +100,16 @@ doIt nl.ou.yl.messagetest
 doIt nl.ou.yl.selftest
 doIt nl.ou.yl.siteexpandos
 doIt nl.ou.yl.tasks
-doIt nl.ou.yl.templatesandsites
+doIt nl.ou.yl.templatesandsites dlwo default
 doIt nl.ou.yl.theme.contributor.knowledgeportal
-doIt nl.ou.yl.yl-2574 rest
-doIt osgi-configs rest
-doIt scripts
+doIt nl.ou.yl.yl-2574 rest default
+doIt osgi-configs rest default
+doIt scripts dlwo default
 doIt template-portal-ext rest
-doIt tiles-portlet
-doIt yl-1936 rest
-doIt yl-2588 rest
-doIt yl-2659 rest
-doIt UTF8recode rest
+doIt tiles-portlet default
+doIt yl-1936 rest default
+doIt yl-2588 rest default
+doIt yl-2659 rest default
+doIt UTF8recode rest default
 
 popd >/dev/null 2>&1
