@@ -111,5 +111,6 @@ doIt yl-1936 rest default
 doIt yl-2588 rest default
 doIt yl-2659 rest default
 doIt UTF8recode rest default
+doIt nl.ou.yl.theme.contributor.knowledgeportal
 
 popd >/dev/null 2>&1
