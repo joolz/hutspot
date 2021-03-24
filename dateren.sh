@@ -12,6 +12,9 @@ do
 		[yY])
 					cp -v $FILE ${FILE}.bak
 					mv -v ${FILE} ${NEWNAME}
+					echo "" >> ${NEWNAME} 
+					echo "" >> ${NEWNAME} 
+					echo "Name was ${NAME}" >> ${NEWNAME}
 					;;
 			*)
 					echo Skipping file $FILE
