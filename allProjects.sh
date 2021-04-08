@@ -23,6 +23,7 @@ function doIt() {
 		BRANCH="$3"
 	fi
 	hg update -r ${BRANCH} -C
+	hg purge
 	if [ $? -ne 0 ]; then
 		echo "Error switching to ${BRANCH}"
 	fi
