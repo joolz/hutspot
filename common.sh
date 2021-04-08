@@ -16,8 +16,8 @@ fi
 
 DATEFORMAT="%Y-%m-%d_%H:%M:%S"
 
-source ~/bin/72locations.sh
-# source ~/bin/70locations.sh
+# source ~/bin/72locations.sh
+source ~/bin/70locations.sh
 
 DXPSOURCEDIR=$DXPBASEDIR/src
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy

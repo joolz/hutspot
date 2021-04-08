@@ -157,7 +157,7 @@ cd ${DXPSERVERDIR}/patching-tool
 ./patching-tool.sh install
 rm -rf ${DXPSERVERDIR}/osgi/state
 
-logger "Copy license"
+logger "Copy license $DXPACTIVATIONKEY to $DXPSERVERDIR/deploy"
 cd $DXPSERVERDIR
 mkdir -p deploy
 cp -v "$DXPACTIVATIONKEY" deploy/

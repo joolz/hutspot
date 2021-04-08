@@ -13,6 +13,6 @@ DXPSERVERPHYSICALDIR=liferay-dxp-digital-enterprise-7.0.10.11-sp11
 
 DXPPATCHLEVEL="de-93" # dir under patches where the combinations are kept
 
-DXPACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.0-developeractivationkeys.xml"
+DXPACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-dxpdevelopment-7.0-developeractivationkeys.xml"
 
 DXPBRANCHNAME="default"

@@ -129,6 +129,11 @@ else
 	./patching-tool.sh install
 fi
 
+logger "Copy license $DXPACTIVATIONKEY to $DXPSERVERDIR/deploy"
+cd $DXPSERVERDIR
+mkdir -p deploy
+cp -v "$DXPACTIVATIONKEY" deploy/
+
 logger "Copy in custom server.xml"
 cp -f ${DXPDOWNLOADSDIR}/server.xml ${TOMCATDIR}/conf
 
