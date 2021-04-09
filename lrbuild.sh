@@ -12,7 +12,7 @@ UTF="UTF-8"
 ASCII="ASCII"
 HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
-VERSION="7.2"
+VERSION=${DXPVERSION}
 PORTLETONLY=false
 # comma separated
 MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
@@ -31,6 +31,8 @@ do
 				;;
 	esac
 done
+
+echo "Will build for version ${VERSION}"
 
 # cleanup first. Hope this doesn't interfere with concurrent builds
 rm -f ${ERRORFILE}
@@ -69,11 +71,13 @@ if [ -n "$BAD_REBEL" ]; then
     esac
 fi
 
-echo "Do checks for 7.2"
-STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
-if [ ! -z "${STRINGBUNDLER}" ]; then
-	echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
-	exit 1
+if [ "$VERSION" == "7.2" ]; then
+	echo "Do checks for 7.2"
+	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
+	if [ ! -z "${STRINGBUNDLER}" ]; then
+		echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
+		exit 1
+	fi
 fi
 
 # while read DEPRECATED; do
