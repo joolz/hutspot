@@ -60,7 +60,7 @@ unzip $DXPDOWNLOADSDIR/$DXPSERVERZIP -d $DXPBASEDIR
 ln -s $DXPSERVERPHYSICALDIR $DXPSERVERDIR
 
 cd $DXPSERVERDIR
-ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext.properties .
+ln -s $NEXTCLOUDDIR/beheer/accounts/portal-ext70.properties ./portal-ext.properties
 
 logger "Pre-create some directories (deploy/ etc.)"
 cd $DXPSERVERDIR
