@@ -67,6 +67,10 @@ cd $DXPSERVERDIR
 mkdir -p deploy
 mkdir -p osgi/modules
 mkdir -p osgi/war
+mkdir -p osgi/configs
+
+logger "Copy osgi configs"
+cp $DXPDOWNLOADSDIR/osgiconfigs/* osgi/configs
 
 logger "Copy $ACTIVATIONKEY and $OATHPROVIDER"
 cp -v "$ACTIVATIONKEY" deploy/
