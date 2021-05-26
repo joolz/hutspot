@@ -26,7 +26,7 @@ keytocontinue
 meld two/${RELEASER}/pom.xml default/${RELEASER}/pom.xml
 keytocontinue
 
-echo "Nerge release notes and save"
+echo "Merge release notes and save"
 keytocontinue
 meld two/${RELEASER}/info/release-notes.txt default/${RELEASER}/info/release-notes.txt
 keytocontinue
