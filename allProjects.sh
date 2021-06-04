@@ -59,7 +59,6 @@ fi
 
 checkedPushd ~/workspace
 
-doIt amqsimulator dlwo default
 doIt nl-ou-dlwo-announcements
 doIt nl-ou-dlwo-bridges
 doIt nl-ou-dlwo-ckeditor-config
@@ -72,13 +71,10 @@ doIt nl-ou-dlwo-groupchat
 doIt nl-ou-dlwo-groupwall
 doIt nl-ou-dlwo-layouttemplate
 doIt nl-ou-dlwo-maildigester
-doIt nl-ou-dlwo-mb-common dlwo default
-doIt nl-ou-dlwo-menu
 doIt nl-ou-dlwo-pagecloaker
 doIt nl-ou-dlwo-pagestructure
 doIt nl-ou-dlwo-permissions-dlfolder
 doIt nl-ou-dlwo-products
-doIt nl-ou-dlwo-releaser dlwo fun
 doIt nl-ou-dlwo-sanitizer
 doIt nl-ou-dlwo-sitebuilder
 doIt nl-ou-dlwo-site-tools
@@ -88,30 +84,36 @@ doIt nl-ou-dlwo-theme-contributor
 doIt nl-ou-dlwo-userprofile
 doIt nl.ou.yl.account.preferences
 doIt nl.ou.yl.assessment
-doIt nl.ou.yl.bamboospecs rest default
-doIt nl.ou.yl.bom dlwo default
-doIt nl.ou.yl.diffsanitized dlwo default
 doIt nl.ou.yl.domain
 doIt nl.ou.yl.editor.theme-contributor
 doIt nl.ou.yl.entities
-doIt nl.ou.yl.jsf
 doIt nl.ou.yl.layouttemplate.knowledgeportal
 doIt nl.ou.yl.messagebus
-doIt nl.ou.yl.messagetest
 doIt nl.ou.yl.selftest
 doIt nl.ou.yl.siteexpandos
 doIt nl.ou.yl.tasks
-doIt nl.ou.yl.templatesandsites dlwo default
 doIt nl.ou.yl.theme.contributor.knowledgeportal
-doIt nl.ou.yl.yl-2574 rest default
-doIt osgi-configs rest default
-doIt scripts dlwo default
-doIt template-portal-ext rest
-doIt tiles-portlet default
-doIt yl-1936 rest default
-doIt yl-2588 rest default
-doIt yl-2659 rest default
-doIt UTF8recode rest default
-doIt nl.ou.yl.theme.contributor.knowledgeportal
+doIt tiles-portlet
+doIt nl.ou.yl.messagetest
+
+# doIt nl.ou.yl.templatesandsites dlwo default
+# doIt nl.ou.yl.yl-2574 rest default
+# doIt osgi-configs rest default
+# doIt scripts dlwo default
+# doIt template-portal-ext rest
+# doIt yl-1936 rest default
+# doIt yl-2588 rest default
+# doIt yl-2659 rest default
+# doIt UTF8recode rest default
+# doIt nl.ou.yl.theme.contributor.knowledgeportal
+# doIt amqsimulator dlwo default
+# doIt nl-ou-dlwo-mb-common dlwo default
+# doIt nl-ou-dlwo-menu
+# doIt nl-ou-dlwo-releaser dlwo fun
+# doIt nl.ou.yl.bamboospecs rest default
+# doIt nl.ou.yl.bom dlwo default
+# doIt nl.ou.yl.diffsanitized dlwo default
+# doIt nl.ou.yl.jsf
+# doIt nl.ou.yl.kafka
 
 popd >/dev/null 2>&1

@@ -16,5 +16,6 @@ DXPPATCHLEVEL="dxp-10" # dir under patches where the combinations are kept
 
 DXPACTIVATIONKEY="$DXPDOWNLOADSDIR/activation-key-digitalenterprisedevelopment-7.2-developeractivationkeys.xml"
 
-DXPBRANCHNAME="DXP72"
+# DXPBRANCHNAME="DXP72"
+DXPBRANCHNAME="develop"
 DXPBOMVERSION=7.2.10.fp8 
