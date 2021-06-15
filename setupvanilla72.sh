@@ -54,7 +54,8 @@ cd ${ECLIPSE_WORKSPACE}
 TEMPLATE_PE="template-portal-ext"
 if [ -d "${TEMPLATE_PE}" ]; then
 	pushd ${TEMPLATE_PE}
-	hg update -r ${DXPBRANCHNAME} -C
+	# hg update -r ${DXPBRANCHNAME} -C
+	hg update -r DXP72 -C
 else
 	hg clone ssh://bamboo//repositories/rest/${TEMPLATE_PE}
 	pushd ${TEMPLATE_PE}
