@@ -13,7 +13,8 @@ if [ $RUNNING -eq 1 ]; then
 
 	read -n1 joepie
 
-	telnet localhost 11311
+	# telnet localhost 11311
+	telnet localhost 11312
 
 else
 
