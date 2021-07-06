@@ -14,6 +14,7 @@ HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
 VERSION=${DXPVERSION}
 PORTLETONLY=false
+CHECKALLDEPRECATIONS=true
 # comma separated
 MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
 
@@ -37,6 +38,7 @@ echo "Will build for version ${VERSION}"
 # cleanup first. Hope this doesn't interfere with concurrent builds
 rm -f ${ERRORFILE}
 mvn clean
+find . -type d -name .sass_cache -exec rm -r {} \;
 
 find . -name 'Language*.properties' -print0 | while IFS= read -r -d $'\0' FILE; do
 	ENCODING=`file -b ${FILE} | awk -F " " '{print $1}'`
@@ -71,26 +73,34 @@ if [ -n "$BAD_REBEL" ]; then
     esac
 fi
 
-if [ "$VERSION" == "7.2" ]; then
-	echo "Do checks for 7.2"
-	STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
-	if [ ! -z "${STRINGBUNDLER}" ]; then
-		echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
-		exit 1
-	fi
+DEPRECATIONSFOUND=false
 
+echo "Do checks for ${VERSION} (most common deprecation)"
+STRINGBUNDLER=`find . -type f -name "*java" -exec grep -l "import com.liferay.portal.kernel.util.StringBundler;" {} \;`
+if [ ! -z "${STRINGBUNDLER}" ]; then
+	echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
+	DEPRECATIONSFOUND=true
+fi
+
+if [ ${CHECKALLDEPRECATIONS} = true ]; then
+	echo "Now check all deprecations"
 	while read DEPRECATED; do
-		echo $DEPRECATED
-		KEY=`grep "^$2=" "${DEPRECATED}" | cut -d'=' -f2`
+		echo -n "."
+		KEY=`echo "${DEPRECATED}" | cut -d '=' -f1`
 		FOUND=`find . -type f -name "*java" -exec grep -l "${KEY}" {} \;`
 		if [ ! -z "${FOUND}" ]; then
+			echo
 			echo "Fix deprecated import ${KEY} see https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-			exit 1
+			DEPRECATIONSFOUND=true
 		fi
 	done < ~/bin/72codereplacements.txt
 fi
 
-find . -type d -name .sass_cache -exec rm -r {} \;
+if [ ${DEPRECATIONSFOUND} = true ]; then
+	exit 1
+fi
+
+echo
 
 mvn package || exit 1
 
