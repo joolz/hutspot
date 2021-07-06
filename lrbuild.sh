@@ -78,15 +78,17 @@ if [ "$VERSION" == "7.2" ]; then
 		echo "Old (non-petra) stringbundlers found ${STRINGBUNDLER}"
 		exit 1
 	fi
-fi
 
-while read DEPRECATED; do
-	FOUND=`find . -type f -name "*java" -exec grep -l "${DEPRECATED}" {} \;`
-	if [ ! -z "${FOUND}" ]; then
-		echo "Fix deprecated import ${DEPRECATED} according to https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
-		exit 1
-	fi
-done < ~/bin/deprecated_in_71.txt
+	while read DEPRECATED; do
+		echo $DEPRECATED
+		KEY=`grep "^$2=" "${DEPRECATED}" | cut -d'=' -f2`
+		FOUND=`find . -type f -name "*java" -exec grep -l "${KEY}" {} \;`
+		if [ ! -z "${FOUND}" ]; then
+			echo "Fix deprecated import ${KEY} see https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+			exit 1
+		fi
+	done < ~/bin/72codereplacements.txt
+fi
 
 find . -type d -name .sass_cache -exec rm -r {} \;
 
