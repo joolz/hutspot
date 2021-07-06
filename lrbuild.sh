@@ -83,14 +83,14 @@ if [ ! -z "${STRINGBUNDLER}" ]; then
 fi
 
 if [ ${CHECKALLDEPRECATIONS} = true ]; then
-	echo "Now check all deprecations"
+	echo "Now check all deprecations from https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
 	while read DEPRECATED; do
 		echo -n "."
 		KEY=`echo "${DEPRECATED}" | cut -d '=' -f1`
 		FOUND=`find . -type f -name "*java" -exec grep -l "${KEY}" {} \;`
 		if [ ! -z "${FOUND}" ]; then
 			echo
-			echo "Fix deprecated import ${KEY} see https://help.liferay.com/hc/en-us/articles/360017901312-Classes-Moved-from-portal-service-jar-"
+			echo "Fix deprecated import ${KEY}"
 			DEPRECATIONSFOUND=true
 		fi
 	done < ~/bin/72codereplacements.txt
