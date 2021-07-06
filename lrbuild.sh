@@ -90,7 +90,8 @@ if [ ${CHECKALLDEPRECATIONS} = true ]; then
 		FOUND=`find . -type f -name "*java" -exec grep -l "${KEY}" {} \;`
 		if [ ! -z "${FOUND}" ]; then
 			echo
-			echo "Fix deprecated import ${KEY}"
+			echo "======================================================" >> ~/Desktop/deprecatedlog.log
+			echo "Fix deprecated import ${KEY} in ${FOUND}" >> ~/Desktop/deprecatedlog.log
 			DEPRECATIONSFOUND=true
 		fi
 	done < ~/bin/72codereplacements.txt
