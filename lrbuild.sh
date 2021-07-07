@@ -14,7 +14,7 @@ HTML="HTML"
 ERRORFILE="$TMP/ERRORFILE.removethis"
 VERSION=${DXPVERSION}
 PORTLETONLY=false
-CHECKALLDEPRECATIONS=true
+CHECKALLDEPRECATIONS=false
 # comma separated
 MUSTINSTALL="nl.ou.yl.domain nl-ou-dlwo-bridges"
 
