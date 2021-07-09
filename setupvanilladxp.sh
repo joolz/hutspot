@@ -142,7 +142,9 @@ if [ "$SOURCESTOO" == true ]; then
 
 	cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/source/* ${DXPSERVERDIR}/patching-tool/patches/
 	if [ -d $DXPPATCHESDIR/$DXPPATCHLEVEL/combined ]; then
-		cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* ${DXPSERVERDIR}/patching-tool/patches/
+		if compgen -G "${DXPPATCHESDIR}/${DXPPATCHLEVEL}/combined/*.zip" > /dev/null; then
+			cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* ${DXPSERVERDIR}/patching-tool/patches/
+		fi
 	fi
 	cd ${DXPSERVERDIR}/patching-tool
 	./patching-tool.sh source install
@@ -152,7 +154,9 @@ fi
 logger "Patch server"
 cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/binary/* ${DXPSERVERDIR}/patching-tool/patches/
 if [ -d $DXPPATCHESDIR/$DXPPATCHLEVEL/combined ]; then
-	cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* ${DXPSERVERDIR}/patching-tool/patches/
+	if compgen -G "${DXPPATCHESDIR}/${DXPPATCHLEVEL}/combined/*.zip" > /dev/null; then
+		cp -v $DXPPATCHESDIR/$DXPPATCHLEVEL/combined/* ${DXPSERVERDIR}/patching-tool/patches/
+	fi
 fi
 cd ${DXPSERVERDIR}/patching-tool
 ./patching-tool.sh install
