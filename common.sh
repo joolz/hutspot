@@ -7,7 +7,7 @@ trap 'echo "$(date) \"${last_command}\" command exited with level $?."' EXIT
 
 TMP=/tmp
 NEXTCLOUDDIR=~/Nextcloud
-CREDSFILE=$NEXTCLOUDDIR/beheer/credentials.sh
+CREDSFILE=$NEXTCLOUDDIR/Downloads/dxp/credentials.sh
 
 if [ ! -f "$CREDSFILE" ]; then
 	echo Could not find $CREDSFILE
@@ -16,8 +16,7 @@ fi
 
 DATEFORMAT="%Y-%m-%d_%H:%M:%S"
 
-source ~/bin/72locations.sh
-# source ~/bin/70locations.sh
+source ${NEXTCLOUDDIR}/Downloads/dxp/locations.sh
 
 DXPSOURCEDIR=$DXPBASEDIR/src
 DXPDEPLOYDIR=$DXPSERVERDIR/deploy
