@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Tail the mysql general log. Assumptions:
+#
+# SET GLOBAL general_log=1;
+# mysql is running in docker
+# the log file is the most recent .log in the mysql dir
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit 1
+fi
+
+MYSQL=`docker ps | grep "mysql:" | awk '{print $1}'`
+if [ -z "${MYSQL}" ]; then
+	echo "Mysql isn't running (in docker)"
+	exit 1
+fi
+
+VOLUME=`docker inspect -f '{{ .Mounts }}' ${MYSQL} | awk '{print $3}'`
+if [ -z "${VOLUME}" ]; then
+	echo "Couldn't determine volume for ${MYSQL}"
+	exit 1
+fi
+
+pushd ${VOLUME} || exit 1
+
+LOG=`ls *.log -1 --sort=time -r | tail -1`
+if [ -z "${LOG}" ]; then
+	echo "Couldn't find log in ${VOLUME}"
+	exit 1
+fi
+
+tail -F ${LOG}
+
+popd
